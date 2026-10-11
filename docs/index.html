@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meme Mirror</title>
+<meta name="description" content="Turn memes into Reachy Mini robot body language. An AI proposes motions; you compare, play, rate and refine them.">
+<meta property="og:title" content="Meme Mirror: memes as robot body language">
+<meta property="og:description" content="Drop in a meme and get several ways a Reachy Mini robot could express its feeling. Works with Claude, OpenAI, Gemini or local models.">
+<meta property="og:image" content="assets/app-round.png">
+<style>
+:root {
+  --bg: #f7f6f2; --panel: #ffffff; --ink: #1c1c1f; --muted: #66666d; --line: #e3e1db; --soft: #efede7;
+  --accent: #3a5bd9; --accent-ink: #fff; --lib: #6d4bc4; --own: #1f7a8c; --binh: #b0532a; --good: #2e7d4f;
+  --hero: linear-gradient(160deg, #e9eefc 0%, #f7f6f2 60%);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121214; --panel: #1b1b1f; --ink: #ececf0; --muted: #a0a0a8; --line: #2c2c32; --soft: #222228;
+    --accent: #8ba2ff; --accent-ink: #0c0c10; --lib: #b39dff; --own: #6fd3e3; --binh: #ffab85; --good: #6fcf97;
+    --hero: linear-gradient(160deg, #1a2140 0%, #121214 60%);
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+a { color: var(--accent); }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+nav { display: flex; gap: 18px; align-items: center; padding: 14px 0; font-size: 15px; }
+nav .brand { font-weight: 700; font-size: 18px; color: var(--ink); text-decoration: none; margin-right: auto; }
+nav a { text-decoration: none; color: var(--muted); }
+nav a:hover { color: var(--ink); }
+@media (max-width: 640px) { nav a:not(.brand):not(.gh) { display: none; } }
+header.hero { background: var(--hero); border-bottom: 1px solid var(--line); }
+.hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding: 36px 0 56px; }
+@media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; padding-bottom: 36px; } }
+h1 { font-size: clamp(34px, 5vw, 54px); line-height: 1.08; margin: 0 0 16px; letter-spacing: -.02em; }
+h2 { font-size: clamp(26px, 3.4vw, 36px); line-height: 1.15; margin: 0 0 12px; letter-spacing: -.01em; }
+h3 { font-size: 19px; margin: 0 0 6px; }
+.lede { font-size: 20px; color: var(--muted); margin: 0 0 24px; max-width: 34em; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { display: inline-block; padding: 11px 18px; border-radius: 10px; text-decoration: none; font-weight: 600;
+  border: 1px solid var(--line); color: var(--ink); background: var(--panel); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.hero-video { position: relative; border-radius: 18px; overflow: hidden; border: 1px solid var(--line);
+  box-shadow: 0 20px 50px rgba(0,0,0,.18); background: #23324a; aspect-ratio: 1; }
+.hero-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-video .caption { position: absolute; left: 12px; right: 12px; bottom: 12px; background: rgba(10,12,20,.72);
+  color: #fff; padding: 10px 12px; border-radius: 10px; font-size: 14px; line-height: 1.4; }
+section { padding: 64px 0; border-bottom: 1px solid var(--line); }
+.kicker { text-transform: uppercase; letter-spacing: .08em; font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+.sub { color: var(--muted); max-width: 46em; margin: 0 0 28px; }
+.steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; counter-reset: s; }
+@media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .steps { grid-template-columns: 1fr; } }
+.step { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+.step::before { counter-increment: s; content: counter(s); display: inline-grid; place-items: center; width: 28px; height: 28px;
+  border-radius: 50%; background: var(--soft); font-weight: 700; font-size: 14px; margin-bottom: 8px; }
+.step p { margin: 0; color: var(--muted); font-size: 15px; }
+.shot { width: 100%; border-radius: 14px; border: 1px solid var(--line); display: block; box-shadow: 0 12px 34px rgba(0,0,0,.12); }
+.example { display: grid; grid-template-columns: 280px 1fr; gap: 28px; align-items: start; margin-bottom: 26px; }
+@media (max-width: 820px) { .example { grid-template-columns: 1fr; } }
+.example img { width: 100%; border-radius: 12px; border: 1px solid var(--line); }
+.reading { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+.reading dt { font-size: 13px; color: var(--muted); margin-top: 8px; } .reading dt:first-child { margin-top: 0; }
+.reading dd { margin: 2px 0 0; }
+.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+@media (max-width: 960px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .cards { grid-template-columns: 1fr; } }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
+.card video { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: #23324a; }
+.card .body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 6px; }
+.card h4 { margin: 0; font-size: 15px; line-height: 1.35; }
+.card p { margin: 0; font-size: 14px; color: var(--muted); }
+.badge { align-self: flex-start; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 99px; color: #fff; }
+.badge.library { background: var(--lib); } .badge.own { background: var(--own); } .badge.binh { background: var(--binh); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .badge { color: #111; } }
+.meter { height: 6px; background: var(--soft); border-radius: 99px; overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--accent); }
+.score { font-size: 13px; color: var(--muted); }
+.refine { display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: center; }
+@media (max-width: 760px) { .refine { grid-template-columns: 1fr; } .refine .arrow { transform: rotate(90deg); justify-self: center; } }
+.refine .card { max-width: 400px; width: 100%; justify-self: center; }
+.arrow { font-size: 30px; color: var(--muted); text-align: center; }
+.feedback { background: var(--soft); border-radius: 12px; padding: 12px 14px; font-size: 15px; margin-top: 10px; }
+.three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 820px) { .three { grid-template-columns: 1fr; } }
+.tile { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+.tile p { margin: 6px 0 0; color: var(--muted); font-size: 15px; }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; }
+@media (max-width: 820px) { .split { grid-template-columns: 1fr; } }
+ul.check { list-style: none; padding: 0; margin: 0; }
+ul.check li { padding: 7px 0 7px 28px; position: relative; }
+ul.check li::before { content: "✓"; position: absolute; left: 0; color: var(--good); font-weight: 700; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+.chip { background: var(--panel); border: 1px solid var(--line); border-radius: 99px; padding: 5px 12px; font-size: 14px; }
+pre { background: #15161b; color: #e6e6ea; border-radius: 12px; padding: 16px 18px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin: 0; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+p code, li code { background: var(--soft); padding: 1px 6px; border-radius: 6px; font-size: .9em; }
+.two-vid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+footer { padding: 40px 0 60px; color: var(--muted); font-size: 15px; }
+.note { font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#">Meme Mirror</a>
+      <a href="#how">How it works</a>
+      <a href="#example">Example</a>
+      <a href="#models">AI models</a>
+      <a href="#start">Get started</a>
+      <a class="gh" href="https://github.com/josephausterweil/reachy-meme-mirror">GitHub</a>
+    </nav>
+    <div class="hero-grid">
+      <div>
+        <div class="kicker">For Reachy Mini owners</div>
+        <h1>Turn memes into robot body language</h1>
+        <p class="lede">Drop a meme into Meme Mirror. An AI works out the feeling behind it and proposes several ways a
+          <a href="https://github.com/pollen-robotics/reachy_mini">Reachy Mini</a> could show it with its head, antennas
+          and body. You compare them, play the best on your robot, and refine them with your feedback.</p>
+        <div class="cta">
+          <a class="btn primary" href="#start">Get started</a>
+          <a class="btn" href="https://github.com/josephausterweil/reachy-meme-mirror">View on GitHub</a>
+        </div>
+      </div>
+      <div class="hero-video">
+        <video src="assets/clips/r1c2.mp4" autoplay muted loop playsinline aria-label="Simulated Reachy Mini slumping, freezing, then perking up in a forced way"></video>
+        <div class="caption">“I'll just fix one tiny bug before bed… 4:37 AM… this is fine, almost done.”
+          <br>Hunched and bleary, a freeze at the clock, a sag, then a forced perky lean-in.</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="how">
+  <div class="wrap">
+    <div class="kicker">How it works</div>
+    <h2>One meme in, several ways to show it out</h2>
+    <p class="sub">Everything happens in a local web page. Nothing moves the robot until you click play, and you can
+      try every step without a robot: each idea is previewed in a physics simulator first.</p>
+    <div class="steps">
+      <div class="step"><h3>Drop a meme</h3><p>PNG, JPG, WebP or animated GIF. GIFs are read as a short clip, beat by beat.</p></div>
+      <div class="step"><h3>Read the feeling</h3><p>The AI describes the emotion, its twist and how it unfolds. Edit it or add your own take.</p></div>
+      <div class="step"><h3>Get options</h3><p>About 30 seconds later: several candidates, each with a simulator video and the reasoning behind it.</p></div>
+      <div class="step"><h3>Play &amp; rate</h3><p>Play any on your Reachy. Give stars, a note, or mark a good fit.</p></div>
+      <div class="step"><h3>Refine</h3><p>Improve from your feedback, ask for more like one you liked, or explore new ideas.</p></div>
+    </div>
+    <p style="margin:32px 0 0"><img class="shot" src="assets/app-overview.png" alt="The Meme Mirror web app showing a meme, the AI's reading of its feeling, and candidate expressions"></p>
+  </div>
+</section>
+
+<section id="example">
+  <div class="wrap">
+    <div class="kicker">A real round</div>
+    <h2>One meme, four different answers</h2>
+    <p class="sub">These are the actual first-round candidates for a meme about debugging at 4:37 AM, unedited. Each card says
+      where its motion came from. <b>Blind match</b> comes from a separate AI that watches the motion
+      <i>without</i> seeing the meme and guesses the feeling. The score is how close its guess was.</p>
+    <div class="example">
+      <img src="assets/test-meme.png" alt="Text meme: I'll just fix one tiny bug before bed. Clock 4:37 AM, 47 files changed, the original bug is still there. Also me: this is fine, almost done.">
+      <dl class="reading">
+        <dt>Core emotion</dt><dd><b>exhausted delusional denial</b></dd>
+        <dt>Nuance</dt><dd>Self-deprecating irony: the speaker knows it has spiraled but insists they're almost done.</dd>
+        <dt>How it unfolds</dt><dd>Bleary focus, a slow look around as the damage sinks in, a brief sag of defeat,
+          then a stubborn, forced-cheerful perk-up as it turns back to the screen.</dd>
+      </dl>
+    </div>
+    <div class="cards">
+      <div class="card"><video src="assets/clips/r1c1.mp4" autoplay muted loop playsinline></video><div class="body">
+        <span class="badge library">library</span><h4>Clock glance → resigned sag → overconfident double nod</h4>
+        <p>Two recorded moves stitched together: a glance to the side and a slump, then a quick, crisp nod.</p>
+        <div class="score">blind match 55%</div><div class="meter"><i style="width:55%"></i></div></div></div>
+      <div class="card"><video src="assets/clips/r1c2.mp4" autoplay muted loop playsinline></video><div class="body">
+        <span class="badge own">own</span><h4>Hunched zombie → clock freeze → snap sag → forced perky lean-in</h4>
+        <p>Keyframed by the AI, with trembling antennas so the cheerfulness looks forced.</p>
+        <div class="score">blind match 72%</div><div class="meter"><i style="width:72%"></i></div></div></div>
+      <div class="card"><video src="assets/clips/r1c3.mp4" autoplay muted loop playsinline></video><div class="body">
+        <span class="badge binh">binh</span><h4>Look at the clock, sag, then force a perky “almost done”</h4>
+        <p>A short motion script turned into lifelike movement by a learned motion generator.</p>
+        <div class="score">blind match 60%</div><div class="meter"><i style="width:60%"></i></div></div></div>
+      <div class="card"><video src="assets/clips/r1c4.mp4" autoplay muted loop playsinline></video><div class="body">
+        <span class="badge binh">binh</span><h4>Sleep-deprived wobble while insisting “this is fine”</h4>
+        <p>A different reading: unsteady tiredness. The blind viewer saw agitation instead, and the low score shows it.</p>
+        <div class="score">blind match 20%</div><div class="meter"><i style="width:20%"></i></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="refine">
+  <div class="wrap">
+    <div class="kicker">Feedback loop</div>
+    <h2>Tell it what's off, and it tries again</h2>
+    <p class="sub">Notes and ratings are a brief for the next round. Here the first library candidate got one note,
+      followed by <b>More like this</b>. The next round kept the clock glance and the sag, and replaced the upbeat
+      nod with a tired half-nod back to the screen.</p>
+    <div class="refine">
+      <div class="card"><video src="assets/clips/r1c1.mp4" autoplay muted loop playsinline></video><div class="body">
+        <span class="badge library">round 1</span><h4>… → overconfident double nod</h4>
+        <div class="feedback">Note: <i>“Good start, but the ending is too cheerful for this.”</i></div></div></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="card"><video src="assets/clips/r2c1.mp4" autoplay muted loop playsinline></video><div class="body">
+        <span class="badge library">round 2</span><h4>… → weary half-nod back to the screen</h4>
+        <p>Keeps the glance and the slump that worked. The crisp double nod becomes one slow, shallow nod: tired stubbornness instead of confidence.</p></div></div>
+    </div>
+    <p class="sub" style="margin-top:28px">Your taste carries over to the next meme too. Later rounds see your best- and
+      worst-rated expressions, plus lessons drawn from all your notes (for example, that the ending has to match
+      the meme's tone), and the mix of candidates shifts toward the kind you rate highest.</p>
+  </div>
+</section>
+
+<section id="sources">
+  <div class="wrap">
+    <div class="kicker">Three ways to move</div>
+    <h2>Recorded, written, or learned</h2>
+    <p class="sub">Each round mixes three sources, so recorded moves, AI-written motion and learned motion get compared
+      side by side, and your ratings show which works best for you.</p>
+    <div class="three">
+      <div class="tile"><span class="badge library">library</span><h3 style="margin-top:10px">Recorded by people</h3>
+        <p>115 moves from Pollen Robotics' emotions library and community collections. The AI picks, trims, speeds up or
+          stitches them together.</p></div>
+      <div class="tile"><span class="badge own">own</span><h3 style="margin-top:10px">Written by the AI</h3>
+        <p>Keyframes, holds and rhythms (head tilt, antenna droop, body turn), compiled into smooth 50 Hz motion.</p></div>
+      <div class="tile"><span class="badge binh">binh</span><h3 style="margin-top:10px">Rendered by a learned model</h3>
+        <p>The AI writes a short motion script, and <a href="https://github.com/pham-tuan-binh/reachy-motion-generator">Pham Tuan
+          Binh's motion generator</a> turns it into organic movement. It runs fine without a GPU.</p></div>
+    </div>
+    <p class="note" style="margin-top:18px">Every candidate is kept within the ranges Pollen's own recorded emotions use, and each frame is checked
+      against the poses the robot can reach.</p>
+  </div>
+</section>
+
+<section id="models">
+  <div class="wrap split">
+    <div>
+      <div class="kicker">Bring your own AI</div>
+      <h2>Works with the AI model you already use</h2>
+      <p class="sub" style="margin-bottom:10px">Pick a provider in the ⚙ LLM panel, paste a key if one is needed, choose
+        models from the list, and click <b>Test</b>.</p>
+      <div class="chips">
+        <span class="chip">Claude (Claude Code login)</span><span class="chip">Anthropic API</span>
+        <span class="chip">OpenAI</span><span class="chip">Google Gemini</span><span class="chip">OpenRouter</span>
+        <span class="chip">Ollama</span><span class="chip">LM Studio</span><span class="chip">vLLM · llama.cpp · any OpenAI-compatible server</span>
+      </div>
+      <ul class="check">
+        <li><b>Free and private:</b> use a local model through Ollama or LM Studio, and your memes never leave your computer.</li>
+        <li><b>For experts:</b> point any single job (reading, proposing, judging) at your own server, or at any program that takes JSON in and prints JSON out.</li>
+        <li>Your keys stay in a private file on your computer, never in the repo.</li>
+      </ul>
+      <p class="note">With a cloud provider, your memes, notes and prompts are sent to that provider.</p>
+    </div>
+    <img class="shot" src="assets/app-llm.png" alt="LLM settings panel with Ollama selected">
+  </div>
+</section>
+
+<section id="share">
+  <div class="wrap split">
+    <div>
+      <div class="kicker">Share what you make</div>
+      <h2>Publish expressions any Reachy can play</h2>
+      <p class="sub" style="margin-bottom:16px">Saved expressions use the standard Reachy Mini moves format. One command
+        publishes them as a Hugging Face dataset, tagged so they appear in Pollen's community moves gallery.
+        Only the motion, its sound and a short description are uploaded.</p>
+      <pre><code>from reachy_mini import ReachyMini
+from reachy_mini.motion.recorded_move import RecordedMoves
+
+moves = RecordedMoves("JosephAusterweil/reachy-meme-expressions")
+with ReachyMini() as mini:
+    mini.play_move(moves.get("comparing-glance-hypocritical-point-off"), sound=True)</code></pre>
+      <p class="note">Browse the example set:
+        <a href="https://huggingface.co/datasets/JosephAusterweil/reachy-meme-expressions">JosephAusterweil/reachy-meme-expressions</a>.</p>
+    </div>
+    <div class="two-vid">
+      <div class="card"><video src="assets/clips/comparing-glance-hypocritical-point-off.mp4" autoplay muted loop playsinline></video>
+        <div class="body"><h4>Comparing glance, hypocritical point-off</h4><p>Made for a “pointing at each other” meme.</p></div></div>
+      <div class="card"><video src="assets/clips/glance-glance-snap-point-at-two-doubles-sheepish-t.mp4" autoplay muted loop playsinline></video>
+        <div class="body"><h4>Glance, snap point, sheepish tilt</h4><p>Same meme, a different take.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <div class="kicker">Get started</div>
+    <h2>Set it up in a few minutes</h2>
+    <p class="sub">You need Linux or macOS with Python 3.12 (no GPU), and an AI model from the list above.
+      A Reachy Mini on your network is optional: without one, everything works except playing on the robot.</p>
+    <pre><code>git clone https://github.com/josephausterweil/reachy-meme-mirror
+cd reachy-meme-mirror
+bash scripts/setup.sh
+.venv/bin/uvicorn meme_mirror.server:app --port 8770
+# open http://localhost:8770, click ⚙ LLM, then drop in a meme</code></pre>
+    <p class="note" style="margin-top:14px">Full instructions, configuration and expert options are in the
+      <a href="https://github.com/josephausterweil/reachy-meme-mirror#readme">README</a>.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Meme Mirror is open source under the Apache-2.0 license. It builds on the
+    <a href="https://github.com/pollen-robotics/reachy_mini">Reachy Mini SDK</a> and emotions library by Pollen Robotics,
+    <a href="https://github.com/pham-tuan-binh/reachy-motion-generator">reachy-motion-generator</a> by Pham Tuan Binh, and
+    community moves by Anne-Charlotte and stellaaaa. The robot videos are from the MuJoCo simulator.
+  </div>
+</footer>
+</body>
+</html>

@@ -2,6 +2,8 @@
 
 Turn memes into expressions for a [Reachy Mini](https://github.com/pollen-robotics/reachy_mini) robot.
 
+**See what it does: <https://josephausterweil.github.io/reachy-meme-mirror/>**
+
 Drop a meme into a local web page. An AI model works out the feeling the meme expresses, then proposes
 several ways Reachy could show it with its head, antennas and body. You compare them in a simulator, play
 the best ones on the robot, rate them, and ask for better ones. Over time it learns your taste.
