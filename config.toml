@@ -17,6 +17,10 @@ model = "opus"
 provider = "claude_code"
 model = "sonnet"
 
+[llm.grader]           # text only: does the judge's blind reading match the intended emotion?
+provider = "claude_code"
+model = "sonnet"
+
 [llm.cataloger]        # describes library moves (bulk, one-off)
 provider = "claude_code"
 model = "sonnet"

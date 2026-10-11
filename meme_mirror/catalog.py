@@ -46,8 +46,8 @@ def move_files():
 
 
 def load_channels(path):
-    """Move JSON -> dict of per-frame channels in degrees / mm, plus time and the raw description."""
-    d = json.load(open(path))
+    """Move JSON (path or dict) -> dict of per-frame channels in degrees / mm, plus time and description."""
+    d = path if isinstance(path, dict) else json.load(open(path))
     data = d.get("set_target_data")
     if not data:
         return None

@@ -69,7 +69,6 @@ class ExpressionSpec(BaseModel):
     title: str
     segments: list[Segment] = Field(min_length=1)
     overlays: list[Overlay] = []
-    sound: str | None = Field(None, description="catalog move_id whose sound to play, or None")
 
 
 NEUTRAL = dict(pitch=0.0, roll=0.0, yaw=0.0, z=0.0, ear_r=10.0, ear_l=10.0, body_yaw=0.0, x=0.0, y=0.0)

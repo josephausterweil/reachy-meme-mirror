@@ -13,6 +13,15 @@ from .base import CachedProvider, LLMError
 WORKDIR = Path(tempfile.gettempdir()) / "meme_mirror_claude"  # neutral cwd: no project CLAUDE.md
 
 
+def _cli_schema(node):
+    """Drop keywords the CLI's strict JSON-Schema check rejects (pydantic still validates the reply)."""
+    if isinstance(node, dict):
+        return {k: _cli_schema(v) for k, v in node.items() if k != "discriminator"}
+    if isinstance(node, list):
+        return [_cli_schema(v) for v in node]
+    return node
+
+
 class ClaudeCodeProvider(CachedProvider):
     name = "claude_code"
 
@@ -27,7 +36,7 @@ class ClaudeCodeProvider(CachedProvider):
             prompt = ("First use the Read tool to look at these image files:\n"
                       + "\n".join(f"- {p}" for p in images) + "\n\n" + prompt)
         cmd = ["claude", "-p", prompt, "--output-format", "json", "--model", self.model,
-               "--json-schema", json.dumps(schema_json), "--tools", "Read",
+               "--json-schema", json.dumps(_cli_schema(schema_json)), "--tools", "Read",
                "--strict-mcp-config", "--no-session-persistence", "--setting-sources", ""]
         for d in sorted({str(p.parent) for p in images}):
             cmd += ["--add-dir", d]

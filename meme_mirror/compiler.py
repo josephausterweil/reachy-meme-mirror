@@ -104,12 +104,28 @@ def compile_spec(spec: ExpressionSpec, catalog=None, glue=True, speed=1.0, ampli
         else:
             out[ov.channel][mask] += delta
 
+    return apply_dials(out, speed, amplitude)
+
+
+def apply_dials(tracks, speed=1.0, amplitude=1.0):
+    """Scale motion away from neutral by `amplitude`; play `speed` times faster. No LLM needed."""
+    out = tracks
     if amplitude != 1.0:
         out = {k: NEUTRAL[k] + amplitude * (v - NEUTRAL[k]) for k, v in out.items()}
     if speed != 1.0:
+        t = np.arange(len(out["pitch"])) * DT
         t_new = np.arange(0, t[-1], DT * speed)
         out = {k: np.interp(t_new, t, v) for k, v in out.items()}
     return out
+
+
+def move_to_tracks(move):
+    """Any Pollen-format move dict (any frame rate) -> channel arrays at FPS."""
+    ch = catalog_mod.load_channels(move)
+    t = ch["t"] - ch["t"][0]
+    tt = np.arange(0, t[-1] + 1e-9, DT)
+    src = dict(ch, ear_r=-ch["ant_r"], ear_l=ch["ant_l"])
+    return {k: np.interp(tt, t, src[k]) for k in CHANNELS}
 
 
 def to_move(tracks, description=""):

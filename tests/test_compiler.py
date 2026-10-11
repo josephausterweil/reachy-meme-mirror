@@ -70,3 +70,21 @@ def test_library_moves_pass_safety(catalog):
         spec = ExpressionSpec(title=m, segments=[{"kind": "library", "move_id": m}])
         _, rep = check(compile_spec(spec, catalog))
         assert rep.unreachable_frames == 0, (m, rep.summary())
+
+
+def test_binh_generate_cpu():
+    from meme_mirror import binh
+    assert binh.check("go 1 p=99") is not None
+    moves = binh.generate("go .5 e=120 p=15 z=-10 E=1 | hold 1 E=.5", n=2, description="sad")
+    assert len(moves) == 2 and len(moves[0]["set_target_data"]) > 25
+    assert moves[0]["set_target_data"][0]["head"][3] == [0.0, 0.0, 0.0, 1.0]
+
+
+def test_recipe_candidate_validation():
+    from pydantic import ValidationError
+    from meme_mirror.pipeline import RecipeCandidate, _proposals
+    RecipeCandidate(label="a", rationale="b", recipe="go .5 e=120 p=15")
+    with pytest.raises(ValidationError):
+        RecipeCandidate(label="a", rationale="b", recipe="go .5 p=99")
+    with pytest.raises(ValidationError):  # exact count enforced
+        _proposals(RecipeCandidate, 2).model_validate({"candidates": [dict(label="a", rationale="b", recipe="hold 1")]})
