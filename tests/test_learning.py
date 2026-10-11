@@ -76,3 +76,10 @@ def test_history_mentions_picks():
     s.data = dict(candidates=[_cand("r1c1", "own", rating=4, picked=True, played=2, saved="x")])
     h = pipeline._history_text(s, "new", None)
     assert "GOOD FIT" in h and "SAVED" in h and "PLAYED" not in h
+
+
+def test_feedback_mode_prompt():
+    s = pipeline.Session.__new__(pipeline.Session)
+    s.data = dict(candidates=[_cand("r1c1", "own", rating=2, comment="too fast")])
+    h = pipeline._history_text(s, "feedback", None)
+    assert "IMPROVED versions" in h and "too fast" in h

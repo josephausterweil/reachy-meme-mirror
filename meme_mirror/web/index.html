@@ -205,7 +205,9 @@ function renderMain() {
           <label class="small">library <input type="number" id="nLib" value="${mixOf("library", 1)}" min="0" max="3" style="width:42px"></label>
           <label class="small">own <input type="number" id="nOwn" value="${mixOf("own", 1)}" min="0" max="3" style="width:42px"></label>
           <label class="small">binh <input type="number" id="nBinh" value="${mixOf("binh", 2)}" min="0" max="3" style="width:42px"></label>
-          <button class="primary" id="propose">${S.candidates.length ? "Try new ways" : "Propose expressions"}</button>
+          <button class="primary" id="improve" ${hasFeedback() ? "" : "disabled"}
+            title="New candidates built from all your ratings and notes on this meme (rate or note something first)">Improve from my feedback</button>
+          <button id="propose">${S.candidates.length ? "Try new ways" : "Propose expressions"}</button>
         </div>
         <div id="learnedBox">${learnedHtml()}</div>
       </div>
@@ -246,7 +248,7 @@ async function loadLearning() {
 
 function roundHtml(n, cands) {
   const c0 = cands[0];
-  const how = c0.mode === "more_like" ? `more like ${esc(c0.anchor)}` : "new ways";
+  const how = c0.mode === "more_like" ? `more like ${esc(c0.anchor)}` : c0.mode === "feedback" ? "improved from your feedback" : "new ways";
   return `<div class="round-head"><h3>Round ${n}</h3><span>${how}${c0.notes ? ` · “${esc(c0.notes)}”` : ""}</span></div>
           <div class="cards">${cands.map(cardHtml).join("")}</div>`;
 }
@@ -291,7 +293,10 @@ function bindMain() {
   $("#saveReading").onclick = () => saveReading(false);
   $("#reread").onclick = () => saveReading(true);
   $("#propose").onclick = () => runRound({mode: "new"});
+  $("#improve").onclick = () => runRound({mode: "feedback"});
   ["#nLib", "#nOwn", "#nBinh"].forEach(id => $(id).oninput = e => e.target.dataset.touched = "1");
+  $("#rounds").addEventListener("input", e => {
+    if (e.target.dataset.role === "comment" && e.target.value.trim()) $("#improve").disabled = false; });
   $("#rounds").oninput = e => { if (e.target.dataset.dial) e.target.nextElementSibling.textContent = e.target.value + "×"; };
   $("#rounds").onclick = onCardClick;
 }
@@ -306,9 +311,27 @@ async function saveReading(reinterpret) {
   catch (e) { toast(e.message); btn.disabled = false; }
 }
 
+function hasFeedback() {
+  return S.candidates.some(c => { const fb = c.feedback || {}; return fb.rating || fb.comment || fb.picked || c.saved_as; });
+}
+
+async function saveDraftNotes() {  // notes typed on cards but not saved yet become part of the feedback
+  const posts = [];
+  document.querySelectorAll(".card[data-cid]").forEach(card => {
+    const c = S.candidates.find(x => x.id === card.dataset.cid), t = $("textarea", card);
+    if (c && t && t.value.trim() && t.value !== ((c.feedback || {}).comment || ""))
+      posts.push(post(`/api/sessions/${S.id}/candidates/${c.id}/feedback`, {comment: t.value})
+        .then(nc => Object.assign(c, nc)));
+  });
+  await Promise.all(posts);
+  return posts.length;
+}
+
 async function runRound(opts) {
   const mix = {library: +$("#nLib").value, own: +$("#nOwn").value, binh: +$("#nBinh").value};
   if (!mix.library && !mix.own && !mix.binh) return toast("Ask for at least one candidate");
+  const savedNotes = await saveDraftNotes();
+  if (savedNotes) toast(`Saved ${savedNotes} unsaved note${savedNotes > 1 ? "s" : ""} first`);
   // persist reading edits + notes first, so the proposer uses them
   await api(`/api/sessions/${S.id}/reading`, {method: "PUT", headers: {"content-type": "application/json"},
     body: JSON.stringify({reading: readingEdits(), notes: $("#notes").value})});
@@ -370,7 +393,7 @@ async function onCardClick(e) {
       const meta = await post(`${base}/save`, {name}); update({saved_as: meta.slug});
       toast(`Saved to store/${meta.slug}.json`);
     }
-    if (["rate", "comment", "fit", "save"].includes(act)) loadLearning();
+    if (["rate", "comment", "fit", "save"].includes(act)) { loadLearning(); $("#improve").disabled = !hasFeedback(); }
   } catch (err) { toast(err.message, 6000); btn.disabled = false; if (act === "play") btn.textContent = "▶ Play on Reachy"; }
 }
 

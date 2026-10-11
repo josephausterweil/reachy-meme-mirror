@@ -241,6 +241,12 @@ def _history_text(session, mode, anchor):
     if mode == "more_like" and anchor:
         lines.append(f"\nThe user wants MORE LIKE [{anchor}]: keep what works in it and propose variations that "
                      "push it further in the direction of their feedback.")
+    elif mode == "feedback":
+        lines.append("\nThe user wants IMPROVED versions based on ALL of their feedback above. Treat the ratings, "
+                     "notes, good-fit marks and saves as a brief: keep and build on what they liked, fix exactly what "
+                     "they criticized, and feel free to combine the best elements of different candidates into one. "
+                     "Each new candidate should be a clear attempt at a better answer, not a random new direction. "
+                     "Say in the rationale which feedback it responds to.")
     else:
         lines.append("\nThe user wants NEW WAYS of expressing it: explore different interpretations and cues.")
     return "\n".join(lines)
