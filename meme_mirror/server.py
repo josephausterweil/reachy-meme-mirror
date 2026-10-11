@@ -175,36 +175,58 @@ def candidate_play(sid: str, cid: str, body: PlayRequest):
     c = s.candidate(cid)
     if not c.get("move_file"):
         raise HTTPException(400, "candidate has no move (build failed)")
-    if not _robot_lock.acquire(blocking=False):
+    # a click during the previous move's glide home waits for it instead of failing
+    if not _robot_lock.acquire(timeout=3):
         raise HTTPException(409, "Reachy is already playing something")
     try:
         sound = _sound_path(c.get("sound")) if body.sound else None
         move = json.loads((s.dir / c["move_file"]).read_text())
-        robot.play(move, sleep_after=body.sleep_after, on_start=(lambda: _play_sound(sound)) if sound else None)
+        robot.play(move, sleep_after=body.sleep_after, return_home=body.sleep_after,
+                   on_start=(lambda: _play_sound(sound)) if sound else None)
+    except Exception as e:
+        _robot_lock.release()
+        if isinstance(e, robot.RobotBusy):
+            raise HTTPException(409, str(e))
+        raise HTTPException(502, f"robot error: {e}")
+    if body.sleep_after:
+        _robot_lock.release()
+    else:  # answer as soon as the move ends; glide back to neutral in the background
+        threading.Thread(target=_return_home_then_release, daemon=True).start()
+    return dict(ok=True)
+
+
+def _return_home_then_release():
+    from . import robot
+
+    try:
+        robot.return_to_neutral()
+    except Exception:
+        pass
+    finally:
+        _robot_lock.release()
+
+
+@app.post("/api/robot/sleep")
+def robot_sleep():
+    from . import robot
+
+    if not _robot_lock.acquire(timeout=5):
+        raise HTTPException(409, "Reachy is busy")
+    try:
+        robot.check_free()
+        robot.go_to_sleep()
     except robot.RobotBusy as e:
         raise HTTPException(409, str(e))
-    except Exception as e:
-        raise HTTPException(502, f"robot error: {e}")
     finally:
         _robot_lock.release()
     return dict(ok=True)
 
 
-@app.post("/api/robot/sleep")
-def robot_sleep():
-    from reachy_mini import ReachyMini
-
+@app.on_event("shutdown")
+def _close_robot():
     from . import robot
 
-    with _robot_lock:
-        try:
-            robot.check_free()
-            with ReachyMini(connection_mode="network", media_backend="no_media", timeout=10) as mini:
-                mini.goto_sleep()
-                mini.disable_motors()
-        except robot.RobotBusy as e:
-            raise HTTPException(409, str(e))
-    return dict(ok=True)
+    robot.close()
 
 
 @app.get("/api/robot/status")
