@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meme Mirror</title>
+<style>
+:root {
+  --bg: #f6f5f2; --panel: #ffffff; --ink: #1d1d1f; --muted: #6b6b70; --line: #e2e0db;
+  --accent: #3a5bd9; --accent-ink: #ffffff; --good: #2e7d4f; --warn: #a15c00; --bad: #b3261e;
+  --lib: #6d4bc4; --own: #1f7a8c; --binh: #b0532a; --chip: #efede8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141416; --panel: #1d1d20; --ink: #ececef; --muted: #9a9aa2; --line: #2e2e33;
+    --accent: #7d97ff; --accent-ink: #0d0d10; --good: #6fcf97; --warn: #f2b25c; --bad: #ff8a80;
+    --lib: #b39dff; --own: #6fd3e3; --binh: #ffab85; --chip: #2a2a2f;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+header { display: flex; align-items: center; gap: 16px; padding: 12px 20px; border-bottom: 1px solid var(--line);
+  background: var(--panel); position: sticky; top: 0; z-index: 5; }
+header h1 { font-size: 18px; margin: 0; }
+#robot { margin-left: auto; font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); display: inline-block; }
+.dot.ok { background: var(--good); } .dot.no { background: var(--bad); }
+main { display: grid; grid-template-columns: 260px 1fr; gap: 20px; padding: 20px; max-width: 1500px; margin: 0 auto; }
+@media (max-width: 860px) { main { grid-template-columns: 1fr; padding: 12px 16px; } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+h2 { font-size: 14px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 0 0 10px; }
+button, .btn { font: inherit; border: 1px solid var(--line); background: var(--chip); color: var(--ink);
+  border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button:disabled { opacity: .5; cursor: progress; }
+input[type=number] { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 3px 4px; }
+textarea, input[type=text] { width: 100%; font: inherit; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; }
+textarea { min-height: 60px; resize: vertical; }
+#drop { border: 2px dashed var(--line); border-radius: 12px; padding: 18px; text-align: center; color: var(--muted);
+  cursor: pointer; }
+#drop.over { border-color: var(--accent); color: var(--accent); }
+#sessions { list-style: none; padding: 0; margin: 12px 0 0; }
+#sessions li { padding: 7px 8px; border-radius: 8px; cursor: pointer; font-size: 13px; }
+#sessions li:hover, #sessions li.active { background: var(--chip); }
+#sessions small { color: var(--muted); display: block; }
+.top { display: grid; grid-template-columns: minmax(180px, 320px) 1fr; gap: 16px; }
+@media (max-width: 860px) { .top { grid-template-columns: 1fr; } }
+.top img { width: 100%; border-radius: 10px; border: 1px solid var(--line); }
+.field { margin-bottom: 8px; } .field label { font-size: 12px; color: var(--muted); display: block; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.round-head { margin: 22px 0 10px; display: flex; align-items: baseline; gap: 10px; }
+.round-head h3 { margin: 0; font-size: 16px; } .round-head span { color: var(--muted); font-size: 13px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  display: flex; flex-direction: column; }
+.card.chosen { outline: 2px solid var(--good); }
+.card video { width: 100%; aspect-ratio: 1; object-fit: cover; background: #23324a; display: block; }
+.card .body { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 7px; flex: 1; }
+.card h4 { margin: 0; font-size: 15px; }
+.badge { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 99px; color: #fff; }
+.badge.library { background: var(--lib); } .badge.own { background: var(--own); } .badge.binh { background: var(--binh); }
+.small { font-size: 13px; color: var(--muted); }
+.scores { display: flex; gap: 10px; font-size: 13px; }
+.meter { flex: 1; height: 6px; background: var(--chip); border-radius: 99px; overflow: hidden; margin-top: 4px; }
+.meter i { display: block; height: 100%; background: var(--accent); }
+.stars button { border: none; background: none; padding: 0 1px; font-size: 20px; color: var(--muted); }
+.stars button.on { color: #e6a700; }
+details summary { cursor: pointer; font-size: 13px; color: var(--muted); }
+.dials { display: grid; grid-template-columns: auto 1fr auto; gap: 4px 8px; align-items: center; font-size: 13px; }
+.warn { color: var(--warn); font-size: 13px; } .err { color: var(--bad); font-size: 13px; }
+#toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg);
+  padding: 8px 14px; border-radius: 8px; font-size: 14px; display: none; z-index: 9; max-width: 90vw; }
+.busy { color: var(--muted); font-size: 14px; padding: 12px 0; }
+.empty { color: var(--muted); padding: 40px; text-align: center; }
+code { font-size: 12px; word-break: break-word; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Meme Mirror</h1>
+  <span class="small">meme → Reachy expression</span>
+  <div id="robot"><span class="dot" id="rdot"></span><span id="rtext">checking Reachy…</span>
+    <button id="sleepBtn" title="Put Reachy to sleep">Sleep</button></div>
+</header>
+<main>
+  <aside>
+    <div class="panel">
+      <h2>New meme</h2>
+      <div id="drop">Drop or paste a meme image here, or click to choose a file</div>
+      <input type="file" id="file" accept="image/*" hidden>
+      <div class="field" style="margin-top:8px">
+        <textarea id="newNotes" placeholder="Optional: what it means to you, or how Reachy might show it"></textarea>
+      </div>
+      <h2 style="margin-top:14px">Sessions</h2>
+      <ul id="sessions"></ul>
+    </div>
+  </aside>
+  <section id="main"><div class="empty">Drop a meme to start.</div></section>
+</main>
+<div id="toast"></div>
+
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let S = null;  // current session
+
+function toast(msg, ms = 3500) { const t = $("#toast"); t.textContent = msg; t.style.display = "block";
+  clearTimeout(t._h); t._h = setTimeout(() => t.style.display = "none", ms); }
+
+async function api(path, opts = {}) {
+  const r = await fetch(path, opts);
+  if (!r.ok) { let m = r.statusText; try { m = (await r.json()).detail || m; } catch {} throw new Error(m); }
+  return r.json();
+}
+const post = (path, body) => api(path, {method: "POST", headers: {"content-type": "application/json"},
+                                        body: JSON.stringify(body || {})});
+
+// ----- sessions list / upload -----
+async function loadSessions() {
+  const list = await api("/api/sessions");
+  $("#sessions").innerHTML = list.map(s => `<li data-id="${esc(s.id)}" class="${S && S.id === s.id ? "active" : ""}">
+    ${esc(s.core_emotion || "(reading…)")}<small>${esc(s.id)} · ${s.n_candidates} tried</small></li>`).join("");
+}
+$("#sessions").onclick = e => { const li = e.target.closest("li"); if (li) openSession(li.dataset.id); };
+
+async function upload(file) {
+  const fd = new FormData(); fd.append("meme", file); fd.append("notes", $("#newNotes").value);
+  $("#main").innerHTML = `<div class="busy">Reading the meme…</div>`;
+  try { S = await api("/api/sessions", {method: "POST", body: fd}); $("#newNotes").value = "";
+        render(); loadSessions(); }
+  catch (e) { $("#main").innerHTML = `<div class="err">${esc(e.message)}</div>`; }
+}
+const drop = $("#drop");
+drop.onclick = () => $("#file").click();
+$("#file").onchange = e => e.target.files[0] && upload(e.target.files[0]);
+drop.ondragover = e => { e.preventDefault(); drop.classList.add("over"); };
+drop.ondragleave = () => drop.classList.remove("over");
+drop.ondrop = e => { e.preventDefault(); drop.classList.remove("over");
+  const f = e.dataTransfer.files[0]; if (f) upload(f); };
+window.addEventListener("paste", e => { const f = [...e.clipboardData.files].find(f => f.type.startsWith("image/"));
+  if (f) upload(f); });
+
+async function openSession(id) { S = await api(`/api/sessions/${id}`); render(); loadSessions(); }
+
+// ----- main view -----
+const READING_FIELDS = [["core_emotion", "Core emotion"], ["nuance", "Nuance"], ["arc", "How it unfolds"],
+                        ["text_prompt", "Text-to-motion prompt"]];
+
+function render() {
+  if (!S) return;
+  const r = S.reading || {};
+  const rounds = {};
+  S.candidates.forEach(c => (rounds[c.round] ||= []).push(c));
+  $("#main").innerHTML = `
+    <div class="panel top">
+      <img src="/files/${S.id}/${S.meme}" alt="meme">
+      <div>
+        <h2>What the meme expresses ${r.meme_template ? `· <span class="small">${esc(r.meme_template)}</span>` : ""}</h2>
+        <p class="small" style="margin-top:0">${esc(r.depicts)}</p>
+        ${READING_FIELDS.map(([k, label]) => `<div class="field"><label>${label}</label>
+          <textarea data-k="${k}" rows="${k === "core_emotion" ? 1 : 2}">${esc(r[k])}</textarea></div>`).join("")}
+        <div class="small">Cues: ${esc((r.bodily_cues || []).join("; "))} · valence ${r.valence} · arousal ${r.arousal} · confidence ${esc(r.confidence)}</div>
+        <div class="field" style="margin-top:8px"><label>Your notes on the emotion, or how Reachy might express it (used in every round)</label>
+          <textarea id="notes">${esc(S.notes)}</textarea></div>
+        <div class="row">
+          <button id="saveReading">Save edits</button>
+          <button id="reread" title="Ask the model to read the meme again using your notes">Re-read meme with notes</button>
+          <span style="flex:1"></span>
+          <label class="small">library <input type="number" id="nLib" value="1" min="0" max="3" style="width:42px"></label>
+          <label class="small">own <input type="number" id="nOwn" value="1" min="0" max="3" style="width:42px"></label>
+          <label class="small">binh <input type="number" id="nBinh" value="2" min="0" max="3" style="width:42px"></label>
+          <button class="primary" id="propose">${S.candidates.length ? "Try new ways" : "Propose expressions"}</button>
+        </div>
+      </div>
+    </div>
+    <div id="rounds">${Object.keys(rounds).sort((a, b) => b - a).map(n => roundHtml(n, rounds[n])).join("")}</div>`;
+  bindMain();
+}
+
+function roundHtml(n, cands) {
+  const c0 = cands[0];
+  const how = c0.mode === "more_like" ? `more like ${esc(c0.anchor)}` : "new ways";
+  return `<div class="round-head"><h3>Round ${n}</h3><span>${how}${c0.notes ? ` · “${esc(c0.notes)}”` : ""}</span></div>
+          <div class="cards">${cands.map(cardHtml).join("")}</div>`;
+}
+
+function cardHtml(c) {
+  const fb = c.feedback || {};
+  const stars = [1,2,3,4,5].map(i => `<button data-act="rate" data-v="${i}" class="${(fb.rating||0) >= i ? "on" : ""}">★</button>`).join("");
+  const what = c.spec ? JSON.stringify(c.spec) : c.recipe;
+  const d = c.dials || {speed: 1, amplitude: 1};
+  return `<div class="card ${fb.chosen ? "chosen" : ""}" data-cid="${c.id}">
+    ${c.video ? `<video src="/files/${S.id}/${c.video}?v=${encodeURIComponent(JSON.stringify(d))}" muted loop autoplay playsinline></video>` : ""}
+    <div class="body">
+      <div class="row"><span class="badge ${c.source}">${c.source}</span><h4>${esc(c.label)}</h4></div>
+      <div class="small">${esc(c.rationale)}</div>
+      ${c.error ? `<div class="err">Build failed: ${esc(c.error)}</div>` : ""}
+      ${c.safety && c.safety !== "ok" ? `<div class="warn">Safety: ${esc(c.safety)}</div>` : ""}
+      ${c.match != null ? `<div class="scores">
+          <div style="flex:1">blind match ${Math.round(c.match*100)}%<div class="meter"><i style="width:${c.match*100}%"></i></div></div>
+          <div style="flex:1">picked from list ${Math.round((c.legibility||0)*100)}%<div class="meter"><i style="width:${(c.legibility||0)*100}%"></i></div></div></div>
+        <details><summary>What a blind viewer saw</summary><div class="small">${esc(c.judge_reading)}</div>
+          <div class="small"><i>${esc(c.match_reason)}</i></div></details>` : ""}
+      <details><summary>Motion ${c.duration_s ? `(${c.duration_s}s)` : ""}${c.sound ? ` · sound: ${esc(c.sound)}` : ""}</summary><code>${esc(what)}</code></details>
+      <details><summary>Dials</summary><div class="dials">
+        <span>speed</span><input type="range" min="0.5" max="2" step="0.05" value="${d.speed}" data-dial="speed"><span>${d.speed}×</span>
+        <span>size</span><input type="range" min="0.4" max="1.5" step="0.05" value="${d.amplitude}" data-dial="amplitude"><span>${d.amplitude}×</span>
+      </div><button data-act="dials" style="margin-top:6px">Apply dials</button></details>
+      <div class="row stars">${stars}</div>
+      <textarea data-role="comment" placeholder="What works, what doesn't?">${esc(fb.comment || "")}</textarea>
+      <div class="row" style="margin-top:auto">
+        <button data-act="comment">Save note</button>
+        <button data-act="more">More like this</button>
+        ${c.sound ? `<button data-act="sound" title="Hear the sound here">♪</button>` : ""}
+        <button data-act="play" class="primary" ${c.move_file ? "" : "disabled"}>▶ Play on Reachy</button>
+        <button data-act="save" ${c.move_file ? "" : "disabled"}>${c.saved_as ? "Saved ✓" : "Save"}</button>
+      </div>
+    </div></div>`;
+}
+
+function bindMain() {
+  $("#saveReading").onclick = () => saveReading(false);
+  $("#reread").onclick = () => saveReading(true);
+  $("#propose").onclick = () => runRound({mode: "new"});
+  $("#rounds").oninput = e => { if (e.target.dataset.dial) e.target.nextElementSibling.textContent = e.target.value + "×"; };
+  $("#rounds").onclick = onCardClick;
+}
+
+function readingEdits() { const out = {}; document.querySelectorAll("textarea[data-k]").forEach(t => out[t.dataset.k] = t.value); return out; }
+
+async function saveReading(reinterpret) {
+  const btn = reinterpret ? $("#reread") : $("#saveReading"); btn.disabled = true;
+  try { S = await api(`/api/sessions/${S.id}/reading`, {method: "PUT", headers: {"content-type": "application/json"},
+          body: JSON.stringify({reading: reinterpret ? null : readingEdits(), notes: $("#notes").value, reinterpret})});
+        render(); toast(reinterpret ? "Re-read the meme" : "Saved"); }
+  catch (e) { toast(e.message); btn.disabled = false; }
+}
+
+async function runRound(opts) {
+  const mix = {library: +$("#nLib").value, own: +$("#nOwn").value, binh: +$("#nBinh").value};
+  if (!mix.library && !mix.own && !mix.binh) return toast("Ask for at least one candidate");
+  // persist reading edits + notes first, so the proposer uses them
+  await api(`/api/sessions/${S.id}/reading`, {method: "PUT", headers: {"content-type": "application/json"},
+    body: JSON.stringify({reading: readingEdits(), notes: $("#notes").value})});
+  const rounds = $("#rounds");
+  rounds.insertAdjacentHTML("afterbegin", `<div class="busy" id="busy">Proposing, building and judging… (about 30–60 s)</div>`);
+  document.querySelectorAll("button").forEach(b => b.disabled = true);
+  try { const res = await post(`/api/sessions/${S.id}/round`, {mix, ...opts}); S = res.session; render(); loadSessions(); }
+  catch (e) { toast(e.message, 6000); render(); }
+}
+
+async function onCardClick(e) {
+  const btn = e.target.closest("button[data-act]"); if (!btn) return;
+  const card = btn.closest(".card"), cid = card.dataset.cid, act = btn.dataset.act;
+  const c = S.candidates.find(x => x.id === cid);
+  const base = `/api/sessions/${S.id}/candidates/${cid}`;
+  const update = nc => { Object.assign(c, nc); card.outerHTML = cardHtml(c); };
+  try {
+    if (act === "rate") update(await post(`${base}/feedback`, {rating: +btn.dataset.v}));
+    else if (act === "comment") { update(await post(`${base}/feedback`, {comment: $("textarea", card).value})); toast("Note saved"); }
+    else if (act === "more") {
+      const note = $("textarea", card).value;
+      if (note && note !== (c.feedback || {}).comment) await post(`${base}/feedback`, {comment: note});
+      runRound({mode: "more_like", anchor: cid, notes: note});
+    }
+    else if (act === "sound") new Audio(`/sound/${c.sound}`).play();
+    else if (act === "dials") {
+      btn.disabled = true; btn.textContent = "Rebuilding…";
+      const v = k => +$(`input[data-dial=${k}]`, card).value;
+      update(await post(`${base}/dials`, {speed: v("speed"), amplitude: v("amplitude")}));
+    }
+    else if (act === "play") {
+      btn.disabled = true; btn.textContent = "Playing…";
+      await post(`${base}/play`, {sound: true});
+      btn.disabled = false; btn.textContent = "▶ Play on Reachy";
+      update(await post(`${base}/feedback`, {chosen: true})); robotStatus();
+    }
+    else if (act === "save") {
+      const name = prompt("Name this expression", c.label); if (!name) return;
+      const meta = await post(`${base}/save`, {name}); c.saved_as = meta.slug; card.outerHTML = cardHtml(c);
+      toast(`Saved to store/${meta.slug}.json`);
+    }
+  } catch (err) { toast(err.message, 6000); btn.disabled = false; if (act === "play") btn.textContent = "▶ Play on Reachy"; }
+}
+
+// ----- robot status -----
+async function robotStatus() {
+  try { const st = await api("/api/robot/status");
+    $("#rdot").className = "dot " + (st.ok ? "ok" : "no");
+    $("#rtext").textContent = st.ok ? `Reachy ready (motors ${st.motors})` : `Reachy: ${st.reason}`; }
+  catch { $("#rdot").className = "dot no"; $("#rtext").textContent = "server error"; }
+}
+$("#sleepBtn").onclick = async () => { try { await post("/api/robot/sleep"); toast("Reachy is asleep"); robotStatus(); }
+                                       catch (e) { toast(e.message); } };
+robotStatus(); setInterval(robotStatus, 15000);
+loadSessions().then(() => { const first = $("#sessions li"); if (first) openSession(first.dataset.id); });
+</script>
+</body>
+</html>

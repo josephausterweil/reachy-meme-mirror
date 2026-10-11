@@ -10,7 +10,7 @@ import numpy as np
 
 from .compiler import DT, to_move
 
-# Observed min/max over pollen-robotics/reachy-mini-emotions-library (catalog features, 2026-10-11),
+# Observed min/max over pollen-robotics/reachy-mini-emotions-library (ears: also Anne-Charlotte/new-emotions),
 # rounded slightly outward. Head yaw is absolute (includes body rotation).
 LIMITS = {
     "pitch": (-25.0, 32.0),
@@ -18,8 +18,8 @@ LIMITS = {
     "yaw": (-65.0, 65.0),
     "z": (-45.0, 20.0),
     "body_yaw": (-60.0, 60.0),
-    "ear_r": (-40.0, 180.0),
-    "ear_l": (-40.0, 180.0),
+    "ear_r": (-45.0, 200.0),
+    "ear_l": (-45.0, 200.0),
     "x": (-30.0, 30.0),
     "y": (-30.0, 30.0),
 }

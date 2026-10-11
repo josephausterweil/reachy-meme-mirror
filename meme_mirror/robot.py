@@ -33,8 +33,9 @@ def check_free(daemon=DAEMON):
     return status
 
 
-def play(move_dict, sleep_after=False, daemon=DAEMON):
-    """Wake if needed, glide to the move's first pose, play it, return to neutral."""
+def play(move_dict, sleep_after=False, daemon=DAEMON, on_start=None):
+    """Wake if needed, glide to the move's first pose, play it, return to neutral.
+    `on_start()` is called right before the move itself starts (e.g. to start its sound)."""
     status = check_free(daemon)
     was_asleep = status["backend_status"]["motor_control_mode"] == "disabled"
     move = RecordedMove(move_dict)
@@ -44,6 +45,8 @@ def play(move_dict, sleep_after=False, daemon=DAEMON):
             mini.goto_target(INIT_HEAD_POSE, antennas=INIT_ANTENNAS_JOINT_POSITIONS, duration=2.0)
         head, antennas, body_yaw = move.evaluate(0.0)
         mini.goto_target(head=head, antennas=antennas, duration=0.8, body_yaw=body_yaw)
+        if on_start:
+            on_start()
         mini.play_move(move, sound=False)
         mini.goto_target(INIT_HEAD_POSE, antennas=INIT_ANTENNAS_JOINT_POSITIONS,
                          duration=1.0, body_yaw=0.0)

@@ -13,6 +13,7 @@ dependencies = [
     "imageio",
     "imageio-ffmpeg",
     "pyyaml",
+    "python-multipart",
 ]
 
 [project.optional-dependencies]
