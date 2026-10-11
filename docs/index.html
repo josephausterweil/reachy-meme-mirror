@@ -46,6 +46,13 @@ h3 { font-size: 19px; margin: 0 0 6px; }
 .hero-video { position: relative; border-radius: 18px; overflow: hidden; border: 1px solid var(--line);
   box-shadow: 0 20px 50px rgba(0,0,0,.18); background: #23324a; aspect-ratio: 1; }
 .hero-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-video .meme { position: absolute; top: 12px; left: 12px; width: 44%; background: #fff; border-radius: 10px;
+  padding: 4px; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+.hero-video .meme img { width: 100%; display: block; border-radius: 7px; }
+.hero-video .meme span { position: absolute; top: -9px; left: 8px; background: var(--accent); color: var(--accent-ink);
+  font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 99px; letter-spacing: .04em; }
+.hero-video .meme::after { content: "→"; position: absolute; right: -30px; top: 50%; transform: translateY(-50%);
+  color: #fff; font-size: 26px; font-weight: 700; text-shadow: 0 2px 6px rgba(0,0,0,.6); }
 .hero-video .caption { position: absolute; left: 12px; right: 12px; bottom: 12px; background: rgba(10,12,20,.72);
   color: #fff; padding: 10px 12px; border-radius: 10px; font-size: 14px; line-height: 1.4; }
 section { padding: 64px 0; border-bottom: 1px solid var(--line); }
@@ -129,8 +136,9 @@ footer { padding: 40px 0 60px; color: var(--muted); font-size: 15px; }
       </div>
       <div class="hero-video">
         <video src="assets/clips/r1c2.mp4" autoplay muted loop playsinline aria-label="Simulated Reachy Mini slumping, freezing, then perking up in a forced way"></video>
-        <div class="caption">“I'll just fix one tiny bug before bed… 4:37 AM… this is fine, almost done.”
-          <br>Hunched and bleary, a freeze at the clock, a sag, then a forced perky lean-in.</div>
+        <div class="meme"><span>MEME</span><img src="assets/test-meme.png" alt="Text meme: I'll just fix one tiny bug before bed. Clock 4:37 AM, 47 files changed, the original bug is still there. Also me: this is fine, almost done."></div>
+        <div class="caption"><b>Reachy's take: exhausted denial.</b> Hunched and bleary, a freeze at the clock, a sag,
+          then a forced perky lean-in.</div>
       </div>
     </div>
   </div>
