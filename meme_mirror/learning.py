@@ -1,7 +1,7 @@
 """Learning from Joe's feedback across memes (prompt-level only: no model training).
 
 Source of truth: the feedback stored on candidates in every runs/sessions/*/session.json.
-1. preference(c): one number per candidate from stars, played ("chosen") and saved.
+1. preference(c): one number per candidate from stars, the 'good fit' toggle, and saving (playing is not a vote).
 2. examples_text(): best and worst past expressions from OTHER memes, as few-shot guidance for the proposer.
    lessons(): general lessons distilled by an LLM from all notes (cached until feedback changes).
 3. source_stats() / suggested_mix(): which source (library / own / binh) Joe likes best, to shift the default mix.
@@ -25,15 +25,13 @@ def _sessions_dir():
 
 
 def preference(c):
-    """Stars if given (+0.5 if saved, capped at 5); otherwise saved -> 4.5, played -> 4; else None."""
+    """Stars if given (+0.5 if saved, capped at 5); otherwise saved or marked good fit -> 4.5; else None."""
     fb = c.get("feedback", {})
     saved = bool(c.get("saved_as"))
     if fb.get("rating"):
         return min(5.0, fb["rating"] + (0.5 if saved else 0))
-    if saved:
+    if saved or fb.get("picked"):
         return 4.5
-    if fb.get("chosen"):
-        return 4.0
     return None
 
 
@@ -60,7 +58,7 @@ def _motion(c):
 def _example_line(s, c, p):
     r = s["reading"]
     fb = c.get("feedback", {})
-    tags = [f"{p:g}/5"] + (["played on Reachy"] if fb.get("chosen") else []) + (["saved"] if c.get("saved_as") else [])
+    tags = [f"{p:g}/5"] + (["marked good fit"] if fb.get("picked") else []) + (["saved"] if c.get("saved_as") else [])
     return (f"- meme felt like: {r['core_emotion']} ({r['nuance'][:160]})\n"
             f"  expression: {c['label']} [{c['source']}; {', '.join(tags)}]\n"
             f"  Joe's note: {fb.get('comment') or '-'}\n"
@@ -133,7 +131,7 @@ def source_stats():
             mean=round(sum(ps) / len(ps), 2) if ps else None,
             shrunk=round((sum(ps) + PRIOR_MEAN * PRIOR_WEIGHT) / (len(ps) + PRIOR_WEIGHT), 2),
             match=round(sum(matches) / len(matches), 2) if matches else None,
-            played=sum(1 for _, c, _ in rows if c["source"] == src and c.get("feedback", {}).get("chosen")),
+            picked=sum(1 for _, c, _ in rows if c["source"] == src and c.get("feedback", {}).get("picked")),
             saved=sum(1 for _, c, _ in rows if c["source"] == src and c.get("saved_as")))
     return stats
 

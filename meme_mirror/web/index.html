@@ -55,7 +55,8 @@ textarea { min-height: 60px; resize: vertical; }
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
 .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
   display: flex; flex-direction: column; }
-.card.chosen { outline: 2px solid var(--good); }
+.card.picked { outline: 2px solid var(--good); }
+button.fit.on { background: var(--good); color: #fff; border-color: var(--good); }
 .card video { width: 100%; aspect-ratio: 1; object-fit: cover; background: #23324a; display: block; }
 .card .body { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 7px; flex: 1; }
 .card h4 { margin: 0; font-size: 15px; }
@@ -188,7 +189,7 @@ function learnedHtml() {
   if (!L.n_rated) return `<p class="small" style="margin:10px 0 0">Learning: nothing yet. Stars, notes, and the ones you
     play or save teach it your taste across memes.</p>`;
   const st = L.stats, srcs = ["library", "own", "binh"];
-  const cell = s => `<span class="badge ${s}">${s}</span> ${st[s].mean ?? "–"}★ <span class="small">(n=${st[s].n}${st[s].played ? `, played ${st[s].played}` : ""}${st[s].saved ? `, saved ${st[s].saved}` : ""}${st[s].match != null ? `, blind match ${Math.round(st[s].match*100)}%` : ""})</span>`;
+  const cell = s => `<span class="badge ${s}">${s}</span> ${st[s].mean ?? "–"}★ <span class="small">(n=${st[s].n}${st[s].picked ? `, good fit ${st[s].picked}` : ""}${st[s].saved ? `, saved ${st[s].saved}` : ""}${st[s].match != null ? `, blind match ${Math.round(st[s].match*100)}%` : ""})</span>`;
   return `<details style="margin-top:10px"><summary>What it has learned from ${L.n_rated} rated expressions
       (mix suggests ${srcs.map(s => `${L.suggested_mix[s]} ${s}`).join(", ")})</summary>
     <div class="row" style="gap:14px;margin:8px 0">${srcs.map(cell).join("")}</div>
@@ -223,7 +224,7 @@ function cardHtml(c) {
   const stars = [1,2,3,4,5].map(i => `<button data-act="rate" data-v="${i}" class="${(fb.rating||0) >= i ? "on" : ""}">★</button>`).join("");
   const what = c.spec ? JSON.stringify(c.spec) : c.recipe;
   const d = c.dials || {speed: 1, amplitude: 1};
-  return `<div class="card ${fb.chosen ? "chosen" : ""}" data-cid="${c.id}">
+  return `<div class="card ${fb.picked ? "picked" : ""}" data-cid="${c.id}">
     ${c.video ? `<video src="/files/${S.id}/${c.video}?v=${encodeURIComponent(JSON.stringify(d))}" muted loop autoplay playsinline></video>` : ""}
     <div class="body">
       <div class="row"><span class="badge ${c.source}">${c.source}</span><h4>${esc(c.label)}</h4></div>
@@ -240,7 +241,9 @@ function cardHtml(c) {
         <span>speed</span><input type="range" min="0.5" max="2" step="0.05" value="${d.speed}" data-dial="speed"><span>${d.speed}×</span>
         <span>size</span><input type="range" min="0.4" max="1.5" step="0.05" value="${d.amplitude}" data-dial="amplitude"><span>${d.amplitude}×</span>
       </div><button data-act="dials" style="margin-top:6px">Apply dials</button></details>
-      <div class="row stars">${stars}</div>
+      <div class="row"><div class="row stars">${stars}</div><span style="flex:1"></span>
+        <button data-act="fit" class="fit ${fb.picked ? "on" : ""}" title="Your pick: does this express the meme well? Click again to unmark.">${fb.picked ? "✓ Good fit" : "Good fit?"}</button></div>
+      ${fb.played ? `<div class="small">played on Reachy ${fb.played}×</div>` : ""}
       <textarea data-role="comment" placeholder="What works, what doesn't?">${esc(fb.comment || "")}</textarea>
       <div class="row" style="margin-top:auto">
         <button data-act="comment">Save note</button>
@@ -304,6 +307,11 @@ async function onCardClick(e) {
       update(await post(`${base}/feedback`, body));
       if (body.comment) toast("Rating and note saved");
     }
+    else if (act === "fit") {
+      const body = {picked: !(c.feedback || {}).picked};
+      if (draft.trim() && draft !== saved) body.comment = draft;
+      update(await post(`${base}/feedback`, body));
+    }
     else if (act === "comment") { update(await post(`${base}/feedback`, {comment: $("textarea", card).value})); toast("Note saved"); }
     else if (act === "more") {
       const note = $("textarea", card).value;
@@ -320,14 +328,14 @@ async function onCardClick(e) {
       btn.disabled = true; btn.textContent = "Playing…";
       await post(`${base}/play`, {sound: true});
       btn.disabled = false; btn.textContent = "▶ Play on Reachy";
-      update(await post(`${base}/feedback`, {chosen: true})); robotStatus();
+      update(await post(`${base}/feedback`, {played: true})); robotStatus();
     }
     else if (act === "save") {
       const name = prompt("Name this expression", c.label); if (!name) return;
       const meta = await post(`${base}/save`, {name}); c.saved_as = meta.slug; card.outerHTML = cardHtml(c);
       toast(`Saved to store/${meta.slug}.json`);
     }
-    if (["rate", "comment", "play", "save"].includes(act)) loadLearning();
+    if (["rate", "comment", "fit", "save"].includes(act)) loadLearning();
   } catch (err) { toast(err.message, 6000); btn.disabled = false; if (act === "play") btn.textContent = "▶ Play on Reachy"; }
 }
 

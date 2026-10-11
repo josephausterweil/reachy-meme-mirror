@@ -116,14 +116,16 @@ def new_round(sid: str, body: RoundRequest):
 class Feedback(BaseModel):
     rating: int | None = None
     comment: str | None = None
-    chosen: bool | None = None
+    picked: bool | None = None   # 'good fit' toggle
+    played: bool | None = None
 
 
 @app.post("/api/sessions/{sid}/candidates/{cid}/feedback")
 def candidate_feedback(sid: str, cid: str, body: Feedback):
     with _lock(sid):
         s = _session(sid)
-        P.feedback(s, cid, rating=body.rating, comment=body.comment, chosen=body.chosen)
+        P.feedback(s, cid, rating=body.rating, comment=body.comment, picked=body.picked,
+                   played=body.played)
         return s.candidate(cid)
 
 

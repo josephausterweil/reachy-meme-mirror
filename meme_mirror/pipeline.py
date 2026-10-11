@@ -223,11 +223,11 @@ def _history_text(session, mode, anchor):
     if not cands:
         return ""
     lines = ["# Already tried for THIS meme (do NOT repeat these; learn from ratings, comments, and which ones "
-             "Joe played or saved: those are his picks)"]
+             "Joe marked as a good fit or saved: those are his picks)"]
     for c in cands:
         fb = c.get("feedback", {})
         what = json.dumps(c["spec"]) if c.get("spec") else c.get("recipe")
-        picked = ("; Joe PLAYED it on Reachy" if fb.get("chosen") else "") + \
+        picked = ("; Joe marked it a GOOD FIT" if fb.get("picked") else "") + \
                  ("; Joe SAVED it" if c.get("saved_as") else "")
         lines.append(f"- [{c['id']}] {c['label']} ({c['source']}): {c['rationale']}\n  motion: {what}\n"
                      f"  rating: {fb.get('rating', 'unrated')}/5{picked}; comment: {fb.get('comment', '-')}; "
@@ -389,7 +389,8 @@ def run_round(session: Session, k=4, mix=None, mode="new", anchor=None, notes=""
     return new
 
 
-def feedback(session: Session, cid, rating=None, comment=None, chosen=None, saved_as=None):
+def feedback(session: Session, cid, rating=None, comment=None, picked=None, played=None, saved_as=None):
+    """picked: Joe's 'good fit' toggle (a preference). played: it was played on Reachy (not a preference)."""
     c = session.candidate(cid)
     fb = c.setdefault("feedback", {})
     if saved_as:
@@ -398,8 +399,10 @@ def feedback(session: Session, cid, rating=None, comment=None, chosen=None, save
         fb["rating"] = rating
     if comment:
         fb["comment"] = comment
-    if chosen is not None:
-        fb["chosen"] = chosen
+    if picked is not None:
+        fb["picked"] = picked
+    if played:
+        fb["played"] = fb.get("played", 0) + 1
     session.save()
     with open(SESSIONS.parent / "ratings.jsonl", "a") as fh:  # preference log across sessions
         fh.write(json.dumps(dict(session=session.data["id"], candidate=cid, source=c["source"],
