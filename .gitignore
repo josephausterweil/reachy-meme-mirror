@@ -10,3 +10,4 @@ store/
 config.local.toml
 export/
 secrets.local.toml
+!docs/assets/clips/*.mp4
