@@ -1,30 +1,28 @@
-# Which LLM does each job. provider: claude_code | anthropic_api | qwen_local
-# Extra keys go to the provider (claude_code: model, timeout, effort; anthropic_api: model, effort, max_tokens).
+# Defaults. Put your own overrides in config.local.toml (git-ignored), e.g.
+#   [user]
+#   name = "Sam"
+#   [llm.proposer]
+#   provider = "anthropic_api"
+#   model = "claude-opus-5-5"
 
-[llm.default]
-provider = "claude_code"
-model = "opus"
+[user]
+name = ""              # how prompts refer to you ("" = "the user")
 
-[llm.interpreter]      # reads the meme
-provider = "claude_code"
-model = "opus"
+[robot]
+host = "reachy-mini.local"
 
-[llm.proposer]         # writes candidate expressions
-provider = "claude_code"
-model = "opus"
+# Which LLM to use. Easiest: open the web UI and click "⚙ LLM". Or set it here / in config.local.toml.
+# Presets: claude-code (your local `claude` CLI login), anthropic, openai, gemini, openrouter, ollama, lmstudio,
+# custom (any OpenAI-compatible server). API keys go in env vars or secrets.local.toml (git-ignored), never here.
+[llm]
+preset = "claude-code"
+main_model = ""        # reads memes + writes expressions ("" = the preset's default)
+fast_model = ""        # blind judge, grader, lessons
+base_url = ""          # only for presets that talk to a server ("" = the preset's default)
 
-[llm.judge]            # blind: guesses the emotion from preview frames only
-provider = "claude_code"
-model = "sonnet"
-
-[llm.grader]           # text only: does the judge's blind reading match the intended emotion?
-provider = "claude_code"
-model = "sonnet"
-
-[llm.lessons]          # distills general lessons from all of Joe's ratings and notes
-provider = "claude_code"
-model = "sonnet"
-
-[llm.cataloger]        # describes library moves (bulk, one-off)
-provider = "claude_code"
-model = "sonnet"
+# Experts: override any single role with a full table, e.g. a local model just for proposing:
+# [llm.proposer]
+# provider = "openai_compatible"     # claude_code | anthropic_api | openai_compatible | command
+# base_url = "http://localhost:8000/v1"
+# model = "my-local-model"
+# Roles: interpreter, proposer, judge, grader, lessons, cataloger.

@@ -3,7 +3,7 @@
     python -m meme_mirror.catalog build      # download, features, strips (no LLM)
     python -m meme_mirror.catalog describe   # Claude describes each move (cached; resumable)
 
-Writes catalog.yaml (hand-editable: Joe's corrections go in `notes` / `exclude`, which rebuilds keep).
+Writes catalog.yaml (hand-editable: your corrections go in `notes` / `exclude`, which rebuilds keep).
 """
 
 import argparse
@@ -11,6 +11,7 @@ import glob
 import json
 import os
 from concurrent.futures import ThreadPoolExecutor
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
@@ -34,10 +35,19 @@ MAX_DURATION_S = 20.0
 
 # ---------- loading and features ----------
 
+@lru_cache(maxsize=None)
+def repo_root(repo):
+    """Local snapshot of a Hugging Face dataset (downloads it the first time)."""
+    try:
+        return Path(snapshot_download(repo, repo_type="dataset", local_files_only=True))
+    except Exception:
+        return Path(snapshot_download(repo, repo_type="dataset"))
+
+
 def move_files():
     """Yield (move_id, source, name, path) for every catalogued move."""
     for source, repo in SOURCES.items():
-        root = snapshot_download(repo, repo_type="dataset")
+        root = str(repo_root(repo))
         for path in sorted(glob.glob(f"{root}/**/*.json", recursive=True)):
             name = Path(path).stem
             if name.startswith(SKIP_PREFIXES):
@@ -77,7 +87,7 @@ def _dominant_freq(sig, dt):
 
 
 def features(ch):
-    """Summary numbers an LLM (and Joe) can reason with. Angles in deg, height in mm.
+    """Summary numbers an LLM (and you) can reason with. Angles in deg, height in mm.
     Antenna 'droop' > 0 means both antennas swung outward/down (right negative, left positive)."""
     t = ch["t"]
     dt = float(np.median(np.diff(t)))
@@ -125,7 +135,7 @@ def build(render=True):
                      strip=str(strip_path), recorded_description=ch["description"],
                      features=features(ch))
         prev = old.get(move_id, {})
-        for keep in ("description", "notes", "exclude"):  # LLM output and Joe's edits survive rebuilds
+        for keep in ("description", "notes", "exclude"):  # LLM output and hand edits survive rebuilds
             if keep in prev:
                 entry[keep] = prev[keep]
         cat[move_id] = entry
@@ -134,12 +144,43 @@ def build(render=True):
     print(f"{len(cat)} moves -> {CATALOG}")
 
 
+def _to_disk(e):
+    """Absolute paths -> portable ones: move files relative to their dataset snapshot, strips relative to ROOT."""
+    e = dict(e)
+    root = repo_root(e["repo"])
+    for k in ("file", "sound"):
+        if e.get(k) and Path(e[k]).is_absolute():
+            e[k] = str(Path(e[k]).relative_to(root))
+    if e.get("strip") and Path(e["strip"]).is_absolute():
+        e["strip"] = str(Path(e["strip"]).relative_to(ROOT))
+    return e
+
+
+def _from_disk(e):
+    e = dict(e)
+    root = repo_root(e["repo"])
+    for k in ("file", "sound"):
+        if e.get(k) and not Path(e[k]).is_absolute():
+            e[k] = str(root / e[k])
+    if e.get("strip") and not Path(e["strip"]).is_absolute():
+        e["strip"] = str(ROOT / e["strip"])
+    return e
+
+
 def save(cat):
+    cat = {m: _to_disk(e) for m, e in cat.items()}
     CATALOG.write_text(yaml.safe_dump(cat, sort_keys=False, allow_unicode=True, width=110))
 
 
+@lru_cache(maxsize=1)
+def _load_cached(mtime):
+    raw = yaml.safe_load(CATALOG.read_text())
+    return {m: _from_disk(e) for m, e in raw.items()}
+
+
 def load():
-    return yaml.safe_load(CATALOG.read_text())
+    """Catalog with paths resolved for this machine (cached until catalog.yaml changes)."""
+    return {m: dict(e) for m, e in _load_cached(CATALOG.stat().st_mtime).items()}
 
 
 # ---------- describe (LLM) ----------

@@ -19,7 +19,9 @@ from reachy_mini import ReachyMini
 from reachy_mini.motion.recorded_move import RecordedMove
 from reachy_mini.reachy_mini import INIT_ANTENNAS_JOINT_POSITIONS, INIT_HEAD_POSE
 
-DAEMON = "http://reachy-mini.local:8000"
+from .config import robot_host
+
+DAEMON = f"http://{robot_host()}:8000"
 IDLE_CLOSE_S = 60.0
 HOME_S = 0.8  # glide back to neutral after a move
 
@@ -53,7 +55,7 @@ def _connection():
             except Exception:
                 close()
         if _mini is None:
-            _mini = ReachyMini(connection_mode="network", media_backend="no_media", timeout=10)
+            _mini = ReachyMini(host=robot_host(), connection_mode="network", media_backend="no_media", timeout=10)
             _mini.__enter__()
             threading.Thread(target=_idle_closer, daemon=True).start()
         _last_used = time.time()

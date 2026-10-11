@@ -1,10 +1,10 @@
-"""Learning from Joe's feedback across memes (prompt-level only: no model training).
+"""Learning from the user's feedback across memes (prompt-level only: no model training).
 
 Source of truth: the feedback stored on candidates in every runs/sessions/*/session.json.
 1. preference(c): one number per candidate from stars, the 'good fit' toggle, and saving (playing is not a vote).
 2. examples_text(): best and worst past expressions from OTHER memes, as few-shot guidance for the proposer.
    lessons(): general lessons distilled by an LLM from all notes (cached until feedback changes).
-3. source_stats() / suggested_mix(): which source (library / own / binh) Joe likes best, to shift the default mix.
+3. source_stats() / suggested_mix(): which source (library / own / binh) the user likes best, to shift the default mix.
 """
 
 import hashlib
@@ -12,6 +12,7 @@ import json
 
 from pydantic import BaseModel, Field
 
+from .config import user_name
 from .llm import get_provider
 
 SOURCES = ("library", "own", "binh")
@@ -61,7 +62,7 @@ def _example_line(s, c, p):
     tags = [f"{p:g}/5"] + (["marked good fit"] if fb.get("picked") else []) + (["saved"] if c.get("saved_as") else [])
     return (f"- meme felt like: {r['core_emotion']} ({r['nuance'][:160]})\n"
             f"  expression: {c['label']} [{c['source']}; {', '.join(tags)}]\n"
-            f"  Joe's note: {fb.get('comment') or '-'}\n"
+            f"  {user_name()}'s note: {fb.get('comment') or '-'}\n"
             f"  motion: {_motion(c)}")
 
 
@@ -74,7 +75,7 @@ def examples_text(approach, current_session=None, n_good=4, n_bad=2):
                  key=lambda r: r[2])[:n_bad]
     if not good and not bad:
         return ""
-    parts = ["# What Joe liked and disliked on OTHER memes (learn his taste; do not copy verbatim)"]
+    parts = [f"# What {user_name()} liked and disliked on OTHER memes (learn their taste; do not copy verbatim)"]
     if good:
         parts += ["Liked:"] + [_example_line(*r) for r in good]
     if bad:
@@ -83,14 +84,14 @@ def examples_text(approach, current_session=None, n_good=4, n_bad=2):
 
 
 class Lessons(BaseModel):
-    lessons: list[str] = Field(max_length=10, description="short, general, actionable lessons about Joe's taste")
+    lessons: list[str] = Field(max_length=10, description="short, general, actionable lessons about the user's taste")
 
 
-LESSONS_PROMPT = """Joe rates expressive motions of Reachy Mini (a small robot: head with pitch/roll/yaw/height,
+LESSONS_PROMPT = """{name} rates expressive motions of Reachy Mini (a small robot: head with pitch/roll/yaw/height,
 two antenna 'ears', rotating body; no face) that are meant to convey the feeling of memes.
 Below is every rated expression with his stars and notes. Distill up to 10 GENERAL lessons about what
 works for him and what doesn't (cues, timing, intensity, which kinds of motion read as which feelings).
-Only state lessons the evidence supports; prefer his own words' meaning. Skip one-off details.
+Only state lessons the evidence supports; prefer their own words' meaning. Skip one-off details.
 
 {rows}"""
 
@@ -107,17 +108,17 @@ def lessons():
         d = json.loads(cache.read_text())
         if d.get("key") == key:
             return d["lessons"]
-    result = get_provider("lessons").complete(LESSONS_PROMPT.format(rows=body), Lessons)
+    result = get_provider("lessons").complete(LESSONS_PROMPT.format(name=user_name(), rows=body), Lessons)
     cache.write_text(json.dumps(dict(key=key, n=len(rows), lessons=result.lessons), indent=1))
     return result.lessons
 
 
 def lessons_text():
     ls = lessons()
-    return ("# Lessons from Joe's past ratings\n" + "\n".join(f"- {x}" for x in ls)) if ls else ""
+    return (f"# Lessons from {user_name()}'s past ratings\n" + "\n".join(f"- {x}" for x in ls)) if ls else ""
 
 
-# ---------- 3: which source does Joe prefer? ----------
+# ---------- 3: which source does the user prefer? ----------
 
 def source_stats():
     """Per source: n rated, raw mean preference, shrunk mean, mean blind match, n saved/played."""

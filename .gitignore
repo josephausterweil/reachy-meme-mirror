@@ -6,3 +6,7 @@ cache/
 *.gif
 third_party/
 memes/
+store/
+config.local.toml
+export/
+secrets.local.toml

@@ -19,6 +19,7 @@ from pydantic import BaseModel, Field, create_model, field_validator
 
 from . import catalog as catalog_mod
 from .compiler import apply_dials, compile_spec, move_to_tracks, to_move
+from .config import user_name
 from .llm import get_provider
 from .safety import check as safety_check
 from .spec import ExpressionSpec
@@ -229,12 +230,12 @@ def _history_text(session, mode, anchor):
     if not cands:
         return ""
     lines = ["# Already tried for THIS meme (do NOT repeat these; learn from ratings, comments, and which ones "
-             "Joe marked as a good fit or saved: those are his picks)"]
+             f"{user_name()} marked as a good fit or saved: those are their picks)"]
     for c in cands:
         fb = c.get("feedback", {})
         what = json.dumps(c["spec"]) if c.get("spec") else c.get("recipe")
-        picked = ("; Joe marked it a GOOD FIT" if fb.get("picked") else "") + \
-                 ("; Joe SAVED it" if c.get("saved_as") else "")
+        picked = (f"; {user_name()} marked it a GOOD FIT" if fb.get("picked") else "") + \
+                 (f"; {user_name()} SAVED it" if c.get("saved_as") else "")
         lines.append(f"- [{c['id']}] {c['label']} ({c['source']}): {c['rationale']}\n  motion: {what}\n"
                      f"  rating: {fb.get('rating', 'unrated')}/5{picked}; comment: {fb.get('comment', '-')}; "
                      f"blind match: {c.get('match', '?')}")
@@ -402,7 +403,7 @@ def run_round(session: Session, k=4, mix=None, mode="new", anchor=None, notes=""
 
 
 def feedback(session: Session, cid, rating=None, comment=None, picked=None, played=None, saved_as=None):
-    """picked: Joe's 'good fit' toggle (a preference). played: it was played on Reachy (not a preference)."""
+    """picked: the user's 'good fit' toggle (a preference). played: it was played on Reachy (not a preference)."""
     c = session.candidate(cid)
     fb = c.setdefault("feedback", {})
     if saved_as:

@@ -284,6 +284,98 @@ def learning_summary(lessons: bool = True):
                 lessons=learning.lessons() if lessons else None)
 
 
+# ---------- LLM settings ----------
+
+@app.get("/api/llm")
+def llm_settings():
+    from .config import secret, settings
+    from .llm.presets import PRESETS, ROLE_TIER
+
+    cfg = settings().get("llm", {})
+    presets = {}
+    for name, p in PRESETS.items():
+        env = p.get("api_key_env")
+        presets[name] = dict(label=p["label"], help=p["help"], needs_key=bool(env) and name != "custom",
+                             key_optional=name == "custom", has_key=bool(env and secret(env)),
+                             list_models=bool(p.get("list_models")), base_url=p.get("base_url"),
+                             main_model=p.get("main_model", ""), fast_model=p.get("fast_model", ""))
+    overrides = [r for r in ROLE_TIER if isinstance(cfg.get(r), dict) and cfg[r].get("provider")]
+    return dict(preset=cfg.get("preset") or "claude-code", main_model=cfg.get("main_model", ""),
+                fast_model=cfg.get("fast_model", ""), base_url=cfg.get("base_url", ""),
+                presets=presets, overrides=overrides)
+
+
+class LLMChoice(BaseModel):
+    preset: str
+    main_model: str = ""
+    fast_model: str = ""
+    base_url: str = ""
+    api_key: str | None = None   # only sent when the user typed one; stored in secrets.local.toml
+
+
+@app.post("/api/llm")
+def save_llm(body: LLMChoice):
+    from .config import set_secret, update_local
+    from .llm.presets import PRESETS
+
+    if body.preset not in PRESETS:
+        raise HTTPException(400, f"unknown preset {body.preset}")
+    env = PRESETS[body.preset].get("api_key_env")
+    if body.api_key is not None and env:
+        set_secret(env, body.api_key.strip())
+    update_local({"llm": dict(preset=body.preset, main_model=body.main_model.strip(),
+                              fast_model=body.fast_model.strip(), base_url=body.base_url.strip())})
+    return llm_settings()
+
+
+@app.get("/api/llm/models")
+def llm_models(preset: str, base_url: str = ""):
+    from .llm.openai_compat import OpenAICompatibleProvider
+    from .llm.presets import PRESETS
+
+    p = PRESETS.get(preset)
+    if not p or not p.get("list_models"):
+        return dict(models=[])
+    url = base_url or p.get("base_url")
+    if not url:
+        raise HTTPException(400, "enter the server address first")
+    try:
+        prov = OpenAICompatibleProvider(model="list", base_url=url, api_key_env=p.get("api_key_env"), cache=False)
+        return dict(models=prov.list_models())
+    except Exception as e:
+        raise HTTPException(502, f"could not list models at {url}: {e.__class__.__name__}: {str(e)[:200]}")
+
+
+class _ColorAnswer(BaseModel):
+    color: str
+
+
+@app.post("/api/llm/test")
+def llm_test():
+    """One tiny image question per model tier, to check the setup end to end."""
+    import time as _time
+
+    from PIL import Image
+
+    from .llm import LLMError, get_provider
+
+    img = Path(tempfile.gettempdir()) / "meme_mirror_llm_test.png"
+    Image.new("RGB", (64, 64), (220, 30, 30)).save(img)
+    results = {}
+    for tier, role in (("main", "interpreter"), ("fast", "judge")):
+        t0 = _time.time()
+        try:
+            prov = get_provider(role)
+            prov.cache = False
+            ans = prov.complete("What color is this square? One word.", _ColorAnswer, images=[img])
+            ok = "red" in ans.color.lower()
+            results[tier] = dict(ok=ok, model=prov.model, provider=prov.name, seconds=round(_time.time() - t0, 1),
+                                 detail=f"answered '{ans.color}'" + ("" if ok else " (expected red: can it see images?)"))
+        except (LLMError, Exception) as e:
+            results[tier] = dict(ok=False, detail=str(e)[:300], seconds=round(_time.time() - t0, 1))
+    return results
+
+
 @app.get("/api/gallery")
 def gallery():
     return [json.loads(p.read_text()) for p in sorted(STORE.glob("*.meta.json"))] if STORE.exists() else []

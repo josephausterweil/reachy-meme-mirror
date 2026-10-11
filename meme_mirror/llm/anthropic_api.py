@@ -1,6 +1,6 @@
 """Claude through the Anthropic API (`pip install anthropic`; credentials from ANTHROPIC_API_KEY or `ant auth login`).
 
-Not used yet (no key configured); select it in config.toml when wanted.
+Select it with the "anthropic" preset (⚙ LLM in the web UI) or [llm.<role>] provider = "anthropic_api".
 """
 
 import base64
@@ -12,11 +12,17 @@ from .base import CachedProvider, LLMError
 class AnthropicAPIProvider(CachedProvider):
     name = "anthropic_api"
 
-    def __init__(self, model="claude-opus-5-5", effort="medium", max_tokens=16000, cache=True):
+    def __init__(self, model="claude-opus-5-5", effort="medium", max_tokens=16000, api_key_env="ANTHROPIC_API_KEY",
+                 cache=True):
         super().__init__(model, cache)
-        import anthropic
+        try:
+            import anthropic
+        except ImportError:
+            raise LLMError("the Anthropic preset needs `pip install anthropic`")
+        from ..config import secret
 
-        self.client = anthropic.Anthropic()
+        key = secret(api_key_env)
+        self.client = anthropic.Anthropic(api_key=key) if key else anthropic.Anthropic()
         self.effort = effort
         self.max_tokens = max_tokens
 

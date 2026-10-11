@@ -71,6 +71,12 @@ button.fit.on { background: var(--good); color: #fff; border-color: var(--good);
 details summary { cursor: pointer; font-size: 13px; color: var(--muted); }
 .dials { display: grid; grid-template-columns: auto 1fr auto; gap: 4px 8px; align-items: center; font-size: 13px; }
 .warn { color: var(--warn); font-size: 13px; } .err { color: var(--bad); font-size: 13px; }
+dialog { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); color: var(--ink);
+  padding: 18px; width: min(560px, calc(100vw - 32px)); }
+dialog::backdrop { background: rgba(0,0,0,.45); }
+dialog select, dialog input[type=text], dialog input[type=password] { width: 100%; font: inherit; color: var(--ink);
+  background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; }
+.ok { color: var(--good); font-size: 13px; }
 #toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg);
   padding: 8px 14px; border-radius: 8px; font-size: 14px; display: none; z-index: 9; max-width: 90vw; }
 .busy { color: var(--muted); font-size: 14px; padding: 12px 0; }
@@ -83,7 +89,8 @@ code { font-size: 12px; word-break: break-word; }
   <h1>Meme Mirror</h1>
   <span class="small">meme → Reachy expression</span>
   <div id="robot"><span class="dot" id="rdot"></span><span id="rtext">checking Reachy…</span>
-    <button id="sleepBtn" title="Put Reachy to sleep">Sleep</button></div>
+    <button id="sleepBtn" title="Put Reachy to sleep">Sleep</button>
+    <button id="llmBtn" title="Choose which AI model to use">⚙ LLM</button></div>
 </header>
 <main>
   <aside>
@@ -101,6 +108,27 @@ code { font-size: 12px; word-break: break-word; }
   <section id="main"><div class="empty">Drop a meme to start.</div></section>
 </main>
 <div id="toast"></div>
+<dialog id="llmDlg">
+  <h2 style="margin-top:0">Which AI model?</h2>
+  <div class="field"><label>Provider</label><select id="llmPreset"></select></div>
+  <p class="small" id="llmHelp"></p>
+  <div class="field" id="llmKeyRow"><label id="llmKeyLabel">API key</label>
+    <input type="password" id="llmKey" autocomplete="off" placeholder="paste your key">
+    <div class="small">Stored only on this computer (secrets.local.toml), never in the repo.</div></div>
+  <div class="field" id="llmUrlRow"><label>Server address (…/v1)</label><input type="text" id="llmUrl"></div>
+  <div class="field"><label>Main model: reads the meme and writes expressions (must accept images)</label>
+    <input type="text" id="llmMain" list="llmModels"></div>
+  <div class="field"><label>Fast model: blind judge, grader, lessons (accept images; blank = main model)</label>
+    <input type="text" id="llmFast" list="llmModels"></div>
+  <datalist id="llmModels"></datalist>
+  <div class="small" id="llmModelsNote"></div>
+  <div class="small warn" id="llmOverrides"></div>
+  <div class="row" style="margin-top:12px">
+    <button id="llmLoad">List models</button><span style="flex:1"></span>
+    <button id="llmTest">Test</button><button class="primary" id="llmSave">Save</button><button id="llmClose">Close</button>
+  </div>
+  <div id="llmResult" class="small" style="margin-top:10px"></div>
+</dialog>
 
 <script>
 const $ = (s, el = document) => el.querySelector(s);
@@ -406,6 +434,65 @@ async function robotStatus() {
 }
 $("#sleepBtn").onclick = async () => { try { await post("/api/robot/sleep"); toast("Reachy is asleep"); robotStatus(); }
                                        catch (e) { toast(e.message); } };
+// ----- LLM settings -----
+let LLM = null;
+async function openLLM() {
+  LLM = await api("/api/llm");
+  $("#llmPreset").innerHTML = Object.entries(LLM.presets).map(([k, p]) =>
+    `<option value="${k}" ${k === LLM.preset ? "selected" : ""}>${esc(p.label)}</option>`).join("");
+  fillLLM(true);
+  $("#llmResult").textContent = "";
+  $("#llmOverrides").textContent = LLM.overrides.length ?
+    `Note: config.local.toml sets these roles directly, so they ignore this choice: ${LLM.overrides.join(", ")}` : "";
+  $("#llmDlg").showModal();
+}
+function fillLLM(initial) {
+  const k = $("#llmPreset").value, p = LLM.presets[k], same = initial && k === LLM.preset;
+  $("#llmHelp").textContent = p.help;
+  $("#llmKeyRow").style.display = (p.needs_key || p.key_optional) ? "" : "none";
+  $("#llmKey").value = "";
+  $("#llmKey").placeholder = p.has_key ? "key saved ✓ (type to replace)" : (p.key_optional ? "optional" : "paste your key");
+  $("#llmUrlRow").style.display = p.base_url !== null && p.base_url !== undefined ? "" : "none";
+  $("#llmUrl").value = same && LLM.base_url ? LLM.base_url : (p.base_url || "");
+  $("#llmMain").value = same && LLM.main_model ? LLM.main_model : p.main_model;
+  $("#llmFast").value = same && LLM.fast_model ? LLM.fast_model : p.fast_model;
+  $("#llmLoad").style.display = p.list_models ? "" : "none";
+  $("#llmModels").innerHTML = ""; $("#llmModelsNote").textContent = "";
+  if (p.list_models && (!p.needs_key || p.has_key)) loadModels();
+}
+function llmBody() {
+  const body = {preset: $("#llmPreset").value, main_model: $("#llmMain").value, fast_model: $("#llmFast").value,
+                base_url: $("#llmUrl").value};
+  if ($("#llmKey").value.trim()) body.api_key = $("#llmKey").value.trim();
+  return body;
+}
+async function loadModels() {
+  const k = $("#llmPreset").value;
+  if ($("#llmKey").value.trim()) { LLM = await post("/api/llm", llmBody()); }  // key needed to list
+  $("#llmModelsNote").textContent = "Loading models…";
+  try {
+    const r = await api(`/api/llm/models?preset=${k}&base_url=${encodeURIComponent($("#llmUrl").value)}`);
+    $("#llmModels").innerHTML = r.models.map(m => `<option value="${esc(m)}">`).join("");
+    $("#llmModelsNote").textContent = r.models.length ? `${r.models.length} models available: click a model box to pick one.`
+                                                       : "The server listed no models.";
+  } catch (e) { $("#llmModelsNote").textContent = e.message; }
+}
+$("#llmBtn").onclick = openLLM;
+$("#llmClose").onclick = () => $("#llmDlg").close();
+$("#llmPreset").onchange = () => fillLLM(false);
+$("#llmLoad").onclick = loadModels;
+$("#llmSave").onclick = async () => {
+  try { LLM = await post("/api/llm", llmBody()); $("#llmKey").value = ""; fillLLM(true); toast("LLM settings saved"); }
+  catch (e) { toast(e.message, 6000); } };
+$("#llmTest").onclick = async () => {
+  try {
+    LLM = await post("/api/llm", llmBody()); $("#llmKey").value = "";
+    $("#llmResult").textContent = "Testing (asks each model about a small red square)…";
+    const r = await post("/api/llm/test");
+    $("#llmResult").innerHTML = ["main", "fast"].map(t => `<div class="${r[t].ok ? "ok" : "err"}">${r[t].ok ? "✓" : "✗"}
+      ${t} model${r[t].model ? ` (${esc(r[t].model)})` : ""}: ${esc(r[t].detail)} · ${r[t].seconds}s</div>`).join("");
+  } catch (e) { $("#llmResult").innerHTML = `<div class="err">${esc(e.message)}</div>`; } };
+
 robotStatus(); setInterval(robotStatus, 15000);
 loadSessions().then(() => { const first = $("#sessions li"); if (first) openSession(first.dataset.id); loadLearning(); });
 </script>

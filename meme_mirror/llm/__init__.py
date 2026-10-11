@@ -1,29 +1,35 @@
-"""Swappable LLM backends, chosen per role in config.toml.
+"""Swappable LLM backends. Most people pick a preset (presets.py, or ⚙ LLM in the web UI).
 
-    [llm.interpreter]          # role name
-    provider = "claude_code"   # claude_code | anthropic_api | qwen_local
-    model = "opus"
-    # any other keys are passed to the provider's constructor (timeout, effort, ...)
+Providers: claude_code (local `claude` CLI login), anthropic_api, openai_compatible (OpenAI, Gemini, OpenRouter,
+Ollama, LM Studio, vLLM, llama.cpp, ...), command (any program: JSON in on stdin, JSON out on stdout).
+Experts can set any role directly in config.local.toml:
+
+    [llm.proposer]
+    provider = "openai_compatible"
+    base_url = "http://my-gpu-box:8000/v1"
+    model = "my-finetune"
+    # other keys go to the provider (timeout, max_tokens, temperature, structured, headers, ...)
 """
 
-import tomllib
-from pathlib import Path
-
+from ..config import settings
 from .base import LLMError, Provider  # noqa: F401
-
-CONFIG = Path(__file__).resolve().parents[2] / "config.toml"
+from .presets import PRESETS, role_config  # noqa: F401
 
 
 def _providers():
     from .anthropic_api import AnthropicAPIProvider
     from .claude_code import ClaudeCodeProvider
-    from .qwen_local import QwenLocalProvider
+    from .command import CommandProvider
+    from .openai_compat import OpenAICompatibleProvider
 
-    return {p.name: p for p in (ClaudeCodeProvider, AnthropicAPIProvider, QwenLocalProvider)}
+    return {p.name: p for p in (ClaudeCodeProvider, AnthropicAPIProvider, OpenAICompatibleProvider, CommandProvider)}
 
 
-def get_provider(role: str, config_path: Path = CONFIG) -> Provider:
-    cfg = tomllib.loads(config_path.read_text()).get("llm", {})
-    opts = dict(cfg.get(role) or cfg.get("default") or {"provider": "claude_code"})
+def get_provider(role: str) -> Provider:
+    """Provider for a role: an explicit [llm.<role>] table, else the chosen preset (see presets.py)."""
+    try:
+        opts = role_config(role, settings().get("llm", {}))
+    except (KeyError, ValueError) as e:
+        raise LLMError(str(e))
     name = opts.pop("provider")
     return _providers()[name](**opts)

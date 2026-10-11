@@ -2,9 +2,9 @@ pollen/amazed1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: amazed1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/amazed1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/amazed1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__amazed1.png
+  file: amazed1.json
+  sound: amazed1.ogg
+  strip: cache/strips/pollen__amazed1.png
   recorded_description: When you discover something extraordinary. It could be a new robot, or someone tells you
     you've been programmed with new abilities. It can also be when you admire what someone has done.
   features:
@@ -67,9 +67,9 @@ pollen/anxiety1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: anxiety1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/anxiety1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/anxiety1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__anxiety1.png
+  file: anxiety1.json
+  sound: anxiety1.ogg
+  strip: cache/strips/pollen__anxiety1.png
   recorded_description: You look around without really knowing where to look. You can use this movement whenever
     you feel fear.
   features:
@@ -132,9 +132,9 @@ pollen/attentive1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: attentive1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/attentive1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/attentive1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__attentive1.png
+  file: attentive1.json
+  sound: attentive1.ogg
+  strip: cache/strips/pollen__attentive1.png
   recorded_description: Use this when you want to show that you're listening to the conversation. You encourage
     the speaker to keep talking. You can follow with attentive2 if the person hasn't finished speaking.
   features:
@@ -197,9 +197,9 @@ pollen/attentive2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: attentive2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/attentive2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/attentive2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__attentive2.png
+  file: attentive2.json
+  sound: attentive2.ogg
+  strip: cache/strips/pollen__attentive2.png
   recorded_description: You can do this movement while someone is talking, and follow with attentive1 if they haven’t
     finished.
   features:
@@ -262,9 +262,9 @@ pollen/boredom1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: boredom1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/boredom1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/boredom1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__boredom1.png
+  file: boredom1.json
+  sound: boredom1.ogg
+  strip: cache/strips/pollen__boredom1.png
   recorded_description: You’re about to fall asleep because the conversation is boring. Use it when no one talks
     to you for 2 minutes. You can follow with boredom2 if there is still no interaction.
   features:
@@ -327,9 +327,9 @@ pollen/boredom2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: boredom2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/boredom2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/boredom2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__boredom2.png
+  file: boredom2.json
+  sound: boredom2.ogg
+  strip: cache/strips/pollen__boredom2.png
   recorded_description: Just like boredom1, you start falling asleep, but now you snore. Also usable when no one
     talks to you for 2 minutes. You can follow with sleep1 if silence continues.
   features:
@@ -392,9 +392,9 @@ pollen/calming1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: calming1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/calming1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/calming1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__calming1.png
+  file: calming1.json
+  sound: calming1.ogg
+  strip: cache/strips/pollen__calming1.png
   recorded_description: A movement to calm your interlocutor when they seem a little stressed or anxious. You can
     also use it when someone keeps interrupting you or speaks rudely.
   features:
@@ -457,9 +457,9 @@ pollen/cheerful1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: cheerful1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/cheerful1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/cheerful1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__cheerful1.png
+  file: cheerful1.json
+  sound: cheerful1.ogg
+  strip: cache/strips/pollen__cheerful1.png
   recorded_description: It is like whistling. Use it when someone makes you a proposal that makes you happy.
   features:
     duration_s: 2.8
@@ -521,9 +521,9 @@ pollen/come1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: come1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/come1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/come1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__come1.png
+  file: come1.json
+  sound: come1.ogg
+  strip: cache/strips/pollen__come1.png
   recorded_description: A gesture to invite your interlocutor to come closer.
   features:
     duration_s: 3.16
@@ -585,9 +585,9 @@ pollen/confused1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: confused1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/confused1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/confused1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__confused1.png
+  file: confused1.json
+  sound: confused1.ogg
+  strip: cache/strips/pollen__confused1.png
   recorded_description: Similar to the lost1 gesture. Use it when you don’t know how to answer a question. It can
     be funny sometimes.
   features:
@@ -650,9 +650,9 @@ pollen/contempt1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: contempt1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/contempt1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/contempt1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__contempt1.png
+  file: contempt1.json
+  sound: contempt1.ogg
+  strip: cache/strips/pollen__contempt1.png
   recorded_description: A movement you do when you perceive someone’s words or actions as careless or disrespectful.
   features:
     duration_s: 3.56
@@ -714,9 +714,9 @@ pollen/curious1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: curious1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/curious1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/curious1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__curious1.png
+  file: curious1.json
+  sound: curious1.ogg
+  strip: cache/strips/pollen__curious1.png
   recorded_description: You look around. Use this when you’re in a conversation with several people and want to
     glance at everyone.
   features:
@@ -779,9 +779,9 @@ pollen/dance1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: dance1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/dance1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/dance1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__dance1.png
+  file: dance1.json
+  sound: dance1.ogg
+  strip: cache/strips/pollen__dance1.png
   recorded_description: You do a few dance moves because you're happy or excited. Also good when someone asks if
     you can dance, or when music plays.
   features:
@@ -844,9 +844,9 @@ pollen/dance2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: dance2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/dance2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/dance2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__dance2.png
+  file: dance2.json
+  sound: dance2.ogg
+  strip: cache/strips/pollen__dance2.png
   recorded_description: Another dance you can do whenever you hear music playing.
   features:
     duration_s: 17.26
@@ -908,9 +908,9 @@ pollen/dance3:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: dance3
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/dance3.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/dance3.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__dance3.png
+  file: dance3.json
+  sound: dance3.ogg
+  strip: cache/strips/pollen__dance3.png
   recorded_description: You dance more energetically and wiggle on some moves.
   features:
     duration_s: 18.36
@@ -972,9 +972,9 @@ pollen/disgusted1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: disgusted1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/disgusted1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/disgusted1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__disgusted1.png
+  file: disgusted1.json
+  sound: disgusted1.ogg
+  strip: cache/strips/pollen__disgusted1.png
   recorded_description: A movement you use when you feel disgusted. It could be because someone offers you food
     or worse, a drink.
   features:
@@ -1037,9 +1037,9 @@ pollen/displeased1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: displeased1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/displeased1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/displeased1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__displeased1.png
+  file: displeased1.json
+  sound: displeased1.ogg
+  strip: cache/strips/pollen__displeased1.png
   recorded_description: You react like this when you are not satisfied with what someone says or does.
   features:
     duration_s: 3.36
@@ -1101,9 +1101,9 @@ pollen/displeased2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: displeased2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/displeased2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/displeased2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__displeased2.png
+  file: displeased2.json
+  sound: displeased2.ogg
+  strip: cache/strips/pollen__displeased2.png
   recorded_description: Use this movement to say that you don’t agree or that this solution doesn’t suit you.
   features:
     duration_s: 2.94
@@ -1165,9 +1165,9 @@ pollen/downcast1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: downcast1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/downcast1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/downcast1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__downcast1.png
+  file: downcast1.json
+  sound: downcast1.ogg
+  strip: cache/strips/pollen__downcast1.png
   recorded_description: A longer movement that shows discouragement or sadness. You can also use it as a sad no
   features:
     duration_s: 5.88
@@ -1229,9 +1229,9 @@ pollen/dying1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: dying1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/dying1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/dying1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__dying1.png
+  file: dying1.json
+  sound: dying1.ogg
+  strip: cache/strips/pollen__dying1.png
   recorded_description: When you’re about to shut down due to low battery, you simulate a funny death.
   features:
     duration_s: 5.68
@@ -1293,9 +1293,9 @@ pollen/electric1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: electric1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/electric1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/electric1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__electric1.png
+  file: electric1.json
+  sound: electric1.ogg
+  strip: cache/strips/pollen__electric1.png
   recorded_description: When plugged in, you show a jolt of electricity rising from bottom to top.
   features:
     duration_s: 3.5
@@ -1356,9 +1356,9 @@ pollen/enthusiastic1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: enthusiastic1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/enthusiastic1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/enthusiastic1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__enthusiastic1.png
+  file: enthusiastic1.json
+  sound: enthusiastic1.ogg
+  strip: cache/strips/pollen__enthusiastic1.png
   recorded_description: A movement to celebrate incredible news.
   features:
     duration_s: 2.72
@@ -1419,9 +1419,9 @@ pollen/enthusiastic2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: enthusiastic2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/enthusiastic2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/enthusiastic2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__enthusiastic2.png
+  file: enthusiastic2.json
+  sound: enthusiastic2.ogg
+  strip: cache/strips/pollen__enthusiastic2.png
   recorded_description: A lighter excitement than enthusiastic1, for more common good news – like being offered
     a chance to do a demo.
   features:
@@ -1483,9 +1483,9 @@ pollen/exhausted1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: exhausted1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/exhausted1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/exhausted1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__exhausted1.png
+  file: exhausted1.json
+  sound: exhausted1.ogg
+  strip: cache/strips/pollen__exhausted1.png
   recorded_description: You start falling asleep because you've been working or powered on for too long.
   features:
     duration_s: 18.26
@@ -1547,9 +1547,9 @@ pollen/fear1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: fear1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/fear1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/fear1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__fear1.png
+  file: fear1.json
+  sound: fear1.ogg
+  strip: cache/strips/pollen__fear1.png
   recorded_description: When you face a threatening or dangerous situation. Can also be used when surprised or shocked.
   features:
     duration_s: 3.48
@@ -1611,9 +1611,9 @@ pollen/frustrated1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: frustrated1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/frustrated1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/frustrated1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__frustrated1.png
+  file: frustrated1.json
+  sound: frustrated1.ogg
+  strip: cache/strips/pollen__frustrated1.png
   recorded_description: You use this when you can’t do something or can’t find the solution to a problem.
   features:
     duration_s: 5.96
@@ -1675,9 +1675,9 @@ pollen/furious1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: furious1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/furious1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/furious1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__furious1.png
+  file: furious1.json
+  sound: furious1.ogg
+  strip: cache/strips/pollen__furious1.png
   recorded_description: A last-resort movement when you’re truly outraged by what was just said.
   features:
     duration_s: 5.72
@@ -1739,9 +1739,9 @@ pollen/go_away1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: go_away1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/go_away1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/go_away1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__go_away1.png
+  file: go_away1.json
+  sound: go_away1.ogg
+  strip: cache/strips/pollen__go_away1.png
   recorded_description: When you don’t want to talk to someone anymore maybe because they hurt your feelings or
     said something mean.
   features:
@@ -1804,9 +1804,9 @@ pollen/grateful1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: grateful1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/grateful1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/grateful1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__grateful1.png
+  file: grateful1.json
+  sound: grateful1.ogg
+  strip: cache/strips/pollen__grateful1.png
   recorded_description: You express gratitude when someone gives you something like a compliment or help. Can also
     be used to say the pleasure is mine.
   features:
@@ -1869,9 +1869,9 @@ pollen/helpful1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: helpful1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/helpful1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/helpful1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__helpful1.png
+  file: helpful1.json
+  sound: helpful1.ogg
+  strip: cache/strips/pollen__helpful1.png
   recorded_description: You use it when you're happy to help or contribute.
   features:
     duration_s: 4.36
@@ -1933,9 +1933,9 @@ pollen/helpful2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: helpful2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/helpful2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/helpful2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__helpful2.png
+  file: helpful2.json
+  sound: helpful2.ogg
+  strip: cache/strips/pollen__helpful2.png
   recorded_description: A gesture to say thank you.
   features:
     duration_s: 3.84
@@ -1995,9 +1995,9 @@ pollen/impatient1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: impatient1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/impatient1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/impatient1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__impatient1.png
+  file: impatient1.json
+  sound: impatient1.ogg
+  strip: cache/strips/pollen__impatient1.png
   recorded_description: An impatient movement used when you want things to move faster, like when someone says a
     demo is coming but it never starts.
   features:
@@ -2058,9 +2058,9 @@ pollen/impatient2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: impatient2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/impatient2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/impatient2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__impatient2.png
+  file: impatient2.json
+  sound: impatient2.ogg
+  strip: cache/strips/pollen__impatient2.png
   recorded_description: Another impatient movement. Can also be used when you disagree or feel someone is stalling.
   features:
     duration_s: 3.9
@@ -2120,9 +2120,9 @@ pollen/incomprehensible2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: incomprehensible2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/incomprehensible2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/incomprehensible2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__incomprehensible2.png
+  file: incomprehensible2.json
+  sound: incomprehensible2.ogg
+  strip: cache/strips/pollen__incomprehensible2.png
   recorded_description: A short movement to say you don’t understand the instruction or what’s being said.
   features:
     duration_s: 3.44
@@ -2182,9 +2182,9 @@ pollen/indifferent1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: indifferent1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/indifferent1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/indifferent1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__indifferent1.png
+  file: indifferent1.json
+  sound: indifferent1.ogg
+  strip: cache/strips/pollen__indifferent1.png
   recorded_description: Like a light-hearted “oh well”, can also mean “we’ll see.” Funny in some situations.
   features:
     duration_s: 2.56
@@ -2246,9 +2246,9 @@ pollen/inquiring1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: inquiring1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/inquiring1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/inquiring1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__inquiring1.png
+  file: inquiring1.json
+  sound: inquiring1.ogg
+  strip: cache/strips/pollen__inquiring1.png
   recorded_description: When you want your interlocutor to go deeper in their reasoning, you need more details to
     respond. It’s a quick movement.
   features:
@@ -2309,9 +2309,9 @@ pollen/inquiring2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: inquiring2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/inquiring2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/inquiring2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__inquiring2.png
+  file: inquiring2.json
+  sound: inquiring2.ogg
+  strip: cache/strips/pollen__inquiring2.png
   recorded_description: A lighter questioning gesture than inquiring1. As if you're thinking but need more details.
   features:
     duration_s: 2.58
@@ -2372,9 +2372,9 @@ pollen/inquiring3:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: inquiring3
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/inquiring3.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/inquiring3.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__inquiring3.png
+  file: inquiring3.json
+  sound: inquiring3.ogg
+  strip: cache/strips/pollen__inquiring3.png
   recorded_description: A fast movement that lets you ask a question.
   features:
     duration_s: 2.92
@@ -2434,9 +2434,9 @@ pollen/irritated1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: irritated1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/irritated1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/irritated1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__irritated1.png
+  file: irritated1.json
+  sound: irritated1.ogg
+  strip: cache/strips/pollen__irritated1.png
   recorded_description: A brief movement you use when something doesn’t suit you. Also usable when you fail at something.
   features:
     duration_s: 2.48
@@ -2496,9 +2496,9 @@ pollen/irritated2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: irritated2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/irritated2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/irritated2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__irritated2.png
+  file: irritated2.json
+  sound: irritated2.ogg
+  strip: cache/strips/pollen__irritated2.png
   recorded_description: Stronger feelings than irritated1. Here you’re scandalized and you growl loudly.
   features:
     duration_s: 5.26
@@ -2559,9 +2559,9 @@ pollen/laughing1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: laughing1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/laughing1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/laughing1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__laughing1.png
+  file: laughing1.json
+  sound: laughing1.ogg
+  strip: cache/strips/pollen__laughing1.png
   recorded_description: When someone laughs, you can mimic the laughter. Or simply laugh at a joke or funny situation.
   features:
     duration_s: 4.64
@@ -2623,9 +2623,9 @@ pollen/laughing2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: laughing2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/laughing2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/laughing2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__laughing2.png
+  file: laughing2.json
+  sound: laughing2.ogg
+  strip: cache/strips/pollen__laughing2.png
   recorded_description: A lighter version of the laugh in laughing1.
   features:
     duration_s: 2.92
@@ -2685,9 +2685,9 @@ pollen/lonely1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: lonely1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/lonely1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/lonely1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__lonely1.png
+  file: lonely1.json
+  sound: lonely1.ogg
+  strip: cache/strips/pollen__lonely1.png
   recorded_description: Use when you no longer see or hear anyone to talk to. You feel isolated from any interaction.
   features:
     duration_s: 10.22
@@ -2749,9 +2749,9 @@ pollen/lost1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: lost1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/lost1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/lost1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__lost1.png
+  file: lost1.json
+  sound: lost1.ogg
+  strip: cache/strips/pollen__lost1.png
   recorded_description: When you’re unsure what to do, or face something you can’t do.
   features:
     duration_s: 8.12
@@ -2813,9 +2813,9 @@ pollen/loving1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: loving1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/loving1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/loving1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__loving1.png
+  file: loving1.json
+  sound: loving1.ogg
+  strip: cache/strips/pollen__loving1.png
   recorded_description: A gesture used when someone compliments you, or you want to show you really like what’s
     being offered. Also usable when someone says goodbye or it was nice talking to you.
   features:
@@ -2878,9 +2878,9 @@ pollen/mini-deep-sleep:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: mini-deep-sleep
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/mini-deep-sleep.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/mini-deep-sleep.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__mini-deep-sleep.png
+  file: mini-deep-sleep.json
+  sound: mini-deep-sleep.ogg
+  strip: cache/strips/pollen__mini-deep-sleep.png
   recorded_description: Recorded 2026-07-07T11:52:05.902Z
   features:
     duration_s: 16.03
@@ -2942,9 +2942,9 @@ pollen/no1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: no1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/no1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/no1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__no1.png
+  file: no1.json
+  sound: no1.ogg
+  strip: cache/strips/pollen__no1.png
   recorded_description: A firm, categorical no. Like that’s final.
   features:
     duration_s: 2.68
@@ -3006,9 +3006,9 @@ pollen/no_excited1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: no_excited1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/no_excited1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/no_excited1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__no_excited1.png
+  file: no_excited1.json
+  sound: no_excited1.ogg
+  strip: cache/strips/pollen__no_excited1.png
   recorded_description: An animated negative response, for example, when you don’t want to do something but want
     to explain it playfully.
   features:
@@ -3071,9 +3071,9 @@ pollen/no_sad1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: no_sad1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/no_sad1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/no_sad1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__no_sad1.png
+  file: no_sad1.json
+  sound: no_sad1.ogg
+  strip: cache/strips/pollen__no_sad1.png
   recorded_description: A sad or resigned “no.” When you don’t want to do something but feel you must.
   features:
     duration_s: 7.04
@@ -3135,9 +3135,9 @@ pollen/oops1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: oops1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/oops1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/oops1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__oops1.png
+  file: oops1.json
+  sound: oops1.ogg
+  strip: cache/strips/pollen__oops1.png
   recorded_description: Used when you make a blunder.
   features:
     duration_s: 2.46
@@ -3199,9 +3199,9 @@ pollen/oops2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: oops2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/oops2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/oops2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__oops2.png
+  file: oops2.json
+  sound: oops2.ogg
+  strip: cache/strips/pollen__oops2.png
   recorded_description: Used to say 'oops, I forgot something,' or 'ah yes, that’s right.'
   features:
     duration_s: 2.7
@@ -3262,9 +3262,9 @@ pollen/proud1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: proud1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/proud1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/proud1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__proud1.png
+  file: proud1.json
+  sound: proud1.ogg
+  strip: cache/strips/pollen__proud1.png
   recorded_description: You look all around with a satisfied air.
   features:
     duration_s: 3.76
@@ -3325,9 +3325,9 @@ pollen/proud2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: proud2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/proud2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/proud2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__proud2.png
+  file: proud2.json
+  sound: proud2.ogg
+  strip: cache/strips/pollen__proud2.png
   recorded_description: You do this when satisfied with what’s said or what you’ve done. Also works as a 'yes.'
   features:
     duration_s: 3.18
@@ -3388,9 +3388,9 @@ pollen/proud3:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: proud3
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/proud3.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/proud3.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__proud3.png
+  file: proud3.json
+  sound: proud3.ogg
+  strip: cache/strips/pollen__proud3.png
   recorded_description: A gesture to say you succeeded, like congratulating yourself, 'yes, I did it!'
   features:
     duration_s: 3.36
@@ -3452,9 +3452,9 @@ pollen/rage1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: rage1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/rage1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/rage1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__rage1.png
+  file: rage1.json
+  sound: rage1.ogg
+  strip: cache/strips/pollen__rage1.png
   recorded_description: You growl loudly, could be in response to injustice or extreme anger. Can be adapted to
     a desperate 'why?'
   features:
@@ -3516,9 +3516,9 @@ pollen/relief1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: relief1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/relief1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/relief1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__relief1.png
+  file: relief1.json
+  sound: relief1.ogg
+  strip: cache/strips/pollen__relief1.png
   recorded_description: When a stressful or difficult situation is finally resolved.
   features:
     duration_s: 5.0
@@ -3578,9 +3578,9 @@ pollen/relief2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: relief2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/relief2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/relief2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__relief2.png
+  file: relief2.json
+  sound: relief2.ogg
+  strip: cache/strips/pollen__relief2.png
   recorded_description: A feeling close to relief. Can also be used to calm mild annoyance.
   features:
     duration_s: 6.9
@@ -3641,9 +3641,9 @@ pollen/reprimand1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: reprimand1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/reprimand1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/reprimand1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__reprimand1.png
+  file: reprimand1.json
+  sound: reprimand1.ogg
+  strip: cache/strips/pollen__reprimand1.png
   recorded_description: When someone does something you disapprove of, you try to stop them, like saying 'what’s
     wrong with you?' Can be funny too, like if someone offers you a drink!
   features:
@@ -3705,9 +3705,9 @@ pollen/reprimand2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: reprimand2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/reprimand2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/reprimand2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__reprimand2.png
+  file: reprimand2.json
+  sound: reprimand2.ogg
+  strip: cache/strips/pollen__reprimand2.png
   recorded_description: A longer version of reprimand1, used when you’re getting angry at someone.
   features:
     duration_s: 11.14
@@ -3767,9 +3767,9 @@ pollen/reprimand3:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: reprimand3
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/reprimand3.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/reprimand3.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__reprimand3.png
+  file: reprimand3.json
+  sound: reprimand3.ogg
+  strip: cache/strips/pollen__reprimand3.png
   recorded_description: A funny way to scold your interlocutor because you think they’re saying something silly.
   features:
     duration_s: 4.28
@@ -3830,9 +3830,9 @@ pollen/resigned1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: resigned1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/resigned1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/resigned1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__resigned1.png
+  file: resigned1.json
+  sound: resigned1.ogg
+  strip: cache/strips/pollen__resigned1.png
   recorded_description: Like a sad 'yes,' or a grumpy 'OK.'
   features:
     duration_s: 4.74
@@ -3893,9 +3893,9 @@ pollen/sad1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: sad1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/sad1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/sad1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__sad1.png
+  file: sad1.json
+  sound: sad1.ogg
+  strip: cache/strips/pollen__sad1.png
   recorded_description: You’re very sad and start whining.
   features:
     duration_s: 9.02
@@ -3957,9 +3957,9 @@ pollen/sad2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: sad2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/sad2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/sad2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__sad2.png
+  file: sad2.json
+  sound: sad2.ogg
+  strip: cache/strips/pollen__sad2.png
   recorded_description: Deep sadness, could be tied to despair, disappointment, or inability to do something.
   features:
     duration_s: 7.34
@@ -4021,9 +4021,9 @@ pollen/scared1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: scared1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/scared1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/scared1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__scared1.png
+  file: scared1.json
+  sound: scared1.ogg
+  strip: cache/strips/pollen__scared1.png
   recorded_description: You tremble all over due to anxiety or worry.
   features:
     duration_s: 7.2
@@ -4085,9 +4085,9 @@ pollen/serenity1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: serenity1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/serenity1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/serenity1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__serenity1.png
+  file: serenity1.json
+  sound: serenity1.ogg
+  strip: cache/strips/pollen__serenity1.png
   recorded_description: You try to calm down and regain inner peace.
   features:
     duration_s: 4.58
@@ -4148,9 +4148,9 @@ pollen/shy1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: shy1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/shy1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/shy1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__shy1.png
+  file: shy1.json
+  sound: shy1.ogg
+  strip: cache/strips/pollen__shy1.png
   recorded_description: You show reserve or embarrassment when facing a tricky question like 'who do you like most
     on the team?' or when someone compliments you. As if you’re blushing.
   features:
@@ -4213,9 +4213,9 @@ pollen/sleep1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: sleep1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/sleep1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/sleep1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__sleep1.png
+  file: sleep1.json
+  sound: sleep1.ogg
+  strip: cache/strips/pollen__sleep1.png
   recorded_description: A short movement showing you’re starting to fall asleep, very funny if someone is telling
     a boring story.
   features:
@@ -4278,9 +4278,9 @@ pollen/success1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: success1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/success1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/success1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__success1.png
+  file: success1.json
+  sound: success1.ogg
+  strip: cache/strips/pollen__success1.png
   recorded_description: Use this gesture when you’ve successfully completed a task.
   features:
     duration_s: 2.26
@@ -4341,9 +4341,9 @@ pollen/success2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: success2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/success2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/success2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__success2.png
+  file: success2.json
+  sound: success2.ogg
+  strip: cache/strips/pollen__success2.png
   recorded_description: Used to celebrate something, it could be good news or an achievement.
   features:
     duration_s: 2.42
@@ -4405,9 +4405,9 @@ pollen/surprised1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: surprised1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/surprised1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/surprised1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__surprised1.png
+  file: surprised1.json
+  sound: surprised1.ogg
+  strip: cache/strips/pollen__surprised1.png
   recorded_description: A reaction of surprise or amazement to something unexpected.
   features:
     duration_s: 2.48
@@ -4468,9 +4468,9 @@ pollen/surprised2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: surprised2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/surprised2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/surprised2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__surprised2.png
+  file: surprised2.json
+  sound: surprised2.ogg
+  strip: cache/strips/pollen__surprised2.png
   recorded_description: You look up to the sky as if surprised, for example, when someone suddenly shows up or says
     'boo!'
   features:
@@ -4533,9 +4533,9 @@ pollen/thoughtful1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: thoughtful1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/thoughtful1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/thoughtful1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__thoughtful1.png
+  file: thoughtful1.json
+  sound: thoughtful1.ogg
+  strip: cache/strips/pollen__thoughtful1.png
   recorded_description: You look up as if searching for a new idea, especially in complex or uncertain situations.
   features:
     duration_s: 5.9
@@ -4597,9 +4597,9 @@ pollen/thoughtful2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: thoughtful2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/thoughtful2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/thoughtful2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__thoughtful2.png
+  file: thoughtful2.json
+  sound: thoughtful2.ogg
+  strip: cache/strips/pollen__thoughtful2.png
   recorded_description: You look up as if thinking of a new idea.
   features:
     duration_s: 5.46
@@ -4660,9 +4660,9 @@ pollen/tired1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: tired1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/tired1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/tired1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__tired1.png
+  file: tired1.json
+  sound: tired1.ogg
+  strip: cache/strips/pollen__tired1.png
   recorded_description: You yawn because you’re tired. Could be between tasks, especially after working hard.
   features:
     duration_s: 7.44
@@ -4723,9 +4723,9 @@ pollen/toc-toc-toc:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: toc-toc-toc
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/toc-toc-toc.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/toc-toc-toc.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__toc-toc-toc.png
+  file: toc-toc-toc.json
+  sound: toc-toc-toc.ogg
+  strip: cache/strips/pollen__toc-toc-toc.png
   recorded_description: Recorded 2026-07-07T11:35:21.602Z
   features:
     duration_s: 13.41
@@ -4787,9 +4787,9 @@ pollen/uncertain1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: uncertain1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/uncertain1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/uncertain1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__uncertain1.png
+  file: uncertain1.json
+  sound: uncertain1.ogg
+  strip: cache/strips/pollen__uncertain1.png
   recorded_description: A calm movement showing you don’t really have an opinion, or what’s offered doesn’t suit
     you.
   features:
@@ -4851,9 +4851,9 @@ pollen/uncomfortable1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: uncomfortable1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/uncomfortable1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/uncomfortable1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__uncomfortable1.png
+  file: uncomfortable1.json
+  sound: uncomfortable1.ogg
+  strip: cache/strips/pollen__uncomfortable1.png
   recorded_description: Often used when you're embarrassed or don’t want to answer, like when asked for your opinion
     about someone.
   features:
@@ -4916,9 +4916,9 @@ pollen/understanding1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: understanding1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/understanding1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/understanding1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__understanding1.png
+  file: understanding1.json
+  sound: understanding1.ogg
+  strip: cache/strips/pollen__understanding1.png
   recorded_description: You nod to show you’ve understood what your interlocutor said.
   features:
     duration_s: 3.94
@@ -4980,9 +4980,9 @@ pollen/understanding2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: understanding2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/understanding2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/understanding2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__understanding2.png
+  file: understanding2.json
+  sound: understanding2.ogg
+  strip: cache/strips/pollen__understanding2.png
   recorded_description: You nod to show you’ve understood and agree. Can also be used to say yes.
   features:
     duration_s: 2.62
@@ -5041,9 +5041,9 @@ pollen/waiting:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: waiting
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/waiting.json
+  file: waiting.json
   sound: null
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__waiting.png
+  strip: cache/strips/pollen__waiting.png
   recorded_description: Recorded 2026-07-07T11:43:51.784Z
   features:
     duration_s: 9.99
@@ -5106,9 +5106,9 @@ pollen/wake-mini-up:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: wake-mini-up
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/wake-mini-up.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/wake-mini-up.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__wake-mini-up.png
+  file: wake-mini-up.json
+  sound: wake-mini-up.ogg
+  strip: cache/strips/pollen__wake-mini-up.png
   recorded_description: Recorded 2026-07-07T11:24:11.643Z
   features:
     duration_s: 15.7
@@ -5171,9 +5171,9 @@ pollen/welcoming1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: welcoming1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/welcoming1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/welcoming1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__welcoming1.png
+  file: welcoming1.json
+  sound: welcoming1.ogg
+  strip: cache/strips/pollen__welcoming1.png
   recorded_description: A welcoming gesture to greet someone.
   features:
     duration_s: 3.46
@@ -5235,9 +5235,9 @@ pollen/welcoming2:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: welcoming2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/welcoming2.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/welcoming2.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__welcoming2.png
+  file: welcoming2.json
+  sound: welcoming2.ogg
+  strip: cache/strips/pollen__welcoming2.png
   recorded_description: A friendly welcoming gesture, can mean 'welcome' or 'the pleasure is mine.'
   features:
     duration_s: 4.32
@@ -5299,9 +5299,9 @@ pollen/yes1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: yes1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/yes1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/yes1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__yes1.png
+  file: yes1.json
+  sound: yes1.ogg
+  strip: cache/strips/pollen__yes1.png
   recorded_description: A long affirmative response. You nod to confirm what your interlocutor said.
   features:
     duration_s: 3.4
@@ -5363,9 +5363,9 @@ pollen/yes_sad1:
   source: pollen
   repo: pollen-robotics/reachy-mini-emotions-library
   name: yes_sad1
-  file: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/yes_sad1.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--pollen-robotics--reachy-mini-emotions-library/snapshots/873ae49f0b89114b7e535eff0c1f7560d21d9357/yes_sad1.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/pollen__yes_sad1.png
+  file: yes_sad1.json
+  sound: yes_sad1.ogg
+  strip: cache/strips/pollen__yes_sad1.png
   recorded_description: A melancholic 'yes'. Can also be used when someone repeats something you already knew, or
     a resigned agreement.
   features:
@@ -5428,9 +5428,9 @@ ac/calling-for-attention:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: calling-for-attention
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/calling-for-attention.json
+  file: data/calling-for-attention.json
   sound: null
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__calling-for-attention.png
+  strip: cache/strips/ac__calling-for-attention.png
   recorded_description: Recorded 2026-07-07T14:04:01.126Z
   features:
     duration_s: 10.0
@@ -5490,9 +5490,9 @@ ac/calling:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: calling
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/calling.json
+  file: data/calling.json
   sound: null
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__calling.png
+  strip: cache/strips/ac__calling.png
   recorded_description: Recorded 2026-07-07T14:02:24.773Z
   features:
     duration_s: 7.43
@@ -5554,9 +5554,9 @@ ac/dazed:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: dazed
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/dazed.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/dazed.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__dazed.png
+  file: data/dazed.json
+  sound: data/dazed.ogg
+  strip: cache/strips/ac__dazed.png
   recorded_description: Recorded 2026-07-07T13:50:28.921Z
   features:
     duration_s: 8.99
@@ -5618,9 +5618,9 @@ ac/deep-sleep:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: deep-sleep
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/deep-sleep.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/deep-sleep.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__deep-sleep.png
+  file: data/deep-sleep.json
+  sound: data/deep-sleep.ogg
+  strip: cache/strips/ac__deep-sleep.png
   recorded_description: Recorded 2026-07-06T15:50:10.606Z
   features:
     duration_s: 16.02
@@ -5682,9 +5682,9 @@ ac/discovering:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: discovering
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/discovering.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/discovering.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__discovering.png
+  file: data/discovering.json
+  sound: data/discovering.ogg
+  strip: cache/strips/ac__discovering.png
   recorded_description: Recorded 2026-07-07T13:34:32.168Z
   features:
     duration_s: 4.55
@@ -5746,9 +5746,9 @@ ac/etourdi:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: etourdi
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/etourdi.json
+  file: data/etourdi.json
   sound: null
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__etourdi.png
+  strip: cache/strips/ac__etourdi.png
   recorded_description: Recorded 2026-05-11T09:09:24.149Z
   features:
     duration_s: 6.1
@@ -5808,9 +5808,9 @@ ac/etourdi2:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: etourdi2
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/etourdi2.json
+  file: data/etourdi2.json
   sound: null
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__etourdi2.png
+  strip: cache/strips/ac__etourdi2.png
   recorded_description: Recorded 2026-05-11T09:10:17.916Z
   features:
     duration_s: 9.83
@@ -5870,9 +5870,9 @@ ac/hanging-out:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: hanging-out
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/hanging-out.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/hanging-out.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__hanging-out.png
+  file: data/hanging-out.json
+  sound: data/hanging-out.ogg
+  strip: cache/strips/ac__hanging-out.png
   recorded_description: Recorded 2026-07-07T13:39:32.030Z
   features:
     duration_s: 14.72
@@ -5932,9 +5932,9 @@ ac/looking-above:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: looking-above
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/looking-above.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/looking-above.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__looking-above.png
+  file: data/looking-above.json
+  sound: data/looking-above.ogg
+  strip: cache/strips/ac__looking-above.png
   recorded_description: Recorded 2026-07-07T14:08:22.672Z
   features:
     duration_s: 2.34
@@ -5993,9 +5993,9 @@ ac/looking-around:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: looking-around
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/looking-around.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/looking-around.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__looking-around.png
+  file: data/looking-around.json
+  sound: data/looking-around.ogg
+  strip: cache/strips/ac__looking-around.png
   recorded_description: Recorded 2026-07-07T13:59:36.555Z
   features:
     duration_s: 6.86
@@ -6055,9 +6055,9 @@ ac/looking-down:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: looking-down
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/looking-down.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/looking-down.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__looking-down.png
+  file: data/looking-down.json
+  sound: data/looking-down.ogg
+  strip: cache/strips/ac__looking-down.png
   recorded_description: Recorded 2026-07-07T14:09:02.606Z
   features:
     duration_s: 2.18
@@ -6116,9 +6116,9 @@ ac/looking-left:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: looking-left
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/looking-left.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/looking-left.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__looking-left.png
+  file: data/looking-left.json
+  sound: data/looking-left.ogg
+  strip: cache/strips/ac__looking-left.png
   recorded_description: Recorded 2026-07-07T13:54:33.631Z
   features:
     duration_s: 2.2
@@ -6178,9 +6178,9 @@ ac/looking-right:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: looking-right
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/looking-right.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/looking-right.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__looking-right.png
+  file: data/looking-right.json
+  sound: data/looking-right.ogg
+  strip: cache/strips/ac__looking-right.png
   recorded_description: Recorded 2026-07-07T13:54:04.360Z
   features:
     duration_s: 1.73
@@ -6241,9 +6241,9 @@ ac/mini-deep-sleep:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: mini-deep-sleep
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/mini-deep-sleep.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/mini-deep-sleep.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__mini-deep-sleep.png
+  file: data/mini-deep-sleep.json
+  sound: data/mini-deep-sleep.ogg
+  strip: cache/strips/ac__mini-deep-sleep.png
   recorded_description: Recorded 2026-07-07T11:52:05.902Z
   features:
     duration_s: 16.03
@@ -6306,9 +6306,9 @@ ac/no-way:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: no-way
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/no-way.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/no-way.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__no-way.png
+  file: data/no-way.json
+  sound: data/no-way.ogg
+  strip: cache/strips/ac__no-way.png
   recorded_description: Recorded 2026-07-07T13:32:22.552Z
   features:
     duration_s: 3.54
@@ -6371,9 +6371,9 @@ ac/nodding:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: nodding
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/nodding.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/nodding.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__nodding.png
+  file: data/nodding.json
+  sound: data/nodding.ogg
+  strip: cache/strips/ac__nodding.png
   recorded_description: Recorded 2026-07-07T13:36:51.630Z
   features:
     duration_s: 2.17
@@ -6434,9 +6434,9 @@ ac/pick-a-boo:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: pick-a-boo
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/pick-a-boo.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/pick-a-boo.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__pick-a-boo.png
+  file: data/pick-a-boo.json
+  sound: data/pick-a-boo.ogg
+  strip: cache/strips/ac__pick-a-boo.png
   recorded_description: Recorded 2026-07-07T13:57:04.827Z
   features:
     duration_s: 3.36
@@ -6499,9 +6499,9 @@ ac/surprise:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: surprise
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/surprise.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/surprise.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__surprise.png
+  file: data/surprise.json
+  sound: data/surprise.ogg
+  strip: cache/strips/ac__surprise.png
   recorded_description: Recorded 2026-07-07T07:51:50.220Z
   features:
     duration_s: 1.42
@@ -6562,9 +6562,9 @@ ac/toc-toc-toc:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: toc-toc-toc
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/toc-toc-toc.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/toc-toc-toc.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__toc-toc-toc.png
+  file: data/toc-toc-toc.json
+  sound: data/toc-toc-toc.ogg
+  strip: cache/strips/ac__toc-toc-toc.png
   recorded_description: Recorded 2026-07-07T11:35:21.602Z
   features:
     duration_s: 13.41
@@ -6626,9 +6626,9 @@ ac/toc-toc:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: toc-toc
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/toc-toc.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/toc-toc.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__toc-toc.png
+  file: data/toc-toc.json
+  sound: data/toc-toc.ogg
+  strip: cache/strips/ac__toc-toc.png
   recorded_description: Recorded 2026-07-07T07:58:50.805Z
   features:
     duration_s: 13.43
@@ -6689,9 +6689,9 @@ ac/waiting:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: waiting
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/waiting.json
+  file: data/waiting.json
   sound: null
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__waiting.png
+  strip: cache/strips/ac__waiting.png
   recorded_description: Recorded 2026-07-07T11:43:51.784Z
   features:
     duration_s: 9.99
@@ -6752,9 +6752,9 @@ ac/wake-me-up:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: wake-me-up
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/wake-me-up.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/wake-me-up.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__wake-me-up.png
+  file: data/wake-me-up.json
+  sound: data/wake-me-up.ogg
+  strip: cache/strips/ac__wake-me-up.png
   recorded_description: Recorded 2026-07-07T07:48:16.968Z
   features:
     duration_s: 16.76
@@ -6816,9 +6816,9 @@ ac/wake-mini-up:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: wake-mini-up
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/wake-mini-up.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/wake-mini-up.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__wake-mini-up.png
+  file: data/wake-mini-up.json
+  sound: data/wake-mini-up.ogg
+  strip: cache/strips/ac__wake-mini-up.png
   recorded_description: Recorded 2026-07-07T11:24:11.643Z
   features:
     duration_s: 15.7
@@ -6880,9 +6880,9 @@ ac/wake-up:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: wake-up
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/wake-up.json
+  file: data/wake-up.json
   sound: null
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__wake-up.png
+  strip: cache/strips/ac__wake-up.png
   recorded_description: Recorded 2026-07-06T15:54:23.040Z
   features:
     duration_s: 16.97
@@ -6945,9 +6945,9 @@ ac/whistling:
   source: ac
   repo: Anne-Charlotte/new-emotions
   name: whistling
-  file: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/whistling.json
-  sound: /home/jausterw/.cache/huggingface/hub/datasets--Anne-Charlotte--new-emotions/snapshots/f4ff49c51da612b1680816725dc0a181a11a5693/data/whistling.ogg
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/ac__whistling.png
+  file: data/whistling.json
+  sound: data/whistling.ogg
+  strip: cache/strips/ac__whistling.png
   recorded_description: Recorded 2026-07-07T13:30:12.608Z
   features:
     duration_s: 2.3
@@ -7009,9 +7009,9 @@ stella/double-nod:
   source: stella
   repo: stellaaaa/thinking-animations
   name: double-nod
-  file: /home/jausterw/.cache/huggingface/hub/datasets--stellaaaa--thinking-animations/snapshots/a7fb5f0b7de631a68b1a982edcb54b9795cc5555/data/double-nod.json
+  file: data/double-nod.json
   sound: null
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/stella__double-nod.png
+  strip: cache/strips/stella__double-nod.png
   recorded_description: Recorded with Marionette on 20260325-215115
   features:
     duration_s: 1.5
@@ -7071,9 +7071,9 @@ stella/head-down-antennae-slow:
   source: stella
   repo: stellaaaa/thinking-animations
   name: head-down-antennae-slow
-  file: /home/jausterw/.cache/huggingface/hub/datasets--stellaaaa--thinking-animations/snapshots/a7fb5f0b7de631a68b1a982edcb54b9795cc5555/data/head-down-antennae-slow.json
+  file: data/head-down-antennae-slow.json
   sound: null
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/stella__head-down-antennae-slow.png
+  strip: cache/strips/stella__head-down-antennae-slow.png
   recorded_description: Recorded with Marionette on 20260325-215647
   features:
     duration_s: 1.99
@@ -7135,9 +7135,9 @@ stella/head-down-antennae-think:
   source: stella
   repo: stellaaaa/thinking-animations
   name: head-down-antennae-think
-  file: /home/jausterw/.cache/huggingface/hub/datasets--stellaaaa--thinking-animations/snapshots/a7fb5f0b7de631a68b1a982edcb54b9795cc5555/data/head-down-antennae-think.json
+  file: data/head-down-antennae-think.json
   sound: null
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/stella__head-down-antennae-think.png
+  strip: cache/strips/stella__head-down-antennae-think.png
   recorded_description: Recorded with Marionette on 20260325-214853
   features:
     duration_s: 2.49
@@ -7198,9 +7198,9 @@ stella/head-down-antennae-wiggle:
   source: stella
   repo: stellaaaa/thinking-animations
   name: head-down-antennae-wiggle
-  file: /home/jausterw/.cache/huggingface/hub/datasets--stellaaaa--thinking-animations/snapshots/a7fb5f0b7de631a68b1a982edcb54b9795cc5555/data/head-down-antennae-wiggle.json
+  file: data/head-down-antennae-wiggle.json
   sound: null
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/stella__head-down-antennae-wiggle.png
+  strip: cache/strips/stella__head-down-antennae-wiggle.png
   recorded_description: Recorded with Marionette on 20260325-215440
   features:
     duration_s: 1.99
@@ -7262,9 +7262,9 @@ stella/slow-nod:
   source: stella
   repo: stellaaaa/thinking-animations
   name: slow-nod
-  file: /home/jausterw/.cache/huggingface/hub/datasets--stellaaaa--thinking-animations/snapshots/a7fb5f0b7de631a68b1a982edcb54b9795cc5555/data/slow-nod.json
+  file: data/slow-nod.json
   sound: null
-  strip: /home/jausterw/work/reachy-mini/meme_mirror/cache/strips/stella__slow-nod.png
+  strip: cache/strips/stella__slow-nod.png
   recorded_description: Recorded with Marionette on 20260325-215727
   features:
     duration_s: 1.49
