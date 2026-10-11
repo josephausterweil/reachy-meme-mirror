@@ -320,7 +320,7 @@ function cardHtml(c) {
   return `<div class="card ${fb.picked ? "picked" : ""}" data-cid="${c.id}">
     <div class="media">
       ${c.video ? `<video src="/files/${S.id}/${c.video}?v=${encodeURIComponent(JSON.stringify(d))}" muted loop autoplay playsinline></video>`
-        : c.strip ? `<img class="strip" src="/files/${S.id}/${c.strip}?v=${encodeURIComponent(JSON.stringify(d))}" alt="drawn frames of the motion">` : ""}
+        : (c.thumb || c.strip) ? `<img class="strip" src="/files/${S.id}/${c.thumb || c.strip}?v=${encodeURIComponent(JSON.stringify(d))}" alt="drawn frames of the motion">` : ""}
       ${c.move_file ? `<button class="btn3d" data-act="3d" title="Watch it in 3D (drag to rotate)">▶ 3D</button>` : ""}
     </div>
     <div class="body">

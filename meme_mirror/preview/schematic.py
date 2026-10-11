@@ -89,3 +89,20 @@ def strip(tracks, n=6, fps=50):
         d.line([ox + 2 * CELL - 1, 0, ox + 2 * CELL - 1, CELL_H + 22], fill=(60, 75, 100), width=2)
         d.text((ox + 8, CELL_H + 3), f"{k + 1}. t={i / fps:.1f}s   front | side", font=font, fill=(200, 210, 230))
     return img
+
+
+def thumbnail(tracks, cols=3, rows=2, fps=50):
+    """Card thumbnail: a near-square grid of FRONT views at evenly spaced times."""
+    n = cols * rows
+    T = len(tracks["pitch"])
+    idx = np.linspace(0, T - 1, n).round().astype(int)
+    img = Image.new("RGB", (cols * CELL, rows * (CELL_H + 18)), BG)
+    d = ImageDraw.Draw(img)
+    font = _font(13)
+    for k, i in enumerate(idx):
+        ox, oy = (k % cols) * CELL, (k // cols) * (CELL_H + 18)
+        cell = Image.new("RGB", (CELL, CELL_H), BG)
+        _front(ImageDraw.Draw(cell), 0, frame_values(tracks, i))
+        img.paste(cell, (ox, oy))
+        d.text((ox + 6, oy + CELL_H + 1), f"{k + 1}. {i / fps:.1f}s", font=font, fill=(200, 210, 230))
+    return img

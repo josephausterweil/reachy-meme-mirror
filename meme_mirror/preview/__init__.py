@@ -43,6 +43,8 @@ def render(move_path, tracks, out_dir, cid):
         imageio.imwrite(out_dir / strip_name, strip(frames))
         return {"video": f"{cid}.mp4", "strip": strip_name}
     from .schematic import strip as drawn
+    from .schematic import thumbnail
 
     drawn(tracks).save(out_dir / strip_name)
-    return {"video": None, "strip": strip_name}
+    thumbnail(tracks).save(out_dir / f"{cid}_thumb.png")
+    return {"video": None, "strip": strip_name, "thumb": f"{cid}_thumb.png"}
