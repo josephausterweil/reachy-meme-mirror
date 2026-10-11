@@ -21,6 +21,10 @@ model = "sonnet"
 provider = "claude_code"
 model = "sonnet"
 
+[llm.lessons]          # distills general lessons from all of Joe's ratings and notes
+provider = "claude_code"
+model = "sonnet"
+
 [llm.cataloger]        # describes library moves (bulk, one-off)
 provider = "claude_code"
 model = "sonnet"

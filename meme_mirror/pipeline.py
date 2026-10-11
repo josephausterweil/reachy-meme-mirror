@@ -126,6 +126,7 @@ Propose exactly {k} candidate expressions for Reachy that would make a human wat
 meme's emotional experience. {what}
 Make the candidates genuinely different from each other (different cues, timing, or interpretation).
 Keep each 3-10 s. Pick a fitting sound from the catalog (sounds are named after their move) or null.
+{learned}
 {history}"""
 
 SPEC_WHAT = """Write each as an ExpressionSpec ("spec" approach).
@@ -221,13 +222,16 @@ def _history_text(session, mode, anchor):
     cands = session.data["candidates"]
     if not cands:
         return ""
-    lines = ["# Already tried (do NOT repeat these; learn from the ratings and comments)"]
+    lines = ["# Already tried for THIS meme (do NOT repeat these; learn from ratings, comments, and which ones "
+             "Joe played or saved: those are his picks)"]
     for c in cands:
         fb = c.get("feedback", {})
         what = json.dumps(c["spec"]) if c.get("spec") else c.get("recipe")
+        picked = ("; Joe PLAYED it on Reachy" if fb.get("chosen") else "") + \
+                 ("; Joe SAVED it" if c.get("saved_as") else "")
         lines.append(f"- [{c['id']}] {c['label']} ({c['source']}): {c['rationale']}\n  motion: {what}\n"
-                     f"  rating: {fb.get('rating', 'unrated')}/5; comment: {fb.get('comment', '-')}; "
-                     f"blind legibility: {c.get('legibility', '?')}")
+                     f"  rating: {fb.get('rating', 'unrated')}/5{picked}; comment: {fb.get('comment', '-')}; "
+                     f"blind match: {c.get('match', '?')}")
     if mode == "more_like" and anchor:
         lines.append(f"\nThe user wants MORE LIKE [{anchor}]: keep what works in it and propose variations that "
                      "push it further in the direction of their feedback.")
@@ -238,7 +242,9 @@ def _history_text(session, mode, anchor):
 
 def propose(session: Session, k=4, mix=None, mode="new", anchor=None, notes=""):
     """mix: counts per source, e.g. {"library": 1, "own": 1, "binh": 2} (k is ignored when mix is given)."""
-    mix = mix or {"library": 1, "own": 1, "binh": max(0, k - 2)}
+    from . import learning
+
+    mix = mix or learning.suggested_mix(k)
     n_spec, n_rec = mix.get("library", 0) + mix.get("own", 0), mix.get("binh", 0)
     reading = session.reading
     note_text = notes or session.data["notes"]
@@ -247,15 +253,20 @@ def propose(session: Session, k=4, mix=None, mode="new", anchor=None, notes=""):
                   history=_history_text(session, mode, anchor))
     cat = catalog_mod.load()
     sounds = "# Sounds available (by move id)\n" + ", ".join(m for m, e in cat.items() if e.get("sound"))
+    lessons = learning.lessons_text()
     jobs = []
     if n_spec:
         what = SPEC_WHAT.format(n_lib=mix.get("library", 0), n_own=mix.get("own", 0))
-        jobs.append((PROPOSE_TASK.format(k=n_spec, what=what, **common), _proposals(SpecCandidate, n_spec),
+        learned = "\n\n".join(x for x in (lessons, learning.examples_text("spec", session.data["id"])) if x)
+        jobs.append((PROPOSE_TASK.format(k=n_spec, what=what, learned=learned, **common),
+                     _proposals(SpecCandidate, n_spec),
                      "\n\n".join([ROBOT, SPEC_GUIDE, catalog_digest(cat)])))
     if n_rec:
         from .binh import RECIPE_GUIDE
 
-        jobs.append((PROPOSE_TASK.format(k=n_rec, what=RECIPE_WHAT, **common), _proposals(RecipeCandidate, n_rec),
+        learned = "\n\n".join(x for x in (lessons, learning.examples_text("recipe", session.data["id"])) if x)
+        jobs.append((PROPOSE_TASK.format(k=n_rec, what=RECIPE_WHAT, learned=learned, **common),
+                     _proposals(RecipeCandidate, n_rec),
                      "\n\n".join([ROBOT, RECIPE_INTRO, RECIPE_GUIDE, sounds])))
     provider = get_provider("proposer")
     with ThreadPoolExecutor(len(jobs)) as pool:
@@ -378,9 +389,11 @@ def run_round(session: Session, k=4, mix=None, mode="new", anchor=None, notes=""
     return new
 
 
-def feedback(session: Session, cid, rating=None, comment=None, chosen=None):
+def feedback(session: Session, cid, rating=None, comment=None, chosen=None, saved_as=None):
     c = session.candidate(cid)
     fb = c.setdefault("feedback", {})
+    if saved_as:
+        c["saved_as"] = saved_as
     if rating is not None:
         fb["rating"] = rating
     if comment:
@@ -391,7 +404,7 @@ def feedback(session: Session, cid, rating=None, comment=None, chosen=None):
     with open(SESSIONS.parent / "ratings.jsonl", "a") as fh:  # preference log across sessions
         fh.write(json.dumps(dict(session=session.data["id"], candidate=cid, source=c["source"],
                                  legibility=c.get("legibility"), match=c.get("match"), core_emotion=session.reading.core_emotion,
-                                 t=time.time(), **fb)) + "\n")
+                                 saved_as=c.get("saved_as"), t=time.time(), **fb)) + "\n")
 
 
 # ---------- CLI ----------

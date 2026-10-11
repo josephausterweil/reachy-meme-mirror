@@ -1,0 +1,14 @@
+{
+ "name": "glance-glance-snap, point at two doubles, sheepish tilt",
+ "slug": "glance-glance-snap-point-at-two-doubles-sheepish-t",
+ "session": "20261011-192401-spider-man-triple-meme-template-full-a9a",
+ "candidate": "r1c2",
+ "source": "own",
+ "core_emotion": "amused mutual recognition",
+ "meme": "20261011-192401-spider-man-triple-meme-template-full-a9a/meme.webp",
+ "rationale": "This version is built from keyframes and follows the meme's bodily cues literally. The robot glances left, glances away, then snaps back with both antennas shooting up: a classic double-take. It thrusts its head forward and swivels its body to aim at the first double, with the antenna on that side raised toward it like a pointing finger, and holds still. Then it re-aims at a second double on the other side and flicks its gaze between the two as if comparing them. Finally it re-centres with a soft head tilt, relaxed half-drooped antennas and a little chuckling antenna jiggle. That ending is the 'wait, we're all the same' moment. Viewers will read the stillness while pointing as the accusation, and the tilt as the hypocrisy dawning.",
+ "match": 0.35,
+ "feedback": {
+  "chosen": true
+ }
+}

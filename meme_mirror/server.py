@@ -246,10 +246,18 @@ def candidate_save(sid: str, cid: str, body: SaveRequest):
                 rationale=c["rationale"], match=c.get("match"), feedback=c.get("feedback", {}))
     (STORE / f"{slug}.meta.json").write_text(json.dumps(meta, indent=1))
     with _lock(sid):
-        s = _session(sid)
-        s.candidate(cid)["saved_as"] = slug
-        s.save()
+        P.feedback(_session(sid), cid, saved_as=slug)
     return meta
+
+
+@app.get("/api/learning")
+def learning_summary(lessons: bool = True):
+    """What the proposer learns from: per-source stats, the suggested mix, and distilled lessons."""
+    from . import learning
+
+    return dict(stats=learning.source_stats(), suggested_mix=learning.suggested_mix(),
+                n_rated=len(learning.rated_candidates()),
+                lessons=learning.lessons() if lessons else None)
 
 
 @app.get("/api/gallery")
