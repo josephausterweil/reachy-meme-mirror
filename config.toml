@@ -1,0 +1,22 @@
+# Which LLM does each job. provider: claude_code | anthropic_api | qwen_local
+# Extra keys go to the provider (claude_code: model, timeout, effort; anthropic_api: model, effort, max_tokens).
+
+[llm.default]
+provider = "claude_code"
+model = "opus"
+
+[llm.interpreter]      # reads the meme
+provider = "claude_code"
+model = "opus"
+
+[llm.proposer]         # writes candidate expressions
+provider = "claude_code"
+model = "opus"
+
+[llm.judge]            # blind: guesses the emotion from preview frames only
+provider = "claude_code"
+model = "sonnet"
+
+[llm.cataloger]        # describes library moves (bulk, one-off)
+provider = "claude_code"
+model = "sonnet"
