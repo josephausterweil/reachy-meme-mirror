@@ -1,0 +1,26 @@
+[project]
+name = "meme_mirror"
+version = "0.1.0"
+description = "Turn memes into Reachy Mini expressions (library moves + LLM-generated motion)"
+requires-python = ">=3.12"
+dependencies = [
+    "reachy-mini[mujoco]==1.11.0",
+    "fastapi",
+    "uvicorn",
+    "pydantic>=2",
+    "numpy",
+    "huggingface_hub",
+    "imageio",
+    "imageio-ffmpeg",
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["meme_mirror*"]
