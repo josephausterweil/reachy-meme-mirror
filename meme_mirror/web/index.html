@@ -150,8 +150,38 @@ async function openSession(id) { S = await api(`/api/sessions/${id}`); render();
 const READING_FIELDS = [["core_emotion", "Core emotion"], ["nuance", "Nuance"], ["arc", "How it unfolds"],
                         ["text_prompt", "Text-to-motion prompt"]];
 
+// Notes typed but not yet saved survive any re-render (rounds finishing, robot playback finishing, ...).
+function captureDrafts() {
+  const d = {cards: {}};
+  document.querySelectorAll(".card[data-cid]").forEach(card => {
+    const t = $("textarea", card); if (t) d.cards[card.dataset.cid] = t.value; });
+  const notes = $("#notes"); if (notes) d.notes = notes.value;
+  document.querySelectorAll("textarea[data-k]").forEach(t => (d.reading ||= {})[t.dataset.k] = t.value);
+  d.sid = S && S.id;
+  return d;
+}
+function restoreDrafts(d) {
+  if (!d || !S || d.sid !== S.id) return;
+  for (const [cid, text] of Object.entries(d.cards)) {
+    const c = S.candidates.find(x => x.id === cid);
+    const t = document.querySelector(`.card[data-cid="${cid}"] textarea`);
+    if (t && c && text !== ((c.feedback || {}).comment || "")) t.value = text;
+  }
+  if (d.notes != null && $("#notes") && d.notes !== (S.notes || "")) $("#notes").value = d.notes;
+  for (const [k, v] of Object.entries(d.reading || {})) {
+    const t = document.querySelector(`textarea[data-k="${k}"]`);
+    if (t && v !== String((S.reading || {})[k] ?? "")) t.value = v;
+  }
+}
+
 function render() {
   if (!S) return;
+  const drafts = captureDrafts();
+  renderMain();
+  restoreDrafts(drafts);
+}
+
+function renderMain() {
   const r = S.reading || {};
   const rounds = {};
   S.candidates.forEach(c => (rounds[c.round] ||= []).push(c));
@@ -294,11 +324,14 @@ async function onCardClick(e) {
   const base = `/api/sessions/${S.id}/candidates/${cid}`;
   const draft = $("textarea", card).value;
   const saved = (c.feedback || {}).comment || "";
-  const update = nc => {  // re-render the card, keeping any note typed but not yet saved
+  const update = nc => {  // re-render the card, keeping whatever note is in the box *now*
+    const live = document.querySelector(`.card[data-cid="${cid}"]`);
+    const current = live ? $("textarea", live).value : draft;
     Object.assign(c, nc);
-    card.outerHTML = cardHtml(c);
+    if (!live) return;
+    live.outerHTML = cardHtml(c);
     const fresh = document.querySelector(`.card[data-cid="${cid}"] textarea`);
-    if (fresh && draft !== ((c.feedback || {}).comment || "")) fresh.value = draft;
+    if (fresh && current !== ((c.feedback || {}).comment || "")) fresh.value = current;
   };
   try {
     if (act === "rate") {  // a star click also saves the note being typed
@@ -332,7 +365,7 @@ async function onCardClick(e) {
     }
     else if (act === "save") {
       const name = prompt("Name this expression", c.label); if (!name) return;
-      const meta = await post(`${base}/save`, {name}); c.saved_as = meta.slug; card.outerHTML = cardHtml(c);
+      const meta = await post(`${base}/save`, {name}); update({saved_as: meta.slug});
       toast(`Saved to store/${meta.slug}.json`);
     }
     if (["rate", "comment", "fit", "save"].includes(act)) loadLearning();
