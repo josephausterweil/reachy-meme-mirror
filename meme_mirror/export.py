@@ -33,7 +33,7 @@ task_categories:
 # {pretty}
 
 Expressive motions for [Reachy Mini](https://github.com/pollen-robotics/reachy_mini), each made to convey the
-feeling of a meme. They were made with **meme_mirror**: an LLM reads the meme, proposes several expressions
+feeling of a meme. They were made with [meme_mirror](https://github.com/josephausterweil/reachy-meme-mirror): an LLM reads the meme, proposes several expressions
 (recorded library moves, keyframed motion, or recipes rendered by
 [binhpham's motion generator](https://github.com/pham-tuan-binh/reachy-motion-generator)), and a person picks,
 rates and refines them.
