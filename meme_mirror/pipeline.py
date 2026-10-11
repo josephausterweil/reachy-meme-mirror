@@ -24,7 +24,9 @@ from .llm import get_provider
 from .safety import check as safety_check
 from .spec import ExpressionSpec
 
-SESSIONS = Path(__file__).resolve().parents[1] / "runs" / "sessions"
+from .config import HOME
+
+SESSIONS = HOME / "runs" / "sessions"
 Source = Literal["library", "own", "binh"]
 
 
@@ -257,7 +259,11 @@ def propose(session: Session, k=4, mix=None, mode="new", anchor=None, notes=""):
     """mix: counts per source, e.g. {"library": 1, "own": 1, "binh": 2} (k is ignored when mix is given)."""
     from . import learning
 
-    mix = mix or learning.suggested_mix(k)
+    mix = dict(mix or learning.suggested_mix(k))
+    from . import binh as binh_mod
+
+    if mix.get("binh") and not binh_mod.available():  # no PyTorch: write those as our own specs instead
+        mix["own"] = mix.get("own", 0) + mix.pop("binh")
     n_spec, n_rec = mix.get("library", 0) + mix.get("own", 0), mix.get("binh", 0)
     reading = session.reading
     note_text = notes or session.data["notes"]
@@ -299,7 +305,7 @@ def propose(session: Session, k=4, mix=None, mode="new", anchor=None, notes=""):
     return new
 
 
-def realize(session: Session, c, speed=1.0, amplitude=1.0, render=True, renderer=None):
+def realize(session: Session, c, speed=1.0, amplitude=1.0, render=True):
     """Build the move for candidate c (dict), safety-check it, save move JSON + previews. Mutates c."""
     try:
         if c["source"] == "binh":
@@ -324,27 +330,17 @@ def realize(session: Session, c, speed=1.0, amplitude=1.0, render=True, renderer
     (session.dir / f"{c['id']}.json").write_text(json.dumps(move))
     c["move_file"] = f"{c['id']}.json"
     if render:
-        import imageio.v2 as imageio
-        from .preview.sim_render import SimRenderer, load_move, strip
+        from . import preview
 
-        renderer = renderer or SimRenderer()
-        frames = renderer.render(*load_move(session.dir / c["move_file"]), session.dir / f"{c['id']}.mp4")
-        imageio.imwrite(session.dir / f"{c['id']}_strip.png", strip(frames))
-        c.update(video=f"{c['id']}.mp4", strip=f"{c['id']}_strip.png")
+        c.update(preview.render(session.dir / c["move_file"], tracks, session.dir, c["id"]))
     return c
 
 
-_REACH = None
-
-
 def _reach():
-    """binhpham's projection onto the robot's reachable set (SDK analytical IK)."""
-    global _REACH
-    if _REACH is None:
-        from common.reach import Reach
+    """binhpham's projection onto the robot's reachable set (SDK analytical IK); needs no PyTorch."""
+    from . import binh
 
-        _REACH = Reach()
-    return _REACH
+    return binh.reach()
 
 
 def _t(tracks):
@@ -369,8 +365,12 @@ def judge(session: Session, c):
     f = c["features"]
     summary = json.dumps({k: f[k] for k in ("pitch", "roll", "yaw", "z", "antenna_droop", "head_peak_speed_dps",
                                             "still_fraction", "rhythm_hz")})
+    prompt = JUDGE_PROMPT.format(duration=c["duration_s"], features=summary, options="; ".join(options))
+    if not c.get("video"):
+        prompt = prompt.replace("seen from its front-left.", "as simple drawings: each frame shows a FRONT view "
+                                "(left) and a SIDE view facing right (right).")
     res = get_provider("judge").complete(
-        JUDGE_PROMPT.format(duration=c["duration_s"], features=summary, options="; ".join(options)),
+        prompt,
         JudgeResult, images=[session.dir / c["strip"]])
     total = sum(o.p for o in res.probabilities) or 1
     probs = {o.option.lower(): o.p / total for o in res.probabilities}
@@ -387,12 +387,9 @@ def run_round(session: Session, k=4, mix=None, mode="new", anchor=None, notes=""
     """propose -> realize (+render) -> judge; appends to the session. Returns the new candidates."""
     log(f"proposing {k} candidates ({mode})...")
     new = propose(session, k=k, mix=mix, mode=mode, anchor=anchor, notes=notes)
-    from .preview.sim_render import SimRenderer
-
-    renderer = SimRenderer()
     for c in new:
         log(f"  building {c['id']} [{c['source']}] {c['label']}")
-        realize(session, c, renderer=renderer)
+        realize(session, c)
     if do_judge:
         log("  blind judging...")
         with ThreadPoolExecutor(4) as pool:

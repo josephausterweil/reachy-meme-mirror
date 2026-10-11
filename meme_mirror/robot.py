@@ -21,27 +21,55 @@ from reachy_mini.reachy_mini import INIT_ANTENNAS_JOINT_POSITIONS, INIT_HEAD_POS
 
 from .config import robot_host
 
-DAEMON = f"http://{robot_host()}:8000"
+def daemon_url():
+    """The robot daemon: localhost when we run on the robot as an app, else the configured host."""
+    return "http://localhost:8000" if _attached else f"http://{robot_host()}:8000"
 IDLE_CLOSE_S = 60.0
 HOME_S = 0.8  # glide back to neutral after a move
 
 _mini = None
+_attached = False   # True when running as a Reachy Mini app: the app framework owns the connection
 _last_used = 0.0
 _conn_lock = threading.RLock()
+
+
+def attach(mini):
+    """Use the ReachyMini instance handed to a running app (meme_mirror installed on the robot)."""
+    global _mini, _attached
+    with _conn_lock:
+        _mini, _attached = mini, True
+
+
+def detach():
+    global _mini, _attached
+    with _conn_lock:
+        _mini, _attached = None, False
+
+
+def attached():
+    return _attached
+
+
+def play_sound_on_robot(path):
+    """Play through the robot's own speaker (only when attached as an app with audio)."""
+    if _attached and _mini is not None and path:
+        _mini.media.play_sound(str(path))
 
 
 class RobotBusy(RuntimeError):
     pass
 
 
-def check_free(daemon=DAEMON):
+def check_free(daemon=None):
     """Raise RobotBusy if the daemon isn't ready or an app is running."""
+    daemon = daemon or daemon_url()
     status = requests.get(f"{daemon}/api/daemon/status", timeout=5).json()
     if status.get("state") != "running" or not status["backend_status"].get("ready"):
         raise RobotBusy(f"daemon not ready: {status.get('state')}")
-    app = requests.get(f"{daemon}/api/apps/current-app-status", timeout=5).json()
-    if app is not None:
-        raise RobotBusy(f"an app is running: {app}")
+    if not _attached:  # as the running app ourselves, the "an app is running" check would always trip
+        app = requests.get(f"{daemon}/api/apps/current-app-status", timeout=5).json()
+        if app is not None:
+            raise RobotBusy(f"an app is running: {app}")
     return status
 
 
@@ -49,6 +77,8 @@ def _connection():
     """The kept-open client. A stale one is detected with a harmless query (no motion) and reopened."""
     global _mini, _last_used
     with _conn_lock:
+        if _attached:
+            return _mini
         if _mini is not None:
             try:
                 _mini.get_current_head_pose()
@@ -65,7 +95,7 @@ def _connection():
 def close():
     global _mini
     with _conn_lock:
-        if _mini is not None:
+        if _mini is not None and not _attached:
             try:
                 _mini.__exit__(None, None, None)
             except Exception:
@@ -85,7 +115,7 @@ def _idle_closer():
                 return
 
 
-def play(move_dict, sleep_after=False, daemon=DAEMON, on_start=None, return_home=True):
+def play(move_dict, sleep_after=False, daemon=None, on_start=None, return_home=True):
     """Wake if needed, glide to the move's first pose, play it, then (if return_home) glide back to neutral.
     `on_start()` is called right before the move itself starts (e.g. to start its sound).
     With return_home=False this returns as soon as the move ends; call return_to_neutral() afterwards."""

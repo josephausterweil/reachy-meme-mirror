@@ -1,0 +1,2 @@
+[reachy_mini_apps]
+meme_mirror = meme_mirror.reachy_app:MemeMirrorApp

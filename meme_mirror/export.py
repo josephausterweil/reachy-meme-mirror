@@ -15,10 +15,10 @@ import json
 import shutil
 from pathlib import Path
 
-from .config import ROOT
+from .config import HOME
 
-STORE = ROOT / "store"
-OUT = ROOT / "export"
+STORE = HOME / "store"
+OUT = HOME / "export"
 
 CARD = """---
 license: apache-2.0

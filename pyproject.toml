@@ -6,24 +6,28 @@ license = { text = "Apache-2.0" }
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "reachy-mini[mujoco]==1.11.0",
+    "reachy-mini>=1.11.0",
     "fastapi",
     "uvicorn",
     "pydantic>=2",
     "numpy",
+    "scipy",
     "huggingface_hub",
-    "imageio",
-    "imageio-ffmpeg",
     "pyyaml",
     "python-multipart",
     "requests",
     "pillow",
-    "scipy",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest"]
+sim = ["reachy-mini[mujoco]>=1.11.0", "imageio", "imageio-ffmpeg"]   # simulator video previews (computer only)
 anthropic = ["anthropic"]   # only for the "Claude (Anthropic API key)" preset
+# Learned "binh" motion needs PyTorch. Install the CPU build (the default build on ARM pulls ~5 GB of CUDA):
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu      (or use "Install" in the web page)
+
+[project.entry-points."reachy_mini_apps"]
+meme_mirror = "meme_mirror.reachy_app:MemeMirrorApp"
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -33,4 +37,4 @@ build-backend = "setuptools.build_meta"
 include = ["meme_mirror*"]
 
 [tool.setuptools.package-data]
-meme_mirror = ["web/*"]
+meme_mirror = ["catalog.yaml", "defaults.toml", "web/**/*", "vendor/**/*"]

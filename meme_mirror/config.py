@@ -1,10 +1,27 @@
-"""Settings: config.toml (committed defaults) overlaid with config.local.toml (your own, git-ignored)."""
+"""Settings and where data lives.
 
+Defaults ship in the package (defaults.toml); your own settings go in config.local.toml in the data folder.
+
+Data folder (HOME): $MEME_MIRROR_HOME if set; else the repo root when running from a git checkout;
+else ~/.meme_mirror (e.g. when installed as a Reachy Mini app). It holds runs/, store/, export/, cache/,
+config.local.toml and secrets.local.toml.
+"""
+
+import os
 import tomllib
 from functools import lru_cache
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+PKG = Path(__file__).resolve().parent
+DEV = (PKG.parent / "pyproject.toml").exists() and (PKG.parent / ".git").exists()
+if os.environ.get("MEME_MIRROR_HOME"):
+    HOME = Path(os.environ["MEME_MIRROR_HOME"]).expanduser()
+elif DEV:
+    HOME = PKG.parent
+else:
+    HOME = Path.home() / ".meme_mirror"
+HOME.mkdir(parents=True, exist_ok=True)
+ROOT = HOME  # backwards-compatible name
 
 
 def _merge(a, b):
@@ -16,8 +33,8 @@ def _merge(a, b):
 
 @lru_cache(maxsize=1)
 def settings():
-    cfg = tomllib.loads((ROOT / "config.toml").read_text())
-    local = ROOT / "config.local.toml"
+    cfg = tomllib.loads((PKG / "defaults.toml").read_text())
+    local = HOME / "config.local.toml"
     if local.exists():
         cfg = _merge(cfg, tomllib.loads(local.read_text()))
     return cfg
@@ -32,7 +49,7 @@ def robot_host():
     return settings().get("robot", {}).get("host", "reachy-mini.local")
 
 
-SECRETS = ROOT / "secrets.local.toml"  # API keys, git-ignored, readable only by you
+SECRETS = HOME / "secrets.local.toml"  # API keys, git-ignored, readable only by you
 
 
 def secret(name):
@@ -71,7 +88,7 @@ def dump_toml(d, prefix=""):
 
 def update_local(updates):
     """Merge `updates` into config.local.toml (None values delete keys)."""
-    path = ROOT / "config.local.toml"
+    path = HOME / "config.local.toml"
     cur = tomllib.loads(path.read_text()) if path.exists() else {}
 
     def apply(dst, src):

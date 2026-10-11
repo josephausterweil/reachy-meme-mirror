@@ -20,9 +20,13 @@ from huggingface_hub import snapshot_download
 from pydantic import BaseModel, Field
 from scipy.spatial.transform import Rotation as R
 
-ROOT = Path(__file__).resolve().parents[1]
-CATALOG = ROOT / "catalog.yaml"
-STRIPS = ROOT / "cache" / "strips"
+from .config import DEV, HOME, PKG
+
+ROOT = HOME
+# Ships with the package; your edits (notes / exclude / re-descriptions) go to HOME/catalog.yaml when installed.
+CATALOG_PKG = PKG / "catalog.yaml"
+CATALOG = CATALOG_PKG if DEV or not (HOME / "catalog.yaml").exists() else HOME / "catalog.yaml"
+STRIPS = HOME / "cache" / "strips"
 
 SOURCES = {
     "pollen": "pollen-robotics/reachy-mini-emotions-library",
@@ -168,7 +172,9 @@ def _from_disk(e):
 
 
 def save(cat):
+    global CATALOG
     cat = {m: _to_disk(e) for m, e in cat.items()}
+    CATALOG = CATALOG_PKG if DEV else HOME / "catalog.yaml"
     CATALOG.write_text(yaml.safe_dump(cat, sort_keys=False, allow_unicode=True, width=110))
 
 

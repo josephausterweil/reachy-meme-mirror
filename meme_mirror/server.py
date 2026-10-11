@@ -21,8 +21,9 @@ from pydantic import BaseModel
 from . import catalog as catalog_mod
 from . import pipeline as P
 
-ROOT = Path(__file__).resolve().parents[1]
-STORE = ROOT / "store"
+from .config import HOME
+
+STORE = HOME / "store"
 WEB = Path(__file__).resolve().parent / "web"
 
 app = FastAPI(title="meme_mirror")
@@ -179,43 +180,59 @@ class PlayRequest(BaseModel):
     sleep_after: bool = False
 
 
+def sound_mode():
+    """Where move sounds play: robot | computer (where this server runs) | browser | off.
+    'auto' (default) = the robot's speaker when we run on the robot as an app, else this computer."""
+    from . import robot
+    from .config import settings
+
+    mode = settings().get("robot", {}).get("sound", "auto")
+    if mode == "auto":
+        return "robot" if robot.attached() else "computer"
+    return mode
+
+
 @app.post("/api/sessions/{sid}/candidates/{cid}/play")
 def candidate_play(sid: str, cid: str, body: PlayRequest):
+    """Starts the move and answers as soon as the motion itself starts (glide-in done), with its duration.
+    The glide back to neutral afterwards runs in the background; the robot lock is held until it's done."""
     from . import robot
 
     s = _session(sid)
     c = s.candidate(cid)
     if not c.get("move_file"):
         raise HTTPException(400, "candidate has no move (build failed)")
-    # a click during the previous move's glide home waits for it instead of failing
-    if not _robot_lock.acquire(timeout=3):
+    if not _robot_lock.acquire(timeout=3):  # a click during the previous move's glide home waits for it
         raise HTTPException(409, "Reachy is already playing something")
-    try:
-        sound = _sound_path(c.get("sound")) if body.sound else None
-        move = json.loads((s.dir / c["move_file"]).read_text())
-        robot.play(move, sleep_after=body.sleep_after, return_home=body.sleep_after,
-                   on_start=(lambda: _play_sound(sound)) if sound else None)
-    except Exception as e:
-        _robot_lock.release()
-        if isinstance(e, robot.RobotBusy):
-            raise HTTPException(409, str(e))
-        raise HTTPException(502, f"robot error: {e}")
-    if body.sleep_after:
-        _robot_lock.release()
-    else:  # answer as soon as the move ends; glide back to neutral in the background
-        threading.Thread(target=_return_home_then_release, daemon=True).start()
-    return dict(ok=True)
+    move = json.loads((s.dir / c["move_file"]).read_text())
+    mode = sound_mode() if body.sound else "off"
+    sound = _sound_path(c.get("sound")) if mode != "off" else None
+    started, error = threading.Event(), {}
 
+    def on_start():
+        if sound and mode == "computer":
+            _play_sound(sound)
+        elif sound and mode == "robot":
+            robot.play_sound_on_robot(sound)
+        started.set()
 
-def _return_home_then_release():
-    from . import robot
+    def worker():
+        try:
+            robot.play(move, sleep_after=body.sleep_after, return_home=True, on_start=on_start)
+        except Exception as e:
+            error["e"] = e
+        finally:
+            started.set()
+            _robot_lock.release()
 
-    try:
-        robot.return_to_neutral()
-    except Exception:
-        pass
-    finally:
-        _robot_lock.release()
+    threading.Thread(target=worker, daemon=True).start()
+    started.wait(timeout=30)
+    if "e" in error:
+        e = error["e"]
+        raise HTTPException(409 if isinstance(e, robot.RobotBusy) else 502,
+                            str(e) if isinstance(e, robot.RobotBusy) else f"robot error: {e}")
+    return dict(ok=True, duration_s=round(move["time"][-1] - move["time"][0], 2),
+                sound_url=f"/sound/{c['sound']}" if sound and mode == "browser" else None)
 
 
 @app.post("/api/robot/sleep")
@@ -296,6 +313,55 @@ def learning_summary(lessons: bool = True):
                 lessons=learning.lessons() if lessons else None)
 
 
+# ---------- optional PyTorch for learned ("binh") motion ----------
+
+TORCH_CPU_INDEX = "https://download.pytorch.org/whl/cpu"
+_torch_job = {"state": "idle", "log": ""}
+
+
+def _install_cmd():
+    import sys
+
+    uv = shutil.which("uv") or next((p for p in ("/opt/uv/uv",) if Path(p).exists()), None)
+    if uv:
+        return [uv, "pip", "install", "--no-cache", "--python", sys.executable, "torch", "--index-url", TORCH_CPU_INDEX]
+    return [sys.executable, "-m", "pip", "install", "--no-cache-dir", "torch", "--index-url", TORCH_CPU_INDEX]
+
+
+@app.get("/api/binh")
+def binh_status():
+    from . import binh
+
+    return dict(available=binh.available(), **_torch_job)
+
+
+@app.post("/api/binh/install")
+def binh_install():
+    """Install the CPU build of PyTorch into this app's own Python (about 0.9 GB on disk)."""
+    import importlib
+    import sys
+
+    from . import binh
+
+    if binh.available():
+        return binh_status()
+    if _torch_job["state"] == "installing":
+        return binh_status()
+    free_gb = shutil.disk_usage(sys.prefix).free / 1e9
+    if free_gb < 2.0:
+        raise HTTPException(507, f"only {free_gb:.1f} GB free; PyTorch needs about 1 GB plus headroom")
+
+    def run():
+        _torch_job.update(state="installing", log="")
+        p = subprocess.run(_install_cmd(), capture_output=True, text=True)
+        importlib.invalidate_caches()
+        ok = p.returncode == 0 and binh.available()
+        _torch_job.update(state="done" if ok else "failed", log=(p.stdout + p.stderr)[-1500:])
+
+    threading.Thread(target=run, daemon=True).start()
+    return binh_status()
+
+
 # ---------- LLM settings ----------
 
 @app.get("/api/llm")
@@ -312,9 +378,18 @@ def llm_settings():
                              list_models=bool(p.get("list_models")), base_url=p.get("base_url"),
                              main_model=p.get("main_model", ""), fast_model=p.get("fast_model", ""))
     overrides = [r for r in ROLE_TIER if isinstance(cfg.get(r), dict) and cfg[r].get("provider")]
-    return dict(preset=cfg.get("preset") or "claude-code", main_model=cfg.get("main_model", ""),
+    preset = cfg.get("preset") or "claude-code"
+    problem = None  # a quick readiness check (no model call): is the chosen setup even possible here?
+    p = PRESETS.get(preset, {})
+    if preset == "claude-code" and not shutil.which("claude"):
+        problem = "Claude Code isn't installed here. Choose another provider (an API key, or a local model server)."
+    elif p.get("api_key_env") and preset != "custom" and not secret(p["api_key_env"]):
+        problem = f"{p['label']} needs an API key."
+    elif p.get("list_models") and not (cfg.get("main_model") or p.get("main_model")):
+        problem = "Choose a model."
+    return dict(preset=preset, main_model=cfg.get("main_model", ""),
                 fast_model=cfg.get("fast_model", ""), base_url=cfg.get("base_url", ""),
-                presets=presets, overrides=overrides)
+                presets=presets, overrides=overrides, ready=problem is None, problem=problem)
 
 
 class LLMChoice(BaseModel):

@@ -10,6 +10,7 @@ name = ""              # how prompts refer to you ("" = "the user")
 
 [robot]
 host = "reachy-mini.local"
+sound = "auto"         # where move sounds play: auto | robot | computer | browser | off
 
 # Which LLM to use. Easiest: open the web UI and click "⚙ LLM". Or set it here / in config.local.toml.
 # Presets: claude-code (your local `claude` CLI login), anthropic, openai, gemini, openrouter, ollama, lmstudio,

@@ -10,7 +10,9 @@ from pydantic import BaseModel, ValidationError
 
 T = TypeVar("T", bound=BaseModel)
 
-RUNS = Path(__file__).resolve().parents[2] / "runs"
+from ..config import HOME
+
+RUNS = HOME / "runs"
 
 
 class LLMError(RuntimeError):

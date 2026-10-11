@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reachy 3D preview</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #1f2d44; font: 13px system-ui, sans-serif; color: #dfe6f3; }
+  #container { position: fixed; inset: 0; }
+  #bar { position: fixed; left: 8px; right: 8px; bottom: 8px; display: flex; gap: 8px; align-items: center;
+    background: rgba(10, 14, 24, .65); padding: 6px 8px; border-radius: 8px; }
+  #bar button { font: inherit; background: #2c3a55; color: inherit; border: 1px solid #3f5070; border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+  #scrub { flex: 1; }
+  #status { position: fixed; top: 8px; left: 10px; opacity: .8; }
+</style>
+</head>
+<body>
+<div id="container"></div>
+<div id="status">Loading 3D robot…</div>
+<div id="bar"><button id="play" title="play / pause">❚❚</button><button id="restart" title="restart">↺</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.0 s</span></div>
+<script type="importmap">
+{ "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/",
+    "three/examples/jsm/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+// Minimal embed: the parent page posts {type: "play", move} (a Reachy Mini recorded-move dict) to this frame.
+import { SceneManager } from './src/SceneManager.js';
+import { RobotManager } from './src/RobotManager.js';
+import { Player } from './src/Player.js';
+
+const $ = (id) => document.getElementById(id);
+let player = null, pending = null;
+
+function play(move) {
+  if (!player) { pending = move; return; }
+  player.load(move);
+  $('play').textContent = '❚❚';
+}
+
+window.addEventListener('message', (e) => {
+  if (e.origin !== location.origin) return;            // only our own page
+  if (e.data && e.data.type === 'play' && e.data.move) play(e.data.move);
+});
+
+(async () => {
+  try {
+    const scene = new SceneManager($('container'));
+    const robot = new RobotManager((m) => { $('status').textContent = m; }, scene.envMap);
+    scene.add(await robot.loadRobot());
+    scene.animate?.();
+    player = new Player(robot, (e, d) => { $('scrub').value = d ? (e / d) * 1000 : 0; $('clock').textContent = `${e.toFixed(1)} s`; });
+    $('status').textContent = '';
+    $('play').onclick = () => { player.toggle(); $('play').textContent = player.playing() ? '❚❚' : '▶'; };
+    $('restart').onclick = () => player.restart();
+    $('scrub').oninput = (ev) => player.seek(ev.target.value / 1000);
+    if (pending) play(pending);
+    parent.postMessage({ type: 'viewer-ready' }, location.origin);
+  } catch (err) {
+    $('status').textContent = '3D viewer failed to load (needs internet for three.js): ' + err.message;
+  }
+})();
+</script>
+</body>
+</html>

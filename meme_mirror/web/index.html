@@ -77,6 +77,17 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 dialog select, dialog input[type=text], dialog input[type=password] { width: 100%; font: inherit; color: var(--ink);
   background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; }
 .ok { color: var(--good); font-size: 13px; }
+.media { position: relative; }
+.media img.strip { width: 100%; display: block; background: #1f2d44; aspect-ratio: 1; object-fit: contain; }
+.media .btn3d { position: absolute; right: 8px; bottom: 8px; background: rgba(10,14,24,.75); color: #fff;
+  border: 1px solid rgba(255,255,255,.25); }
+#viewer3d { position: fixed; right: 16px; bottom: 16px; width: min(440px, calc(100vw - 32px)); z-index: 8;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0,0,0,.35); display: none; }
+#viewer3d.open { display: block; }
+#viewer3d .head { display: flex; align-items: center; gap: 8px; padding: 6px 10px; font-size: 13px; }
+#viewer3d .head span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#viewer3d iframe { width: 100%; height: min(440px, 70vh); border: 0; display: block; }
 #toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg);
   padding: 8px 14px; border-radius: 8px; font-size: 14px; display: none; z-index: 9; max-width: 90vw; }
 .busy { color: var(--muted); font-size: 14px; padding: 12px 0; }
@@ -108,6 +119,9 @@ code { font-size: 12px; word-break: break-word; }
   <section id="main"><div class="empty">Drop a meme to start.</div></section>
 </main>
 <div id="toast"></div>
+<div id="viewer3d"><div class="head"><span id="v3dTitle">3D preview</span>
+  <button id="v3dClose" title="Close the 3D preview">✕</button></div>
+  <iframe id="v3dFrame" title="3D preview of the robot"></iframe></div>
 <dialog id="llmDlg">
   <h2 style="margin-top:0">Which AI model?</h2>
   <div class="field"><label>Provider</label><select id="llmPreset"></select></div>
@@ -235,6 +249,7 @@ function renderMain() {
           <label class="small">library <input type="number" id="nLib" value="${mixOf("library", 1)}" min="0" max="3" style="width:42px"></label>
           <label class="small">own <input type="number" id="nOwn" value="${mixOf("own", 1)}" min="0" max="3" style="width:42px"></label>
           <label class="small">binh <input type="number" id="nBinh" value="${mixOf("binh", 2)}" min="0" max="3" style="width:42px"></label>
+          <span id="binhNote" class="small"></span>
           <button class="primary" id="improve" ${hasFeedback() ? "" : "disabled"}
             title="New candidates built from all your ratings and notes on this meme (rate or note something first)">Improve from my feedback</button>
           <button id="propose">${S.candidates.length ? "Try new ways" : "Propose expressions"}</button>
@@ -271,6 +286,20 @@ function showLearning() {
     const el = $("#" + id); if (el && !el.dataset.touched && L.suggested_mix) el.value = L.suggested_mix[src]; });
 }
 
+async function binhStatus() {
+  const box = $("#binhNote"); if (!box) return;
+  try {
+    const b = await api("/api/binh");
+    if (b.available) { box.textContent = ""; return; }
+    if (b.state === "installing") { box.textContent = "installing PyTorch…"; setTimeout(binhStatus, 5000); return; }
+    box.innerHTML = `${b.state === "failed" ? "install failed · " : ""}binh needs PyTorch
+      <button id="binhInstall" title="Installs the CPU build of PyTorch here (~0.9 GB)">Install</button>`;
+    $("#binhInstall").onclick = async () => {
+      if (!confirm("Install PyTorch (CPU build, about 0.9 GB) so learned 'binh' motion can be generated here?")) return;
+      try { await post("/api/binh/install"); binhStatus(); } catch (e) { toast(e.message, 6000); } };
+  } catch {}
+}
+
 async function loadLearning() {
   try { L = await api("/api/learning?lessons=false"); showLearning();
         L = await api("/api/learning"); showLearning(); } catch {}
@@ -289,7 +318,11 @@ function cardHtml(c) {
   const what = c.spec ? JSON.stringify(c.spec) : c.recipe;
   const d = c.dials || {speed: 1, amplitude: 1};
   return `<div class="card ${fb.picked ? "picked" : ""}" data-cid="${c.id}">
-    ${c.video ? `<video src="/files/${S.id}/${c.video}?v=${encodeURIComponent(JSON.stringify(d))}" muted loop autoplay playsinline></video>` : ""}
+    <div class="media">
+      ${c.video ? `<video src="/files/${S.id}/${c.video}?v=${encodeURIComponent(JSON.stringify(d))}" muted loop autoplay playsinline></video>`
+        : c.strip ? `<img class="strip" src="/files/${S.id}/${c.strip}?v=${encodeURIComponent(JSON.stringify(d))}" alt="drawn frames of the motion">` : ""}
+      ${c.move_file ? `<button class="btn3d" data-act="3d" title="Watch it in 3D (drag to rotate)">▶ 3D</button>` : ""}
+    </div>
     <div class="body">
       <div class="row"><span class="badge ${c.source}">${c.source}</span><h4>${esc(c.label)}</h4></div>
       <div class="small">${esc(c.rationale)}</div>
@@ -320,6 +353,7 @@ function cardHtml(c) {
 }
 
 function bindMain() {
+  binhStatus();
   $("#saveReading").onclick = () => saveReading(false);
   $("#reread").onclick = () => saveReading(true);
   $("#propose").onclick = () => runRound({mode: "new"});
@@ -407,15 +441,18 @@ async function onCardClick(e) {
       runRound({mode: "more_like", anchor: cid, notes: note});
     }
     else if (act === "sound") new Audio(`/sound/${c.sound}`).play();
+    else if (act === "3d") show3D(c);
     else if (act === "dials") {
       btn.disabled = true; btn.textContent = "Rebuilding…";
       const v = k => +$(`input[data-dial=${k}]`, card).value;
       update(await post(`${base}/dials`, {speed: v("speed"), amplitude: v("amplitude")}));
     }
     else if (act === "play") {
-      btn.disabled = true; btn.textContent = "Playing…";
-      await post(`${base}/play`, {sound: true});
-      btn.disabled = false; btn.textContent = "▶ Play on Reachy";
+      btn.disabled = true; btn.textContent = "Starting…";
+      const r = await post(`${base}/play`, {sound: true});   // answers when the motion starts
+      if (r.sound_url) new Audio(r.sound_url).play().catch(() => {});
+      btn.textContent = "Playing…";
+      await new Promise(res => setTimeout(res, r.duration_s * 1000));
       update(await post(`${base}/feedback`, {played: true})); robotStatus();
     }
     else if (act === "save") {
@@ -426,6 +463,24 @@ async function onCardClick(e) {
     if (["rate", "comment", "fit", "save"].includes(act)) { loadLearning(); $("#improve").disabled = !hasFeedback(); }
   } catch (err) { toast(err.message, 6000); btn.disabled = false; if (act === "play") btn.textContent = "▶ Play on Reachy"; }
 }
+
+// ----- 3D preview (in-browser viewer in a frame) -----
+let v3dReady = false, v3dPending = null;
+async function show3D(c) {
+  const move = await api(`/files/${S.id}/${c.move_file}?v=${Date.now()}`);
+  $("#v3dTitle").textContent = `${c.id} · ${c.label}`;
+  $("#viewer3d").classList.add("open");
+  const frame = $("#v3dFrame");
+  if (!frame.src) frame.src = "viewer/index.html";
+  if (v3dReady) frame.contentWindow.postMessage({type: "play", move}, location.origin);
+  else v3dPending = move;
+}
+window.addEventListener("message", e => {
+  if (e.origin !== location.origin || !e.data || e.data.type !== "viewer-ready") return;
+  v3dReady = true;
+  if (v3dPending) { $("#v3dFrame").contentWindow.postMessage({type: "play", move: v3dPending}, location.origin); v3dPending = null; }
+});
+$("#v3dClose").onclick = () => $("#viewer3d").classList.remove("open");
 
 // ----- robot status -----
 async function robotStatus() {
@@ -501,6 +556,8 @@ loadSessions().then(() => {
   const first = $("#sessions li");
   if (want) openSession(want); else if (first) openSession(first.dataset.id);
   loadLearning(); });
+api("/api/llm").then(l => { if (!l.ready) { openLLM().then(() => { $("#llmResult").innerHTML =
+  `<div class="warn">${esc(l.problem)}</div>`; }); } }).catch(() => {});
 </script>
 </body>
 </html>
