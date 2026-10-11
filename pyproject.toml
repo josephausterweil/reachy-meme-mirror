@@ -27,7 +27,7 @@ anthropic = ["anthropic"]   # only for the "Claude (Anthropic API key)" preset
 #   pip install torch --index-url https://download.pytorch.org/whl/cpu      (or use "Install" in the web page)
 
 [project.entry-points."reachy_mini_apps"]
-meme_mirror = "meme_mirror.reachy_app:MemeMirrorApp"
+meme_mirror = "meme_mirror.main:MemeMirrorApp"
 
 [build-system]
 requires = ["setuptools>=68"]

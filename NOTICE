@@ -4,8 +4,12 @@ Copyright 2026 Joseph Austerweil
 This project builds on, and credits, the following Apache-2.0 works:
 
 - reachy-motion-generator by Pham Tuan Binh (https://github.com/pham-tuan-binh/reachy-motion-generator):
-  the recipe language, its planner prompt, and the flow-matching motion generator used for "binh" candidates.
-  Downloaded at setup time; not vendored in this repository.
+  the recipe language, its planner prompt, the flow-matching motion generator and the reachability projection,
+  vendored unmodified in meme_mirror/vendor/binh (see its LICENSE and README). The model weights are downloaded
+  from Hugging Face at first use.
+- The in-browser 3D viewer (meme_mirror/web/viewer) from the Hugging Face Space
+  binhpham/reachy-mini-motion-generator, with the 3D model, meshes and passive-joint kinematics from
+  8bitkick/reachy_mini_3d_web_viz (see LICENSE-reachy_mini_3d_web_viz.txt there).
 - Reachy Mini SDK and the Reachy Mini Emotions Library by Pollen Robotics
   (https://github.com/pollen-robotics/reachy_mini,
   https://huggingface.co/datasets/pollen-robotics/reachy-mini-emotions-library).

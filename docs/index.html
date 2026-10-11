@@ -131,6 +131,7 @@ footer { padding: 40px 0 60px; color: var(--muted); font-size: 15px; }
           and body. You compare them, play the best on your robot, and refine them with your feedback.</p>
         <div class="cta">
           <a class="btn primary" href="#start">Get started</a>
+          <a class="btn" href="https://huggingface.co/spaces/JosephAusterweil/meme_mirror">In the Reachy app store</a>
           <a class="btn" href="https://github.com/josephausterweil/reachy-meme-mirror">View on GitHub</a>
         </div>
       </div>
@@ -294,8 +295,17 @@ with ReachyMini() as mini:
   <div class="wrap">
     <div class="kicker">Get started</div>
     <h2>Set it up in a few minutes</h2>
-    <p class="sub">You need Linux or macOS with Python 3.12 (no GPU), and an AI model from the list above.
-      A Reachy Mini on your network is optional: without one, everything works except playing on the robot.</p>
+    <div class="three" style="margin-bottom:26px">
+      <div class="tile"><h3>From the Reachy Mini app store</h3>
+        <p>On your robot's dashboard, find <b>Meme Mirror</b> in the apps list and install it. Start it, open its page
+          (<code>reachy-mini.local:8043</code>) and choose an AI model in ⚙ LLM. Previews are drawn frames plus an in-browser 3D view.</p></div>
+      <div class="tile"><h3>On your computer</h3>
+        <p>Run it from the repo for simulator video previews and direct use of a Claude Code login. It needs Linux or
+          macOS with Python 3.12, and no GPU.</p></div>
+      <div class="tile"><h3>No robot yet?</h3>
+        <p>Everything except playing on the robot works without one: readings, candidates, previews, ratings and refining.</p></div>
+    </div>
+    <p class="sub">Computer setup:</p>
     <pre><code>git clone https://github.com/josephausterweil/reachy-meme-mirror
 cd reachy-meme-mirror
 bash scripts/setup.sh

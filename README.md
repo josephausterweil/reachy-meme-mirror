@@ -28,7 +28,16 @@ Each round mixes three kinds of candidates:
 Privacy: your memes, notes and the prompts go to whichever AI provider you choose. With a local model
 (Ollama, LM Studio, …) they never leave your computer.
 
-## Setup
+## Two ways to run it
+
+- **On your robot, from the Reachy Mini app store.** Open the robot's dashboard, find **Meme Mirror** in the
+  apps list and install it ([Space](https://huggingface.co/spaces/JosephAusterweil/meme_mirror)). Start it,
+  then open its settings page at `http://reachy-mini.local:8043`. Previews are drawn frames plus an in-browser
+  3D viewer. See [Running on the robot](#running-on-the-robot).
+- **On your computer, from this repo.** You get the same app plus MuJoCo simulator videos, and you can use a
+  Claude Code login directly. Setup is below.
+
+## Setup (computer)
 
 ```bash
 git clone https://github.com/josephausterweil/reachy-meme-mirror
@@ -45,16 +54,39 @@ If your robot isn't reachable as `reachy-mini.local`, set its address in `config
 ```toml
 [robot]
 host = "192.168.1.42"
+sound = "auto"    # where move sounds play: auto | robot | computer | browser | off
 
 [user]
 name = "Sam"      # optional: how the prompts refer to you
 ```
 
+## Running on the robot
+
+The app-store version runs on the robot's own computer, a small Raspberry Pi. Your settings and sessions are
+kept in `~/.meme_mirror` on the robot, and survive updates.
+
+- **AI model.** Claude Code can't run on the robot. In **⚙ LLM**, choose:
+  - an API-key provider;
+  - "Other OpenAI-compatible server", pointing at a model server on your network (Ollama, LM Studio, vLLM, …).
+    Make sure that server accepts connections from the network;
+  - or your computer's Claude Code login through the bridge:
+    ```bash
+    .venv/bin/python -m meme_mirror.bridge                     # on your computer: prints a token
+    ssh -N -R 8099:localhost:8099 pollen@reachy-mini.local      # lets the robot reach it, through SSH only
+    ```
+    Then pick "Other OpenAI-compatible server" with address `http://localhost:8099/v1`, the printed token as
+    the key, and models `opus` / `sonnet`. The bridge only accepts connections from this computer, plus the
+    tunnel, and requires the token. It's meant for your own personal use.
+- **Learned "binh" motion** needs PyTorch. Click **Install** next to *binh* on the page; it installs the CPU
+  build, about 0.9 GB. Without it, those slots are filled with AI-written motion.
+- **Speed.** A round takes about a minute on the robot, against about 30 s on a computer.
+
 ## Using it
 
 1. **Drop a meme** (PNG, JPG, WebP or animated GIF). Check the reading of what it expresses, and edit it or add
    notes about the feeling or how Reachy might show it.
-2. **Propose expressions.** About 30 seconds later you get candidate cards with simulator videos, the reasoning
+2. **Propose expressions.** About 30 seconds later you get candidate cards with simulator videos (drawn frames on
+   the robot) and a **▶ 3D** button for an in-browser 3D view. Each card shows the reasoning
    behind each, and blind scores. A separate model watches each motion without seeing the meme and guesses the
    feeling; *blind match* is how close that guess is to the meme's feeling.
 3. **Give feedback:** stars, a note, and **Good fit** for the ones that express the meme well. Use
@@ -141,21 +173,24 @@ not part of the upload.
    - specs are compiled by `compiler.py` and recipes go to `binh.py`;
    - `safety.py` clamps the motion;
    - every frame is projected onto the robot's reachable poses;
-   - `preview/sim_render.py` renders it offscreen in MuJoCo.
+   - `preview/` renders it: offscreen in MuJoCo when available (video + frames), otherwise as drawn frames.
+     The page can also show any move in its in-browser 3D viewer (`web/viewer`).
 4. **judge**: a blind model reads 6 frames plus a motion summary, and a grader scores its guess against the
    intended feeling.
 
-`catalog.yaml` describes the 115 library moves: features computed from the motion, and descriptions written by
+`meme_mirror/catalog.yaml` describes the 115 library moves: features computed from the motion, and descriptions written by
 a model from rendered frames. Add `notes:` or `exclude: true` to any entry; rebuilding keeps them.
 
-Run the tests with `.venv/bin/python -m pytest`.
+Run the tests with `.venv/bin/python -m pytest`. The app-store Space is built by `scripts/publish_space.py`,
+and `meme_mirror/main.py` is the Reachy Mini app entry point.
 
 ## Credits and license
 
 Apache-2.0 (see `LICENSE` and `NOTICE`). This project builds on:
 
 - Pollen Robotics' Reachy Mini SDK and emotions library,
-- Pham Tuan Binh's reachy-motion-generator (recipe language, planner prompt and motion model),
+- Pham Tuan Binh's reachy-motion-generator (recipe language, planner prompt and motion model) and 3D viewer,
+- 8bitkick's Reachy Mini 3D web model,
 - community moves by Anne-Charlotte and stellaaaa.
 
 All are Apache-2.0.

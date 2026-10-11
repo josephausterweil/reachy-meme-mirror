@@ -4,6 +4,7 @@ README.md
 pyproject.toml
 meme_mirror/__init__.py
 meme_mirror/binh.py
+meme_mirror/bridge.py
 meme_mirror/catalog.py
 meme_mirror/catalog.yaml
 meme_mirror/compiler.py
@@ -11,6 +12,7 @@ meme_mirror/config.py
 meme_mirror/defaults.toml
 meme_mirror/export.py
 meme_mirror/learning.py
+meme_mirror/main.py
 meme_mirror/media.py
 meme_mirror/pipeline.py
 meme_mirror/robot.py
