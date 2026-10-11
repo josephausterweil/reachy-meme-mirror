@@ -23,7 +23,8 @@ Each round mixes three kinds of candidates:
   - an API key from Anthropic, OpenAI, Google Gemini or OpenRouter,
   - a free local model through Ollama or LM Studio.
 
-Everything runs on **your** computer with **your** model or account. Nothing is shared with anyone else.
+Privacy: your memes, notes and the prompts go to whichever AI provider you choose. With a local model
+(Ollama, LM Studio, …) they never leave your computer.
 
 ## Setup
 
@@ -125,8 +126,8 @@ huggingface-cli login
 .venv/bin/python -m meme_mirror.export --repo YOUR_HF_NAME/reachy-meme-expressions --push   # publish (public)
 ```
 
-Only the motion, its sound and a short description are published. Your notes, ratings and the meme images stay
-on your computer.
+Only the motion, its sound and a short description are published. Your notes, ratings and the meme images are
+not part of the upload.
 
 ## How it works
 

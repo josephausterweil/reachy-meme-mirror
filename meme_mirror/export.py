@@ -7,7 +7,7 @@ The dataset is tagged `reachy_mini_community_moves`, so it shows up in Pollen's 
 any Reachy Mini can play it:  RecordedMoves("YOUR_HF_NAME/reachy-meme-expressions").get("<name>")
 
 Only the motion, its sound and a short public description are exported: personal notes, ratings and the
-meme image itself stay local (memes are usually someone else's copyrighted image).
+meme image itself are left out of the upload (memes are usually someone else's copyrighted image).
 """
 
 import argparse

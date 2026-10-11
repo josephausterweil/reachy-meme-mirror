@@ -172,7 +172,9 @@ drop.ondrop = e => { e.preventDefault(); drop.classList.remove("over");
 window.addEventListener("paste", e => { const f = [...e.clipboardData.files].find(f => f.type.startsWith("image/"));
   if (f) upload(f); });
 
-async function openSession(id) { S = await api(`/api/sessions/${id}`); render(); loadSessions(); }
+async function openSession(id) {
+  S = await api(`/api/sessions/${id}`); render(); loadSessions();
+  history.replaceState(null, "", `?session=${encodeURIComponent(id)}`); }
 
 // ----- main view -----
 const READING_FIELDS = [["core_emotion", "Core emotion"], ["nuance", "Nuance"], ["arc", "How it unfolds"],
@@ -494,7 +496,11 @@ $("#llmTest").onclick = async () => {
   } catch (e) { $("#llmResult").innerHTML = `<div class="err">${esc(e.message)}</div>`; } };
 
 robotStatus(); setInterval(robotStatus, 15000);
-loadSessions().then(() => { const first = $("#sessions li"); if (first) openSession(first.dataset.id); loadLearning(); });
+loadSessions().then(() => {
+  const want = new URLSearchParams(location.search).get("session");  // link straight to a session
+  const first = $("#sessions li");
+  if (want) openSession(want); else if (first) openSession(first.dataset.id);
+  loadLearning(); });
 </script>
 </body>
 </html>
