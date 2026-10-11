@@ -1,0 +1,14 @@
+meme_mirror
+Copyright 2026 Joseph Austerweil
+
+This project builds on, and credits, the following Apache-2.0 works:
+
+- reachy-motion-generator by Pham Tuan Binh (https://github.com/pham-tuan-binh/reachy-motion-generator):
+  the recipe language, its planner prompt, and the flow-matching motion generator used for "binh" candidates.
+  Downloaded at setup time; not vendored in this repository.
+- Reachy Mini SDK and the Reachy Mini Emotions Library by Pollen Robotics
+  (https://github.com/pollen-robotics/reachy_mini,
+  https://huggingface.co/datasets/pollen-robotics/reachy-mini-emotions-library).
+- Community move datasets Anne-Charlotte/new-emotions and stellaaaa/thinking-animations on Hugging Face.
+  catalog.yaml contains features computed from these moves and model-written descriptions of them;
+  the motion files themselves are downloaded from Hugging Face at run time.

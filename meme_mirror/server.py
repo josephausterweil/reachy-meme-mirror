@@ -26,6 +26,18 @@ STORE = ROOT / "store"
 WEB = Path(__file__).resolve().parent / "web"
 
 app = FastAPI(title="meme_mirror")
+
+
+@app.exception_handler(Exception)
+async def _readable_errors(request, exc):
+    """Model/setup problems reach the page as a readable message instead of 'Internal Server Error'."""
+    from fastapi.responses import JSONResponse
+
+    from .llm import LLMError
+
+    if isinstance(exc, LLMError):
+        return JSONResponse({"detail": f"AI model problem: {exc}"}, status_code=502)
+    return JSONResponse({"detail": f"{exc.__class__.__name__}: {str(exc)[:300]}"}, status_code=500)
 _locks: dict[str, threading.Lock] = {}
 _robot_lock = threading.Lock()
 

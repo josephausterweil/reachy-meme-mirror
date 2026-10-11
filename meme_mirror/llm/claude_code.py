@@ -49,6 +49,9 @@ class ClaudeCodeProvider(CachedProvider):
                                  text=True, timeout=self.timeout)
         except subprocess.TimeoutExpired:
             raise LLMError(f"claude -p timed out after {self.timeout} s")
+        except FileNotFoundError:
+            raise LLMError("Claude Code (the `claude` command) isn't installed or isn't on PATH. Install and log in, "
+                           "or click ⚙ LLM to choose another model.")
         try:
             res = json.loads(out.stdout)
         except json.JSONDecodeError:

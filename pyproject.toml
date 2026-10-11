@@ -2,6 +2,8 @@
 name = "meme_mirror"
 version = "0.1.0"
 description = "Turn memes into Reachy Mini expressions (library moves + LLM-generated motion)"
+license = { text = "Apache-2.0" }
+readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "reachy-mini[mujoco]==1.11.0",
@@ -14,10 +16,14 @@ dependencies = [
     "imageio-ffmpeg",
     "pyyaml",
     "python-multipart",
+    "requests",
+    "pillow",
+    "scipy",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest"]
+anthropic = ["anthropic"]   # only for the "Claude (Anthropic API key)" preset
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -25,3 +31,6 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 include = ["meme_mirror*"]
+
+[tool.setuptools.package-data]
+meme_mirror = ["web/*"]
