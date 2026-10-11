@@ -4,7 +4,7 @@ The control path is the same as reachy_mini/daemon/backend/mujoco/backend.py:
 head pose + body yaw -> AnalyticalKinematics.ik -> ctrl[:7], antennas -> ctrl[-2:]
 (negated), physics at 500 Hz, control at 50 Hz. Frames are rendered at `fps`.
 
-Usage: python -m meme_mirror.preview.sim_render <move.json> <out.mp4>
+Usage: python -m meme_mirror.preview.sim_render <move.json> <out.mp4>   (also writes <out>_strip.png)
 """
 
 import json
@@ -75,8 +75,8 @@ class SimRenderer:
             self.data.ctrl[:7] = joints
         self.data.ctrl[-2:] = -np.asarray(antennas)
 
-    def render(self, times, heads, antennas, body_yaw, out_path, fps=25):
-        """Render the trajectory to a video (mp4/gif by extension). Returns frame count."""
+    def render(self, times, heads, antennas, body_yaw, out_path=None, fps=25):
+        """Render the trajectory; write a video (mp4/gif by extension) if out_path. Returns the frames."""
         self._reset()
         n_settle = int(SETTLE_S / PHYSICS_DT)
         steps = n_settle + int(times[-1] / PHYSICS_DT)
@@ -91,10 +91,20 @@ class SimRenderer:
             if step >= n_settle and (step - n_settle) % frame_every == 0:
                 self.renderer.update_scene(self.data, camera=self.camera)
                 frames.append(self.renderer.render().copy())
-        imageio.mimsave(out_path, frames, fps=fps)
-        return len(frames)
+        if out_path:
+            imageio.mimsave(out_path, frames, fps=fps)
+        return frames
+
+
+def strip(frames, n=6, crop=(60, 420)):
+    """n evenly spaced frames, cropped around the robot, side by side."""
+    a, b = crop
+    idx = np.linspace(0, len(frames) - 1, n).round().astype(int)
+    return np.concatenate([frames[i][a:b, a:b] for i in idx], axis=1)
 
 
 if __name__ == "__main__":
-    n = SimRenderer().render(*load_move(sys.argv[1]), sys.argv[2])
-    print(f"wrote {n} frames to {sys.argv[2]}")
+    out = sys.argv[2]
+    frames = SimRenderer().render(*load_move(sys.argv[1]), out)
+    imageio.imwrite(os.path.splitext(out)[0] + "_strip.png", strip(frames))
+    print(f"wrote {len(frames)} frames to {out} (+ _strip.png)")
