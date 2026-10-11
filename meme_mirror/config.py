@@ -24,7 +24,7 @@ def settings():
 
 
 def user_name():
-    """How prompts refer to the person rating expressions (e.g. 'Joe'); default 'the user'."""
+    """How prompts refer to the person rating expressions (e.g. 'Sam'); default 'the user'."""
     return settings().get("user", {}).get("name") or "the user"
 
 
