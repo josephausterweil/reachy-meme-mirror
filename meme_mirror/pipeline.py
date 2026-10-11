@@ -209,9 +209,15 @@ class Session:
 
 def interpret(session: Session, notes=None):
     notes = session.data["notes"] if notes is None else notes
-    extra = f"\nThe user adds: {notes}" if notes else ""
+    from .media import frame_info, meme_inputs
+
+    images, anim_note = meme_inputs(session.dir / session.data["meme"], session.dir)
+    if anim_note:
+        n, total = frame_info(session.dir / session.data["meme"])
+        session.data["animation"] = dict(frames=n, seconds=round(total, 2))
+    extra = anim_note + (f"\nThe user adds: {notes}" if notes else "")
     reading = get_provider("interpreter").complete(
-        INTERPRET_PROMPT.format(notes=extra), EmotionReading, images=[session.dir / session.data["meme"]])
+        INTERPRET_PROMPT.format(notes=extra), EmotionReading, images=images)
     session.data["reading"] = reading.model_dump()
     session.data["notes"] = notes
     session.save()

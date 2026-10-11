@@ -88,3 +88,17 @@ def test_recipe_candidate_validation():
         RecipeCandidate(label="a", rationale="b", recipe="go .5 p=99")
     with pytest.raises(ValidationError):  # exact count enforced
         _proposals(RecipeCandidate, 2).model_validate({"candidates": [dict(label="a", rationale="b", recipe="hold 1")]})
+
+
+def test_animated_gif_contact_sheet(tmp_path):
+    from PIL import Image
+    from meme_mirror.media import frame_info, meme_inputs
+    frames = [Image.new("RGB", (200, 100), c) for c in ("red", "green", "blue", "white", "black")]
+    gif = tmp_path / "m.gif"
+    frames[0].save(gif, save_all=True, append_images=frames[1:], duration=400, loop=0)
+    assert frame_info(gif) == (5, 2.0)
+    images, note = meme_inputs(gif, tmp_path)
+    assert images[0].name == "meme_frames.png" and "ANIMATED" in note and "5 frames" in note
+    still = tmp_path / "s.png"
+    frames[0].save(still)
+    assert meme_inputs(still, tmp_path) == ([still], "")

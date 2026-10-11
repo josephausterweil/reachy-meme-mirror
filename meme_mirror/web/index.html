@@ -191,6 +191,8 @@ function renderMain() {
       <div>
         <h2>What the meme expresses ${r.meme_template ? `· <span class="small">${esc(r.meme_template)}</span>` : ""}</h2>
         <p class="small" style="margin-top:0">${esc(r.depicts)}</p>
+        ${S.animation ? `<p class="small">Animated: ${S.animation.frames} frames, ${S.animation.seconds}s per loop. The model saw
+          <a href="/files/${S.id}/meme_frames.png" target="_blank">these frames</a>.</p>` : ""}
         ${READING_FIELDS.map(([k, label]) => `<div class="field"><label>${label}</label>
           <textarea data-k="${k}" rows="${k === "core_emotion" ? 1 : 2}">${esc(r[k])}</textarea></div>`).join("")}
         <div class="small">Cues: ${esc((r.bodily_cues || []).join("; "))} · valence ${r.valence} · arousal ${r.arousal} · confidence ${esc(r.confidence)}</div>
