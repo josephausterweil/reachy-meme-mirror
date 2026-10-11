@@ -289,9 +289,21 @@ async function onCardClick(e) {
   const card = btn.closest(".card"), cid = card.dataset.cid, act = btn.dataset.act;
   const c = S.candidates.find(x => x.id === cid);
   const base = `/api/sessions/${S.id}/candidates/${cid}`;
-  const update = nc => { Object.assign(c, nc); card.outerHTML = cardHtml(c); };
+  const draft = $("textarea", card).value;
+  const saved = (c.feedback || {}).comment || "";
+  const update = nc => {  // re-render the card, keeping any note typed but not yet saved
+    Object.assign(c, nc);
+    card.outerHTML = cardHtml(c);
+    const fresh = document.querySelector(`.card[data-cid="${cid}"] textarea`);
+    if (fresh && draft !== ((c.feedback || {}).comment || "")) fresh.value = draft;
+  };
   try {
-    if (act === "rate") update(await post(`${base}/feedback`, {rating: +btn.dataset.v}));
+    if (act === "rate") {  // a star click also saves the note being typed
+      const body = {rating: +btn.dataset.v};
+      if (draft.trim() && draft !== saved) body.comment = draft;
+      update(await post(`${base}/feedback`, body));
+      if (body.comment) toast("Rating and note saved");
+    }
     else if (act === "comment") { update(await post(`${base}/feedback`, {comment: $("textarea", card).value})); toast("Note saved"); }
     else if (act === "more") {
       const note = $("textarea", card).value;
