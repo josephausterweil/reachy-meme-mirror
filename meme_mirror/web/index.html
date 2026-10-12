@@ -120,7 +120,7 @@ code { font-size: 12px; word-break: break-word; }
 </main>
 <div id="toast"></div>
 <div id="viewer3d"><div class="head"><span id="v3dTitle">3D preview</span>
-  <button id="v3dClose" title="Close the 3D preview">✕</button></div>
+  <button id="v3dClose" title="Close the 3D preview (Esc)">✕ Close</button></div>
   <iframe id="v3dFrame" title="3D preview of the robot"></iframe></div>
 <dialog id="llmDlg">
   <h2 style="margin-top:0">Which AI model?</h2>
@@ -475,12 +475,16 @@ async function show3D(c) {
   if (v3dReady) frame.contentWindow.postMessage({type: "play", move}, location.origin);
   else v3dPending = move;
 }
+const close3D = () => $("#viewer3d").classList.remove("open");
 window.addEventListener("message", e => {
-  if (e.origin !== location.origin || !e.data || e.data.type !== "viewer-ready") return;
+  if (e.origin !== location.origin || !e.data) return;
+  if (e.data.type === "viewer-close") return close3D();
+  if (e.data.type !== "viewer-ready") return;
   v3dReady = true;
   if (v3dPending) { $("#v3dFrame").contentWindow.postMessage({type: "play", move: v3dPending}, location.origin); v3dPending = null; }
 });
-$("#v3dClose").onclick = () => $("#viewer3d").classList.remove("open");
+$("#v3dClose").onclick = close3D;
+document.addEventListener("keydown", e => { if (e.key === "Escape") close3D(); });
 
 // ----- robot status -----
 async function robotStatus() {

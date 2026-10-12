@@ -45,6 +45,10 @@ window.addEventListener('message', (e) => {
   if (e.origin !== location.origin) return;            // only our own page
   if (e.data && e.data.type === 'play' && e.data.move) play(e.data.move);
 });
+// Esc inside the 3D view (it keeps keyboard focus after a drag) closes the panel in the page around it
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && parent !== window) parent.postMessage({ type: 'viewer-close' }, location.origin);
+});
 
 (async () => {
   try {
